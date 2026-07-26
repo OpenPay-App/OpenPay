@@ -1,0 +1,28 @@
+# Paystack Webhook Handler
+# This configuration handles Paystack webhook events through Traefik
+
+http:
+  routers:
+    paystack-webhook:
+      rule: "PathPrefix(`/webhooks/paystack`)"
+      service: hyperswitch
+      entryPoints:
+        - web
+      middlewares:
+        - secure-headers
+        - rate-limit
+        - paystack-webhook-auth
+
+  middlewares:
+    paystack-webhook-auth:
+      headers:
+        customRequestHeaders:
+          X-Webhook-Secret: "${PAYSTACK_WEBHOOK_SECRET}"
+        customResponseHeaders:
+          X-Request-Id: "{{ .Request.Header.Get `X-Request-Id` }}"
+
+# Rate limiting for webhook endpoints
+    rate-limit:
+      rateLimit:
+        average: 100
+        burst: 50

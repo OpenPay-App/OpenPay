@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="catalog.xsd">
+    <catalogName>Core Financial Platform Catalog</catalogName>
+    <version>1.0</version>
+
+    <products>
+        <product>
+            <name>Basic Plan</name>
+            <type>STANDARD</type>
+            <availableWhetherOrNotSubscriptionsExist>true</availableWhetherOrNotSubscriptionsExist>
+        </product>
+        <product>
+            <name>Pro Plan</name>
+            <type>STANDARD</type>
+            <availableWhetherOrNotSubscriptionsExist>true</availableWhetherOrNotSubscriptionsExist>
+        </product>
+        <product>
+            <name>Enterprise Plan</name>
+            <type>STANDARD</type>
+            <availableWhetherOrNotSubscriptionsExist>true</availableWhetherOrNotSubscriptionsExist>
+        </product>
+    </products>
+
+    <plans>
+        <plan>
+            <name>Basic Monthly</name>
+            <productName>Basic Plan</productName>
+            <type>RECURRING</type>
+            <recurringBillingPeriod>MONTHLY</recurringBillingPeriod>
+            <prices>
+                <price>
+                    <currency>NGN</currency>
+                    <value>500000</value>
+                    <unit>ONE</unit>
+                </price>
+            </prices>
+            <rules>
+                <fixedTrial>
+                    <unit>DAYS</unit>
+                    <number>14</number>
+                </fixedTrial>
+            </rules>
+        </plan>
+        <plan>
+            <name>Pro Monthly</name>
+            <productName>Pro Plan</productName>
+            <type>RECURRING</type>
+            <recurringBillingPeriod>MONTHLY</recurringBillingPeriod>
+            <prices>
+                <price>
+                    <currency>NGN</currency>
+                    <value>1500000</value>
+                    <unit>ONE</unit>
+                </price>
+            </prices>
+            <rules>
+                <fixedTrial>
+                    <unit>DAYS</unit>
+                    <number>14</number>
+                </fixedTrial>
+            </rules>
+        </plan>
+        <plan>
+            <name>Enterprise Monthly</name>
+            <productName>Enterprise Plan</productName>
+            <type>RECURRING</type>
+            <recurringBillingPeriod>MONTHLY</recurringBillingPeriod>
+            <prices>
+                <price>
+                    <currency>NGN</currency>
+                    <value>5000000</value>
+                    <unit>ONE</unit>
+                </price>
+            </prices>
+            <rules>
+                <fixedTrial>
+                    <unit>DAYS</unit>
+                    <number>30</number>
+                </fixedTrial>
+            </rules>
+        </plan>
+    </plans>
+
+    <priceLists>
+        <defaultPriceList>
+            <plans>
+                <plan>Basic Monthly</plan>
+                <plan>Pro Monthly</plan>
+                <plan>Enterprise Monthly</plan>
+            </plans>
+        </defaultPriceList>
+    </priceLists>
+</catalog>

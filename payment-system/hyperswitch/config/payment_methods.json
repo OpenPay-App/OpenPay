@@ -1,0 +1,47 @@
+{
+  "payment_methods": {
+    "card": {
+      "enabled": true,
+      "accepted_currencies": {
+        "NGN": ["visa", "mastercard", "verve"],
+        "USD": ["visa", "mastercard"],
+        "GHS": ["visa", "mastercard"],
+        "ZAR": ["visa", "mastercard"],
+        "KES": ["visa", "mastercard"]
+      },
+      "accepted_payment_methods": ["credit", "debit", "prepaid"],
+      "card_provider": {
+        "three_ds": {
+          "enabled": true
+        }
+      }
+    },
+    "bank_transfer": {
+      "enabled": true,
+      "accepted_currencies": ["NGN", "GHS", "ZAR", "KES"]
+    },
+    "ussd": {
+      "enabled": true,
+      "accepted_currencies": ["NGN"]
+    },
+    "mobile_money": {
+      "enabled": true,
+      "accepted_currencies": ["GHS", "KES", "TZS"]
+    },
+    "qr": {
+      "enabled": false
+    },
+    "bank_redirect": {
+      "enabled": false
+    },
+    "wallet": {
+      "enabled": false
+    },
+    "cash": {
+      "enabled": false
+    },
+    "pay_later": {
+      "enabled": false
+    }
+  }
+}

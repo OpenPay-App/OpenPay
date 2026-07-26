@@ -1,0 +1,31 @@
+{
+  "processor": {
+    "paystack": {
+      "connector_type": "paystack",
+      "connector_account_id": "paystack",
+      "merchant_connector_account_id": "paystack_default",
+      "connector_webhook_secret": "",
+      "connector_api_key": "",
+      "metadata": {
+        "city": "",
+        "charge_type": "",
+        "account_name": ""
+      },
+      "status": "active"
+    }
+  },
+  "payment_flows": {
+    "session_token": {
+      "paystack": {
+        "session_token_type": "no_session_token",
+        "wallet_display": {
+          "visible": false
+        }
+      }
+    }
+  },
+  "business_profile": {
+    "default_profile_id": "default_profile",
+    "business_sub_label": "paystack"
+  }
+}

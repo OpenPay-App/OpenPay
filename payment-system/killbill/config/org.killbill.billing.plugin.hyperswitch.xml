@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://killbill.apache.org/plugins/0.13.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://killbill.apache.org/plugins/0.13.0 http://killbill.apache.org/plugins/0.13.0/OSGI-INF/plugin/0.13.0/plugin.xsd">
+
+    <plugin>
+        <name>killbill-hyperswitch</name>
+        <type>payment</type>
+        <version>1.0.0</version>
+        <organization>
+            <name>Core Financial Platform</name>
+            <url>https://github.com/core-financial-platform</url>
+        </organization>
+        <description>Kill Bill payment plugin for Hyperswitch integration with Paystack</description>
+    </plugin>
+
+    <service>
+        <name>org.killbill.billing.plugin.hyperswitch.HyperswitchPaymentPlugin</name>
+        <interface>org.killbill.billing.payment.plugin.api.PaymentPluginApi</interface>
+        <implementation>org.killbill.billing.plugin.hyperswitch.HyperswitchPaymentPlugin</implementation>
+        <service-type>payment</service-type>
+    </service>
+
+    <properties>
+        <property>
+            <name>org.killbill.billing.plugin.hyperswitch.url</name>
+            <value>http://hyperswitch:8080</value>
+            <description>Hyperswitch API URL</description>
+        </property>
+        <property>
+            <name>org.killbill.billing.plugin.hyperswitch.apiKey</name>
+            <value></value>
+            <description>Hyperswitch API Key</description>
+        </property>
+        <property>
+            <name>org.killbill.billing.plugin.hyperswitch.apiSecret</name>
+            <value></value>
+            <description>Hyperswitch API Secret</description>
+        </property>
+        <property>
+            <name>org.killbill.billing.plugin.hyperswitch.connectTimeout</name>
+            <value>30000</value>
+            <description>Connection timeout in milliseconds</description>
+        </property>
+        <property>
+            <name>org.killbill.billing.plugin.hyperswitch.readTimeout</name>
+            <value>60000</value>
+            <description>Read timeout in milliseconds</description>
+        </property>
+    </properties>
+</plugin>

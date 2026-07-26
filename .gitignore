@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+.next/
+out/
+build/
+dist/
+
+# environment files
+.env
+.env.local
+.env.*.local
+
+# misc
+*.tsbuildinfo
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# testing
+coverage/
+
+# vercel
+.vercel/

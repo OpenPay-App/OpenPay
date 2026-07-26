@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://core-financial-platform/schemas/dlq-event.v1.json",
+  "title": "Dead Letter Queue Event v1",
+  "description": "CloudEvents JSON Schema for dead-letter events",
+  "type": "object",
+  "required": ["specversion", "id", "source", "type", "time"],
+  "properties": {
+    "specversion": {
+      "type": "string",
+      "const": "1.0",
+      "description": "CloudEvents specification version"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique event identifier"
+    },
+    "source": {
+      "type": "string",
+      "description": "Event source (e.g., urn:core-financial:event-bus)"
+    },
+    "type": {
+      "type": "string",
+      "const": "dlq.event.failed",
+      "description": "Event type for dead-letter events"
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event timestamp in ISO 8601 format"
+    },
+    "datacontenttype": {
+      "type": "string",
+      "const": "application/json",
+      "description": "Content type of data payload"
+    },
+    "data": {
+      "type": "object",
+      "required": ["originalEvent", "error", "retryCount", "timestamp"],
+      "properties": {
+        "originalEvent": {
+          "type": "object",
+          "description": "The original event that failed processing"
+        },
+        "error": {
+          "type": "object",
+          "required": ["message", "code"],
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "Error message"
+            },
+            "code": {
+              "type": "string",
+              "description": "Error code"
+            },
+            "stack": {
+              "type": "string",
+              "description": "Error stack trace (optional)"
+            }
+          }
+        },
+        "retryCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of retry attempts"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the error occurred"
+        },
+        "consumer": {
+          "type": "string",
+          "description": "Consumer that failed to process the event"
+        },
+        "queue": {
+          "type": "string",
+          "description": "Queue where the event was being processed"
+        },
+        "paystackReference": {
+          "type": "string",
+          "description": "Paystack transaction reference if applicable"
+        }
+      }
+    }
+  }
+}

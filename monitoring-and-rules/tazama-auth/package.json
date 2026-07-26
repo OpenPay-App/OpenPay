@@ -1,0 +1,10 @@
+{
+  "name": "tazama-auth",
+  "version": "1.0.0",
+  "description": "Tazama Auth Service Stub",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "mkdir -p dist && echo 'const http = require(\"http\"); const server = http.createServer((req, res) => { res.writeHead(200); res.end(\"OK\"); }); server.listen(8080);' > dist/index.js"
+  },
+  "dependencies": {}
+}

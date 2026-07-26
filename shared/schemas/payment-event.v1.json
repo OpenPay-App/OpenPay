@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://core-financial-platform/schemas/payment-event.v1.json",
+  "title": "Payment Event v1",
+  "description": "CloudEvents JSON Schema for payment.charge.* events with Paystack",
+  "type": "object",
+  "required": ["specversion", "id", "source", "type", "time"],
+  "properties": {
+    "specversion": {
+      "type": "string",
+      "const": "1.0",
+      "description": "CloudEvents specification version"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique event identifier"
+    },
+    "source": {
+      "type": "string",
+      "description": "Event source (e.g., urn:core-financial:payment-system)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "payments.charge.pending",
+        "payments.charge.completed",
+        "payments.charge.failed",
+        "payments.charge.refunded",
+        "payments.charge.disputed",
+        "payments.refund.completed",
+        "payments.refund.failed"
+      ],
+      "description": "Event type"
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event timestamp in ISO 8601 format"
+    },
+    "datacontenttype": {
+      "type": "string",
+      "const": "application/json",
+      "description": "Content type of data payload"
+    },
+    "data": {
+      "type": "object",
+      "required": ["paymentId", "amount", "currency", "status", "reference"],
+      "properties": {
+        "paymentId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique payment identifier"
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Customer identifier"
+        },
+        "amount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Payment amount in smallest currency unit (e.g., kobo for NGN)"
+        },
+        "currency": {
+          "type": "string",
+          "enum": ["NGN", "GHS", "ZAR", "KES", "USD"],
+          "description": "ISO 4217 currency code"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "completed", "failed", "refunded", "disputed"],
+          "description": "Payment status"
+        },
+        "reference": {
+          "type": "string",
+          "description": "Paystack transaction reference"
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": ["card", "bank_transfer", "ussd", "mobile_money", "qr"],
+          "description": "Payment method used"
+        },
+        "authorization": {
+          "type": "object",
+          "description": "Paystack authorization details",
+          "properties": {
+            "authorization_code": {
+              "type": "string",
+              "description": "Authorization code from Paystack"
+            },
+            "bin": {
+              "type": "string",
+              "description": "Card BIN"
+            },
+            "last4": {
+              "type": "string",
+              "description": "Last 4 digits of card"
+            },
+            "exp_month": {
+              "type": "string",
+              "description": "Expiry month"
+            },
+            "exp_year": {
+              "type": "string",
+              "description": "Expiry year"
+            },
+            "channel": {
+              "type": "string",
+              "enum": ["card", "bank", "ussd", "mobile_money"],
+              "description": "Payment channel"
+            },
+            "card_type": {
+              "type": "string",
+              "enum": ["visa", "mastercard", "verve", "amex"],
+              "description": "Card type"
+            },
+            "bank": {
+              "type": "string",
+              "description": "Bank name"
+            },
+            "reusable": {
+              "type": "boolean",
+              "description": "Whether authorization is reusable"
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Additional payment metadata"
+        },
+        "gatewayResponse": {
+          "type": "object",
+          "description": "Response from Paystack gateway",
+          "properties": {
+            "gateway_response": {
+              "type": "string",
+              "description": "Gateway response message"
+            },
+            "message": {
+              "type": "string",
+              "description": "Detailed message"
+            }
+          }
+        }
+      }
+    }
+  }
+}

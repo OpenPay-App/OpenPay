@@ -1,0 +1,38 @@
+{
+  "business_profile": {
+    "default_profile": {
+      "id": "default_profile",
+      "name": "Default Business Profile",
+      "status": "active",
+      "merchant_id": "merchant_default",
+      "return_url": "",
+      "webhook_details": {
+        "webhook_url": "http://proxy/webhooks/hyperswitch",
+        "webhook_username": "",
+        "webhook_password": "",
+        "webhook_content_type": "application/json"
+      },
+      "metadata": {
+        "city": "",
+        "country": "",
+        "currency": "NGN",
+        "payment_link": false
+      }
+    }
+  },
+  "merchant_accounts": {
+    "merchant_default": {
+      "id": "merchant_default",
+      "name": "Default Merchant Account",
+      "business_profile_id": "default_profile",
+      "return_url": "",
+      "status": "active",
+      "publishable_key": "",
+      "metadata": {
+        "city": "",
+        "country": "NG",
+        "currency": "NGN"
+      }
+    }
+  }
+}

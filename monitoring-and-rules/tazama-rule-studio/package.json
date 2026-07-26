@@ -1,0 +1,7 @@
+{
+  "name": "tazama-rule-studio",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "mkdir -p dist && echo '<html><body><h1>Tazama Rule Studio</h1></body></html>' > dist/index.html"
+  }
+}

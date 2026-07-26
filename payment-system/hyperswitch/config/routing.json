@@ -1,0 +1,107 @@
+{
+  "routing": {
+    "type": "priority",
+    "data": [
+      {
+        "type": "connector",
+        "connector": "paystack",
+        "merchant_connector_id": "paystack_default",
+        "weight": 1
+      }
+    ]
+  },
+  "rule_engine": {
+    "enabled": true,
+    "rules": [
+      {
+        "name": "ngn_card_routing",
+        "description": "Route NGN card payments to Paystack",
+        "conditions": [
+          {
+            "field": "currency",
+            "operator": "equals",
+            "value": "NGN"
+          },
+          {
+            "field": "payment_method",
+            "operator": "equals",
+            "value": "card"
+          }
+        ],
+        "action": {
+          "type": "connector",
+          "connector": "paystack"
+        }
+      },
+      {
+        "name": "ghs_card_routing",
+        "description": "Route GHS card payments to Paystack",
+        "conditions": [
+          {
+            "field": "currency",
+            "operator": "equals",
+            "value": "GHS"
+          },
+          {
+            "field": "payment_method",
+            "operator": "equals",
+            "value": "card"
+          }
+        ],
+        "action": {
+          "type": "connector",
+          "connector": "paystack"
+        }
+      },
+      {
+        "name": "zar_card_routing",
+        "description": "Route ZAR card payments to Paystack",
+        "conditions": [
+          {
+            "field": "currency",
+            "operator": "equals",
+            "value": "ZAR"
+          },
+          {
+            "field": "payment_method",
+            "operator": "equals",
+            "value": "card"
+          }
+        ],
+        "action": {
+          "type": "connector",
+          "connector": "paystack"
+        }
+      },
+      {
+        "name": "kes_card_routing",
+        "description": "Route KES card payments to Paystack",
+        "conditions": [
+          {
+            "field": "currency",
+            "operator": "equals",
+            "value": "KES"
+          },
+          {
+            "field": "payment_method",
+            "operator": "equals",
+            "value": "card"
+          }
+        ],
+        "action": {
+          "type": "connector",
+          "connector": "paystack"
+        }
+      },
+      {
+        "name": "default_routing",
+        "description": "Default routing to Paystack",
+        "conditions": [],
+        "action": {
+          "type": "connector",
+          "connector": "paystack"
+        }
+      }
+    ]
+  }
+}
