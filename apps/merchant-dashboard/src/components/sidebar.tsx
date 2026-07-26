@@ -6,6 +6,12 @@ import {
   LayoutDashboard,
   CreditCard,
   Users,
+  Package,
+  RefreshCw,
+  FileText,
+  BarChart3,
+  Shield,
+  HeartPulse,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -16,6 +22,11 @@ const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/payments", label: "Payments", icon: CreditCard },
   { href: "/customers", label: "Customers", icon: Users },
+  { href: "/products", label: "Products", icon: Package },
+  { href: "/subscriptions", label: "Subscriptions", icon: RefreshCw },
+  { href: "/invoices", label: "Invoices", icon: FileText },
+  { href: "/analytics", label: "Analytics", icon: BarChart3 },
+  { href: "/admin", label: "Admin", icon: Shield },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
