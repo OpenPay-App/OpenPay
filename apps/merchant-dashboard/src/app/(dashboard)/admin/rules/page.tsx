@@ -33,6 +33,7 @@ export default function FraudRulesPage() {
     time_window_minutes: 60,
     action: "review" as FraudRule["action"],
   });
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadRules();
@@ -40,36 +41,57 @@ export default function FraudRulesPage() {
 
   const loadRules = async () => {
     setLoading(true);
-    const res = await getFraudRules();
-    setRules(res.data);
-    setLoading(false);
+    setError(null);
+    try {
+      const res = await getFraudRules();
+      setRules(res.data);
+    } catch (err: any) {
+      const message = err?.message || "Failed to load fraud rules";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCreate = async () => {
     setCreating(true);
-    await createFraudRule(newRule);
-    setShowCreate(false);
-    setCreating(false);
-    setNewRule({
-      name: "",
-      description: "",
-      rule_type: "velocity_check",
-      severity: "medium",
-      threshold: 5,
-      time_window_minutes: 60,
-      action: "review",
-    });
-    loadRules();
+    setError(null);
+    try {
+      await createFraudRule(newRule);
+      setShowCreate(false);
+      setNewRule({
+        name: "",
+        description: "",
+        rule_type: "velocity_check",
+        severity: "medium",
+        threshold: 5,
+        time_window_minutes: 60,
+        action: "review",
+      });
+      loadRules();
+    } catch (err: any) {
+      setError(err?.message || "Failed to create rule");
+    } finally {
+      setCreating(false);
+    }
   };
 
   const handleToggle = async (rule: FraudRule) => {
-    await updateFraudRule(rule.rule_id, { enabled: !rule.enabled });
-    loadRules();
+    try {
+      await updateFraudRule(rule.rule_id, { enabled: !rule.enabled });
+      loadRules();
+    } catch (err: any) {
+      setError(err?.message || "Failed to update rule");
+    }
   };
 
   const handleDelete = async (ruleId: string) => {
-    await deleteFraudRule(ruleId);
-    loadRules();
+    try {
+      await deleteFraudRule(ruleId);
+      loadRules();
+    } catch (err: any) {
+      setError(err?.message || "Failed to delete rule");
+    }
   };
 
   return (
@@ -89,6 +111,25 @@ export default function FraudRulesPage() {
           New Rule
         </button>
       </div>
+
+      {error && (
+        <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
+          <div className="flex-1">
+            <p className="text-sm font-medium text-red-800">
+              {error.includes("Cannot reach Hyperswitch")
+                ? "Cannot connect to Hyperswitch"
+                : error}
+            </p>
+          </div>
+          <button
+            onClick={loadRules}
+            className="px-3 py-1.5 text-xs font-medium bg-white border border-red-200 rounded-lg text-red-700 hover:bg-red-100 transition-colors shrink-0"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       {/* Create Form */}
       {showCreate && (

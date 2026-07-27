@@ -5,9 +5,8 @@ import {
   Plus,
   Trash2,
   Package,
-  ToggleLeft,
-  ToggleRight,
   DollarSign,
+  AlertTriangle,
 } from "lucide-react";
 import {
   listProducts,
@@ -24,6 +23,8 @@ export default function ProductsPage() {
   const [tiers, setTiers] = useState<PricingTier[]>([]);
   const [showCreate, setShowCreate] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   // Form state
   const [name, setName] = useState("");
@@ -39,44 +40,66 @@ export default function ProductsPage() {
   }, []);
 
   const loadData = async () => {
-    const [p, t] = await Promise.all([listProducts(), listPricingTiers()]);
-    setProducts(p.data);
-    setTiers(t.data);
-    setLoading(false);
+    setLoading(true);
+    setError(null);
+    try {
+      const [p, t] = await Promise.all([listProducts(), listPricingTiers()]);
+      setProducts(p.data);
+      setTiers(t.data);
+    } catch (err: any) {
+      setError(err?.message ?? "Failed to load products");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCreate = async () => {
     if (!name.trim()) return;
-    const res = await createProduct({ name: name.trim(), description: description.trim() });
-    if (res.data) {
-      if (amount && tierName) {
-        await createPricingTier({
-          product_id: res.data.product_id,
-          name: tierName.trim(),
-          amount: Number(amount) * 100,
-          currency,
-          interval,
-          trial_days: trialDays ? Number(trialDays) : undefined,
-        });
+    setActionError(null);
+    try {
+      const res = await createProduct({ name: name.trim(), description: description.trim() });
+      if (res.data) {
+        if (amount && tierName) {
+          await createPricingTier({
+            product_id: res.data.product_id,
+            name: tierName.trim(),
+            amount: Number(amount) * 100,
+            currency,
+            interval,
+            trial_days: trialDays ? Number(trialDays) : undefined,
+          });
+        }
+        await loadData();
+        setShowCreate(false);
+        setName("");
+        setDescription("");
+        setTierName("");
+        setAmount("");
+        setTrialDays("");
       }
-      await loadData();
-      setShowCreate(false);
-      setName("");
-      setDescription("");
-      setTierName("");
-      setAmount("");
-      setTrialDays("");
+    } catch (err: any) {
+      setActionError(err?.message ?? "Failed to create product");
     }
   };
 
   const handleDeleteProduct = async (id: string) => {
-    await deleteProduct(id);
-    setProducts((prev) => prev.filter((p) => p.product_id !== id));
+    setActionError(null);
+    try {
+      await deleteProduct(id);
+      setProducts((prev) => prev.filter((p) => p.product_id !== id));
+    } catch (err: any) {
+      setActionError(err?.message ?? "Failed to delete product");
+    }
   };
 
   const handleDeleteTier = async (id: string) => {
-    await deletePricingTier(id);
-    setTiers((prev) => prev.filter((t) => t.tier_id !== id));
+    setActionError(null);
+    try {
+      await deletePricingTier(id);
+      setTiers((prev) => prev.filter((t) => t.tier_id !== id));
+    } catch (err: any) {
+      setActionError(err?.message ?? "Failed to delete pricing tier");
+    }
   };
 
   const formatAmount = (amount: number, currency: string) => {
@@ -105,6 +128,48 @@ export default function ProductsPage() {
           New Product
         </button>
       </div>
+
+      {/* Connection Error Banner */}
+      {error && (
+        <div className="mb-6 p-4 rounded-xl border border-red-200 bg-red-50">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-red-800">
+                {error.includes("Cannot reach Hyperswitch")
+                  ? "Cannot connect to Hyperswitch"
+                  : error}
+              </p>
+            </div>
+            <button
+              onClick={loadData}
+              className="px-3 py-1.5 text-sm font-medium text-red-700 bg-white border border-red-200 rounded-lg hover:bg-red-100 transition-colors shrink-0"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Inline Action Error */}
+      {actionError && (
+        <div className="mb-4 p-3 rounded-lg border border-red-200 bg-red-50">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
+            <p className="text-sm text-red-700 flex-1">
+              {actionError.includes("Cannot reach Hyperswitch")
+                ? "Cannot connect to Hyperswitch"
+                : actionError}
+            </p>
+            <button
+              onClick={() => setActionError(null)}
+              className="text-xs text-red-500 hover:text-red-700 transition-colors"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Create Form */}
       {showCreate && (
@@ -224,7 +289,7 @@ export default function ProductsPage() {
             <div key={i} className="h-32 rounded-xl bg-white border border-border animate-pulse" />
           ))}
         </div>
-      ) : products.length === 0 ? (
+      ) : products.length === 0 && !error ? (
         <div className="text-center py-16 rounded-xl border border-border bg-white">
           <Package className="w-10 h-10 text-text-muted mx-auto mb-3" />
           <p className="text-text-secondary">No products yet</p>

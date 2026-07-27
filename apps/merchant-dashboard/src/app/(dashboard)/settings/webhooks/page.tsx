@@ -9,6 +9,7 @@ import {
   XCircle,
   Webhook,
   RotateCw,
+  AlertTriangle,
 } from "lucide-react";
 import { listWebhooks, createWebhook, deleteWebhook } from "@/lib/hyperswitch";
 import type { WebhookEndpoint } from "@/lib/types";
@@ -34,30 +35,48 @@ export default function WebhooksPage() {
     "payment_intent.failed",
   ]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadWebhooks();
   }, []);
 
   const loadWebhooks = async () => {
-    const res = await listWebhooks();
-    setWebhooks(res.data);
-    setLoading(false);
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await listWebhooks();
+      setWebhooks(res.data);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCreate = async () => {
     if (!newUrl.trim()) return;
-    const res = await createWebhook(newUrl.trim(), selectedEvents);
-    if (res.data) {
-      setWebhooks((prev) => [res.data!, ...prev]);
-      setNewUrl("");
-      setShowCreate(false);
+    setError(null);
+    try {
+      const res = await createWebhook(newUrl.trim(), selectedEvents);
+      if (res.data) {
+        setWebhooks((prev) => [res.data!, ...prev]);
+        setNewUrl("");
+        setShowCreate(false);
+      }
+    } catch (err) {
+      setError((err as Error).message);
     }
   };
 
   const handleDelete = async (id: string) => {
-    await deleteWebhook(id);
-    setWebhooks((prev) => prev.filter((w) => w.webhook_id !== id));
+    setError(null);
+    try {
+      await deleteWebhook(id);
+      setWebhooks((prev) => prev.filter((w) => w.webhook_id !== id));
+    } catch (err) {
+      setError((err as Error).message);
+    }
   };
 
   const toggleEvent = (event: string) => {
@@ -81,6 +100,29 @@ export default function WebhooksPage() {
 
   return (
     <div>
+      {/* Error Banner */}
+      {error && (
+        <div className="mb-6 p-4 rounded-xl border border-red-200 bg-red-50 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 shrink-0" />
+          <div className="flex-1">
+            <p className="text-sm font-medium text-red-800">
+              {error.includes("Cannot reach Hyperswitch")
+                ? "Cannot connect to Hyperswitch. Make sure the backend is running."
+                : error}
+            </p>
+            <button
+              onClick={() => { setError(null); loadWebhooks(); }}
+              className="mt-2 text-xs text-red-700 hover:underline"
+            >
+              Retry
+            </button>
+          </div>
+          <button onClick={() => setError(null)} className="text-red-400 hover:text-red-600">
+            ×
+          </button>
+        </div>
+      )}
+
       <div className="flex items-center justify-between mb-6">
         <p className="text-sm text-text-secondary">
           Webhooks send real-time event notifications to your server. Configure

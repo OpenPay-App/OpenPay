@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Edge Reverse Proxy & TLS Routing
   proxy:
@@ -48,7 +46,7 @@ services:
     image: redis:7-alpine
     container_name: core-redis
     restart: unless-stopped
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-localdev123}
+    command: redis-server --appendonly yes
     ports:
       - "6379:6379"
     volumes:
@@ -56,7 +54,7 @@ services:
     networks:
       - core-net
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-localdev123}", "ping"]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -81,23 +79,48 @@ services:
       timeout: 10s
       retries: 3
 
+  # Mock Superposition (Local Dev)
+  mock-superposition:
+    build:
+      context: ./payment-system/hyperswitch/mock-superposition
+      dockerfile: Dockerfile
+    container_name: core-mock-superposition
+    restart: unless-stopped
+    ports:
+      - "9999:9999"
+    networks:
+      - core-net
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9999/')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
   # Hyperswitch Payment Orchestration
   hyperswitch:
-    image: juspaydotin/hyperswitch-router:latest
+    image: juspaydotin/hyperswitch-router:v1.124.0
     container_name: core-hyperswitch
     restart: unless-stopped
     ports:
       - "8081:8080"
     env_file:
       - ./payment-system/hyperswitch/.env
+    environment:
+      RUN_ENV: docker_compose
+      ROUTER__SUPERPOSITION__ENABLED: "false"
+      ROUTER__SUPERPOSITION__ENDPOINT: "http://mock-superposition:9999"
+      ROUTER__SUPERPOSITION__TOKEN: "local_token"
+      ROUTER__SUPERPOSITION__ORG_ID: "local_org"
+      ROUTER__SUPERPOSITION__WORKSPACE_ID: "local_workspace"
+      ROUTER__SUPERPOSITION__LOCAL_FILE_PATH: "/local/config/superposition_config.json"
     volumes:
-      - ./payment-system/hyperswitch/config:/etc/hyperswitch/config:ro
+      - ./payment-system/hyperswitch/config:/local/config:ro
     depends_on:
+      mock-superposition:
+        condition: service_healthy
       postgres:
         condition: service_healthy
       redis:
-        condition: service_healthy
-      nats:
         condition: service_healthy
     networks:
       - core-net
@@ -105,7 +128,8 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 5
+      start_period: 40s
 
   # Kill Bill Subscription & Billing
   killbill:

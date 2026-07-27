@@ -11,6 +11,7 @@ import {
   CheckCircle,
   XCircle,
   Clock,
+  AlertTriangle,
 } from "lucide-react";
 import { getSystemHealth, getAlertLogs } from "@/lib/hyperswitch";
 import type { ServiceHealth, AlertLog } from "@/lib/types";
@@ -19,6 +20,7 @@ export default function SystemHealthPage() {
   const [health, setHealth] = useState<ServiceHealth[]>([]);
   const [alerts, setAlerts] = useState<AlertLog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -26,10 +28,17 @@ export default function SystemHealthPage() {
 
   const loadData = async () => {
     setLoading(true);
-    const [h, a] = await Promise.all([getSystemHealth(), getAlertLogs()]);
-    setHealth(h.data);
-    setAlerts(a.data);
-    setLoading(false);
+    setError(null);
+    try {
+      const [h, a] = await Promise.all([getSystemHealth(), getAlertLogs()]);
+      setHealth(h.data);
+      setAlerts(a.data);
+    } catch (err: any) {
+      const message = err?.message || "Failed to load system health data.";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const statusIcon = (status: string) => {
@@ -103,6 +112,30 @@ export default function SystemHealthPage() {
           </div>
         </div>
       </div>
+
+      {/* Error Banner */}
+      {error && (
+        <div className="p-4 rounded-xl border border-red-200 bg-red-50 mb-8">
+          <div className="flex items-center gap-3">
+            <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="font-semibold text-red-700">
+                {error.includes("Cannot reach Hyperswitch")
+                  ? "Cannot connect to Hyperswitch"
+                  : "Error loading system health"}
+              </p>
+              <p className="text-sm text-red-600 mt-0.5">{error}</p>
+            </div>
+            <button
+              onClick={loadData}
+              className="flex items-center gap-2 px-3 py-1.5 border border-red-300 rounded-lg text-sm text-red-700 hover:bg-red-100 transition-colors"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Retry
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Services */}
       {loading ? (

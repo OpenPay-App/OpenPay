@@ -1,0 +1,51 @@
+[server]
+host = "0.0.0.0"
+port = 8080
+
+[master_database]
+host = "postgres"
+port = 5432
+dbname = "hyperswitch"
+db_name = "hyperswitch"
+name = "hyperswitch"
+database = "hyperswitch"
+database_name = "hyperswitch"
+username = "coreplatform"
+password = "localdev123"
+pool_size = 5
+
+[slave_database]
+host = "postgres"
+port = 5432
+dbname = "hyperswitch"
+db_name = "hyperswitch"
+name = "hyperswitch"
+database = "hyperswitch"
+database_name = "hyperswitch"
+username = "coreplatform"
+password = "localdev123"
+pool_size = 5
+
+[database]
+host = "postgres"
+port = 5432
+dbname = "hyperswitch"
+db_name = "hyperswitch"
+name = "hyperswitch"
+database = "hyperswitch"
+database_name = "hyperswitch"
+username = "coreplatform"
+password = "localdev123"
+pool_size = 5
+
+[redis]
+host = "redis"
+port = 6379
+pool_size = 5
+use_tls = false
+
+[log]
+console = { enabled = true, level = "info" }
+
+[superposition]
+enabled = false

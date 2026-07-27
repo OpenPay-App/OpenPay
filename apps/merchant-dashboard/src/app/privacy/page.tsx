@@ -50,7 +50,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-xl font-semibold text-text-primary mb-3">Contact</h2>
-            <p>For questions about this privacy policy, open an issue on <Link href="https://github.com/openpay/openpay" className="text-secondary hover:underline">GitHub</Link> or start a discussion in the <Link href="https://github.com/openpay/openpay/discussions" className="text-secondary hover:underline">community forum</Link>.</p>
+            <p>For questions about this privacy policy, open an issue on <Link href="https://github.com/OpenPay-App/OpenPay" className="text-secondary hover:underline">GitHub</Link> or start a discussion in the <Link href="https://github.com/OpenPay-App/OpenPay/discussions" className="text-secondary hover:underline">community forum</Link>.</p>
           </section>
         </div>
       </main>

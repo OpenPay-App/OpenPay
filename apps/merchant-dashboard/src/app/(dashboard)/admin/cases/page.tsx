@@ -6,6 +6,7 @@ import {
   FolderOpen,
   ArrowLeft,
   ExternalLink,
+  AlertTriangle,
 } from "lucide-react";
 import { getFraudCases, updateFraudCase } from "@/lib/hyperswitch";
 import type { FraudCase } from "@/lib/types";
@@ -22,6 +23,7 @@ export default function CasesPage() {
   const [cases, setCases] = useState<FraudCase[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>("all");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadCases();
@@ -29,14 +31,26 @@ export default function CasesPage() {
 
   const loadCases = async () => {
     setLoading(true);
-    const res = await getFraudCases();
-    setCases(res.data);
-    setLoading(false);
+    setError(null);
+    try {
+      const res = await getFraudCases();
+      setCases(res.data);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Failed to load cases";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleStatusUpdate = async (caseId: string, status: FraudCase["status"]) => {
-    await updateFraudCase(caseId, { status });
-    loadCases();
+    try {
+      await updateFraudCase(caseId, { status });
+      loadCases();
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Failed to update case";
+      setError(message);
+    }
   };
 
   const filtered = filter === "all" ? cases : cases.filter((c) => c.status === filter);
@@ -63,6 +77,25 @@ export default function CasesPage() {
           <option value="closed">Closed</option>
         </select>
       </div>
+
+      {error && (
+        <div className="mb-4 p-4 rounded-lg bg-red-50 border border-red-200 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+          <div className="flex-1">
+            <p className="text-sm font-medium text-red-800">
+              {error.includes("Cannot reach Hyperswitch")
+                ? "Cannot connect to Hyperswitch"
+                : error}
+            </p>
+          </div>
+          <button
+            onClick={loadCases}
+            className="px-3 py-1 text-xs font-medium text-red-700 bg-red-100 border border-red-300 rounded hover:bg-red-200 transition-colors flex-shrink-0"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       <div className="rounded-xl border border-border bg-white">
         {loading ? (

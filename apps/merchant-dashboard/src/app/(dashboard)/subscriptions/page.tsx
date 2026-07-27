@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { RefreshCw, Search, Filter } from "lucide-react";
+import { RefreshCw, Search, Filter, AlertTriangle } from "lucide-react";
 import { listSubscriptions } from "@/lib/hyperswitch";
 import type { Subscription, SubscriptionStatus } from "@/lib/types";
 
@@ -20,15 +20,22 @@ export default function SubscriptionsPage() {
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadSubscriptions();
   }, [statusFilter]);
 
   const loadSubscriptions = async () => {
-    const res = await listSubscriptions({ status: statusFilter || undefined });
-    setSubscriptions(res.data);
-    setLoading(false);
+    try {
+      setError(null);
+      const res = await listSubscriptions({ status: statusFilter || undefined });
+      setSubscriptions(res.data);
+    } catch (e: any) {
+      setError(e?.message || "Failed to load subscriptions");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const formatAmount = (amount: number, currency: string) =>
@@ -81,6 +88,23 @@ export default function SubscriptionsPage() {
         </select>
       </div>
 
+      {error && (
+        <div className="flex items-center gap-3 px-4 py-3 mb-6 rounded-lg bg-red-50 border border-red-200">
+          <AlertTriangle className="w-5 h-5 text-red-600 shrink-0" />
+          <p className="flex-1 text-sm text-red-800">
+            {error.includes("Cannot reach Hyperswitch")
+              ? "Cannot connect to Hyperswitch"
+              : error}
+          </p>
+          <button
+            onClick={loadSubscriptions}
+            className="px-3 py-1 text-sm font-medium text-red-700 bg-white border border-red-300 rounded-lg hover:bg-red-50 transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      )}
+
       {/* Table */}
       <div className="rounded-xl border border-border bg-white overflow-hidden">
         <div className="overflow-x-auto">
@@ -118,7 +142,7 @@ export default function SubscriptionsPage() {
                     ))}
                   </tr>
                 ))
-              ) : filtered.length === 0 ? (
+              ) : filtered.length === 0 && !error ? (
                 <tr>
                   <td colSpan={6} className="px-4 py-16 text-center">
                     <RefreshCw className="w-8 h-8 text-text-muted mx-auto mb-2" />

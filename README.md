@@ -86,12 +86,16 @@ docker compose up -d
 
 ### 4. Access Services
 
-- **Traefik Dashboard**: http://localhost:8080
-- **NATS Monitoring**: http://localhost:8222
-- **Hyperswitch API**: http://localhost:8080
-- **Kill Bill API**: http://localhost:8081
-- **Tazama Rule Studio**: http://localhost:3000
-- **Case Management**: http://localhost:3001
+| Service | URL | Description |
+|---------|-----|-------------|
+| **Traefik Dashboard** | http://localhost:8080 | Reverse proxy & routing |
+| **NATS Monitoring** | http://localhost:8222 | Event bus monitoring |
+| **Tazama Rule Studio** | http://localhost:3000 | Fraud rule authoring UI |
+| **Hyperswitch API** | http://localhost:8081 | Payment orchestration API |
+| **Kill Bill API** | http://localhost:8082 | Subscription & billing API |
+| **Tazama Auth** | http://localhost:8083 | Fraud detection auth |
+| **Tazama Rule Exec** | http://localhost:8084 | Rule execution engine |
+| **Case Management** | http://localhost:3001 | Fraud case dashboard |
 
 ## Development
 

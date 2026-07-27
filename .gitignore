@@ -8,10 +8,11 @@ out/
 build/
 dist/
 
-# environment files
-.env
-.env.local
-.env.*.local
+# environment files (all .env files everywhere, except templates)
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.*.example
 
 # misc
 *.tsbuildinfo
@@ -25,6 +26,9 @@ Thumbs.db
 
 # testing
 coverage/
+
+# local dev tools
+mock_server.py
 
 # vercel
 .vercel/

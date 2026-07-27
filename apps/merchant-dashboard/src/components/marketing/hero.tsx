@@ -41,7 +41,7 @@ export function Hero() {
               Docs
             </Link>
             <Link
-              href="https://github.com"
+              href="https://github.com/OpenPay-App/OpenPay"
               target="_blank"
               className="text-white/70 hover:text-white transition-colors"
             >
@@ -80,7 +80,7 @@ export function Hero() {
               <ArrowRight className="w-4 h-4" />
             </RegisterLink>
             <Link
-              href="https://github.com"
+              href="https://github.com/OpenPay-App/OpenPay"
               target="_blank"
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg border border-white/20 text-white font-medium text-base hover:bg-white/5 transition-colors"
             >
@@ -104,7 +104,7 @@ export function Hero() {
                 <code>
                   <span className="text-text-muted">$</span>{" "}
                   <span className="text-accent">git</span>{" "}
-                  clone https://github.com/openpay/openpay
+                  clone https://github.com/OpenPay-App/OpenPay
                   {"\n"}
                   <span className="text-text-muted">$</span>{" "}
                   <span className="text-accent">cd</span> openpay

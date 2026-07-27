@@ -4,7 +4,7 @@ const steps = [
   {
     step: "1",
     title: "Clone the repo",
-    code: "git clone https://github.com/openpay/openpay",
+    code: "git clone https://github.com/OpenPay-App/OpenPay",
   },
   {
     step: "2",

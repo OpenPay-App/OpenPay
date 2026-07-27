@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/sidebar";
 import { Topbar } from "@/components/topbar";
+import { SandboxModeProvider } from "@/lib/sandbox-mode";
 
 export default function DashboardLayout({
   children,
@@ -7,12 +8,14 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-bg-alt">
-      <Sidebar />
-      <div className="ml-64">
-        <Topbar />
-        <main className="p-8">{children}</main>
+    <SandboxModeProvider>
+      <div className="min-h-screen bg-bg-alt">
+        <Sidebar />
+        <div className="ml-64">
+          <Topbar />
+          <main className="p-8">{children}</main>
+        </div>
       </div>
-    </div>
+    </SandboxModeProvider>
   );
 }

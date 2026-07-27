@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Save, CheckCircle } from "lucide-react";
+import { Save, CheckCircle, AlertTriangle } from "lucide-react";
 import { getBusinessProfile, updateBusinessProfile } from "@/lib/hyperswitch";
 import type { BusinessProfile } from "@/lib/types";
 
@@ -27,9 +27,12 @@ export default function BusinessSettingsPage() {
   });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getBusinessProfile().then(setProfile);
+    getBusinessProfile()
+      .then(setProfile)
+      .catch((err) => setError((err as Error).message));
   }, []);
 
   const handleSave = async () => {

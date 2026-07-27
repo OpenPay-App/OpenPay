@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
+  AlertTriangle,
   ArrowLeft,
   Pause,
   Play,
@@ -34,27 +35,39 @@ export default function SubscriptionDetailPage() {
   const router = useRouter();
   const [sub, setSub] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState<string | null>(null);
 
-  useEffect(() => {
-    getSubscription(params.id as string).then((s) => {
+  const fetchSubscription = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const s = await getSubscription(params.id as string);
       setSub(s);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load subscription");
+    } finally {
       setLoading(false);
-    });
+    }
+  };
+
+  useEffect(() => {
+    fetchSubscription();
   }, [params.id]);
 
   const handleAction = async (action: "pause" | "resume" | "cancel") => {
     if (!sub) return;
     setActionLoading(true);
+    setError(null);
     try {
       if (action === "pause") await pauseSubscription(sub.subscription_id);
       if (action === "resume") await resumeSubscription(sub.subscription_id);
       if (action === "cancel") await cancelSubscription(sub.subscription_id);
       const updated = await getSubscription(sub.subscription_id);
       setSub(updated);
-    } catch {
-      // graceful
+    } catch (err) {
+      setError(err instanceof Error ? err.message : `Failed to ${action} subscription`);
     } finally {
       setActionLoading(false);
       setShowConfirm(null);
@@ -73,6 +86,31 @@ export default function SubscriptionDetailPage() {
       <div className="space-y-4">
         <div className="h-8 w-48 bg-bg-alt rounded animate-pulse" />
         <div className="h-64 bg-white rounded-xl border border-border animate-pulse" />
+      </div>
+    );
+  }
+
+  if (error && !sub) {
+    return (
+      <div className="text-center py-16">
+        <div className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-red-200 bg-red-50 mb-4">
+          <AlertTriangle className="w-5 h-5 text-red-600" />
+          <p className="text-sm text-red-700">{error}</p>
+        </div>
+        <div className="flex justify-center gap-3 mt-4">
+          <button
+            onClick={fetchSubscription}
+            className="px-4 py-2 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-hover transition-colors"
+          >
+            Retry
+          </button>
+          <Link
+            href="/subscriptions"
+            className="px-4 py-2 border border-border rounded-lg text-sm text-text-secondary hover:text-text-primary transition-colors"
+          >
+            Back to Subscriptions
+          </Link>
+        </div>
       </div>
     );
   }
@@ -142,6 +180,20 @@ export default function SubscriptionDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Error Banner */}
+      {error && sub && (
+        <div className="mb-6 flex items-center gap-2 px-4 py-3 rounded-xl border border-red-200 bg-red-50">
+          <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
+          <p className="text-sm text-red-700">{error}</p>
+          <button
+            onClick={() => setError(null)}
+            className="ml-auto text-red-400 hover:text-red-600 transition-colors"
+          >
+            <XCircle className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
       {/* Confirm Modal */}
       {showConfirm && (

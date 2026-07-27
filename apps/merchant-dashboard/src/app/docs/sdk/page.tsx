@@ -18,15 +18,15 @@ const sdks = [
   },
   {
     name: "Go",
-    package: "github.com/openpay/openpay-go",
-    install: "go get github.com/openpay/openpay-go",
+    package: "github.com/OpenPay-App/OpenPay-go",
+    install: "go get github.com/OpenPay-App/OpenPay-go",
     description: "Go client with context support and retries.",
     status: "Coming Soon",
   },
   {
     name: "PHP",
-    package: "openpay/openpay-php",
-    install: "composer require openpay/openpay-php",
+    package: "OpenPay-App/OpenPay-php",
+    install: "composer require OpenPay-App/OpenPay-php",
     description: "PHP SDK with Laravel and Symfony integrations.",
     status: "Coming Soon",
   },
@@ -77,7 +77,7 @@ export default function SdkPage() {
                 {sdk.install}
               </code>
               <Link
-                href="https://github.com/openpay/openpay"
+                href="https://github.com/OpenPay-App/OpenPay"
                 target="_blank"
                 className="inline-flex items-center gap-1 text-sm text-secondary hover:underline"
               >

@@ -15,7 +15,7 @@ export function OpenSource() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
           <Link
-            href="https://github.com/openpay/openpay"
+            href="https://github.com/OpenPay-App/OpenPay"
             target="_blank"
             className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-bg-dark text-white font-semibold hover:opacity-90 transition-opacity"
           >
@@ -23,7 +23,7 @@ export function OpenSource() {
             Star on GitHub
           </Link>
           <Link
-            href="https://github.com/openpay/openpay/discussions"
+            href="https://github.com/OpenPay-App/OpenPay/discussions"
             target="_blank"
             className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-border text-text-primary font-semibold hover:bg-bg-alt transition-colors"
           >
