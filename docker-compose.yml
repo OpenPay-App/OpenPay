@@ -140,9 +140,9 @@ services:
       ROUTER__MASTER_DATABASE__PORT: 5432
       ROUTER__MASTER_DATABASE__DBNAME: "hyperswitch"
       ROUTER__MASTER_DATABASE__USERNAME: "coreplatform"
-      ROUTER__MASTER_DATABASE__PASSWORD: "R3d!sS3cur3#2026"
-      ROUTER__SECRETS__JWT_SECRET: "secret"
-      ROUTER__SECRETS__ADMIN_API_KEY: "test_admin"
+      ROUTER__MASTER_DATABASE__PASSWORD: ${POSTGRES_PASSWORD}
+      ROUTER__SECRETS__JWT_SECRET: ${HYPERSWITCH_JWT_SECRET}
+      ROUTER__SECRETS__ADMIN_API_KEY: ${HYPERSWITCH_ADMIN_API_KEY}
       ROUTER__SECRETS__MASTER_ENC_KEY: "73ad7bbbbc640c845a150f67d058b279849370cd2c1f3c67c4dd6c869213e13a"
       ROUTER__REDIS__HOST: "core-redis"
       ROUTER__REDIS__PORT: 6379
@@ -340,7 +340,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
       - GF_SECURITY_ADMIN_USER=admin
     volumes:
       - ./monitoring/grafana:/etc/grafana/provisioning

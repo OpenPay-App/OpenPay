@@ -14,6 +14,14 @@ dist/
 !**/.env.example
 !**/.env.*.example
 
+# planning & internal docs (never commit these)
+UI-DEV-PLAN.md
+test-prod.md
+temp_*
+*.tmp
+*.plan.md
+*.internal.md
+
 # misc
 *.tsbuildinfo
 *.log
