@@ -105,7 +105,7 @@ export default function ApiKeysPage() {
     <div>
       {/* Error Banner */}
       {error && (
-        <div className="mb-6 p-4 rounded-xl border border-red-200 bg-red-50 flex items-start gap-3">
+        <div className="mb-6 p-4 rounded-xl border border-red-200 bg-red-950/50 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 shrink-0" />
           <div className="flex-1">
             <p className="text-sm font-medium text-red-800">
@@ -179,14 +179,14 @@ export default function ApiKeysPage() {
       {revealedKey && (
         <div className={`mb-6 p-5 rounded-xl border transition-all duration-500 animate-fade-in ${
           justCreated
-            ? "border-emerald-300 bg-emerald-50 shadow-lg shadow-emerald-100 scale-[1.01]"
-            : "border-amber-300 bg-amber-50"
+            ? "border-emerald-500/30 bg-emerald-950/50 shadow-lg shadow-emerald-900/30 scale-[1.01]"
+            : "border-amber-500/30 bg-amber-950/50"
         }`}>
           <div className="flex items-start gap-3">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 ${
               justCreated
-                ? "bg-emerald-100 animate-bounce-once"
-                : "bg-amber-100"
+                ? "bg-emerald-900/50 animate-bounce-once"
+                : "bg-amber-900/50"
             }`}>
               {justCreated ? (
                 <Sparkles className="w-5 h-5 text-emerald-600" />
@@ -196,7 +196,7 @@ export default function ApiKeysPage() {
             </div>
             <div className="flex-1">
               <p className={`text-sm font-medium ${
-                justCreated ? "text-emerald-800" : "text-amber-800"
+                justCreated                    ? "text-emerald-400" : "text-amber-400"
               }`}>
                 {justCreated
                   ? "API key generated successfully!"
@@ -204,8 +204,8 @@ export default function ApiKeysPage() {
                 {" "}
                 <span className={`inline-block px-1.5 py-0.5 rounded text-xs font-medium ml-1 ${
                   revealedKey.startsWith("op_live_")
-                    ? "bg-emerald-100 text-emerald-700"
-                    : "bg-amber-100 text-amber-700"
+                    ? "bg-emerald-900/50 text-emerald-400"
+                    : "bg-amber-900/50 text-amber-400"
                 }`}>
                   {revealedKey.startsWith("op_live_") ? "Production" : "Sandbox"}
                 </span>
@@ -213,14 +213,14 @@ export default function ApiKeysPage() {
               <div className="mt-3 flex items-center gap-2">
                 <code className={`flex-1 px-3 py-2.5 rounded-lg border font-mono text-sm break-all transition-all duration-300 ${
                   justCreated
-                    ? "bg-white border-emerald-200 text-emerald-900"
-                    : "bg-white border-amber-200 text-text-primary"
+                    ? "bg-[#0a0a0a] border-emerald-200 text-emerald-900"
+                    : "bg-[#0a0a0a] border-amber-200 text-text-primary"
                 }`}>
                   {revealedKey}
                 </code>
                 <button
                   onClick={() => copyKey(revealedKey)}
-                  className="shrink-0 p-2.5 rounded-lg hover:bg-amber-100 transition-colors"
+                  className="shrink-0 p-2.5 rounded-lg hover:bg-amber-900/50 transition-colors"
                 >
                   {copied === revealedKey ? (
                     <CheckCircle className="w-4 h-4 text-emerald-500" />
@@ -244,11 +244,11 @@ export default function ApiKeysPage() {
       {loading ? (
         <div className="space-y-3">
           {[1, 2].map((i) => (
-            <div key={i} className="h-16 rounded-xl bg-white border border-border animate-pulse" />
+            <div key={i} className="h-16 rounded-xl bg-[#0a0a0a] border border-border animate-pulse" />
           ))}
         </div>
       ) : filteredKeys.length === 0 ? (
-        <div className="text-center py-16 rounded-xl border border-border bg-white">
+        <div className="text-center py-16 rounded-xl border border-border bg-[#0a0a0a]">
           <Key className="w-10 h-10 text-text-muted mx-auto mb-3" />
           <p className="text-text-secondary">
             {error
@@ -268,10 +268,10 @@ export default function ApiKeysPage() {
             return (
               <div
                 key={key.api_key}
-                className="flex items-center justify-between p-4 rounded-xl border border-border bg-white animate-slide-in"
+                className="flex items-center justify-between p-4 rounded-xl border border-border bg-[#0a0a0a] animate-slide-in"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-secondary-light flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center">
                     <Key className="w-5 h-5 text-secondary" />
                   </div>
                   <div>
@@ -282,8 +282,8 @@ export default function ApiKeysPage() {
                       {keyMode !== "unknown" && (
                         <span className={`px-2 py-0.5 rounded text-xs font-medium ${
                           keyMode === "sandbox"
-                            ? "bg-amber-50 text-amber-700 border border-amber-200"
-                            : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                            ? "bg-amber-950 text-amber-400 border border-amber-500/30"
+                            : "bg-emerald-950 text-emerald-400 border border-emerald-500/30"
                         }`}>
                           {keyMode === "sandbox" ? "Test" : "Live"}
                         </span>
@@ -307,7 +307,7 @@ export default function ApiKeysPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-xs font-medium">
+                  <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30 text-xs font-medium">
                     {key.enabled ? "Active" : "Disabled"}
                   </span>
                   {key.last_used && (
@@ -317,7 +317,7 @@ export default function ApiKeysPage() {
                   )}
                   <button
                     onClick={() => handleDelete(key.api_key)}
-                    className="p-1.5 rounded-lg text-text-muted hover:text-red-500 hover:bg-red-50 transition-colors"
+                    className="p-1.5 rounded-lg text-text-muted hover:text-red-500 hover:bg-red-950/50 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

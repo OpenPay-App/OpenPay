@@ -23,7 +23,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>
+      <body className="bg-surface text-text-primary">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

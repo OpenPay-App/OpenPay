@@ -30,14 +30,13 @@ function TimelineEvent({
     ) : status === "current" ? (
       <Clock className="w-5 h-5 text-secondary" />
     ) : (
-      <XCircle className="w-5 h-5 text-gray-300" />
+      <XCircle className="w-5 h-5 text-gray-700" />
     );
 
   return (
     <div className="flex items-start gap-4">
       <div className="mt-0.5">{icon}</div>
-      <div className="flex-1">
-        <p className="text-sm font-medium text-text-primary">{label}</p>
+      <div className="flex-1">            <p className="text-sm font-medium text-white">{label}</p>
         {time && (
           <p className="text-xs text-text-muted mt-0.5">{formatDate(time)}</p>
         )}
@@ -154,7 +153,7 @@ export default function PaymentDetailPage() {
 
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-text-primary">
+          <h1 className="text-2xl font-semibold text-white">
             Payment Details
           </h1>
           <p className="text-text-secondary mt-1 font-mono text-sm">
@@ -193,7 +192,7 @@ export default function PaymentDetailPage() {
                   <span className="text-sm text-text-secondary">
                     {field.label}
                   </span>
-                  <span className="text-sm font-medium text-text-primary text-right max-w-[60%] truncate">
+                  <span className="text-sm font-medium text-white text-right max-w-[60%] truncate">
                     {field.value}
                   </span>
                 </div>
@@ -231,7 +230,7 @@ export default function PaymentDetailPage() {
           </div>
 
           <div className="bg-white rounded-xl border border-border p-6">
-            <h2 className="font-semibold text-text-primary mb-4">Actions</h2>
+            <h2 className="font-semibold text-white mb-4">Actions</h2>
             {payment.status === "succeeded" ? (
               <button
                 onClick={handleRefund}
@@ -263,7 +262,7 @@ export default function PaymentDetailPage() {
 
           {/* Raw data toggle */}
           <details className="bg-white rounded-xl border border-border">
-            <summary className="px-6 py-4 text-sm font-medium text-text-primary cursor-pointer hover:bg-bg-alt/50 transition-colors">
+            <summary className="px-6 py-4 text-sm font-medium text-white cursor-pointer hover:bg-white/5 transition-colors">
               Raw Event Data
             </summary>
             <pre className="px-6 pb-4 text-xs font-mono text-text-secondary overflow-x-auto max-h-64 overflow-y-auto">

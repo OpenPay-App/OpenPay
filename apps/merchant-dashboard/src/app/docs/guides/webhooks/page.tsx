@@ -94,7 +94,7 @@ export default function WebhooksGuidePage() {
           {events.map((event) => (
             <div
               key={event.type}
-              className="flex items-start gap-4 p-4 rounded-xl border border-border bg-white"
+              className="flex items-start gap-4 p-4 rounded-xl border border-border bg-[#0a0a0a]"
             >
               <code className="text-sm font-mono text-secondary whitespace-nowrap">
                 {event.type}
@@ -134,8 +134,8 @@ dlq.event.failed`}</pre>
           Retry Policy
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-6 rounded-xl border border-border bg-white">
-            <h3 className="font-semibold text-text-primary mb-2">
+          <div className="p-6 rounded-xl border border-border bg-[#0a0a0a]">
+            <h3 className="font-semibold text-white mb-2">
               Payment Events
             </h3>
             <p className="text-sm text-text-secondary">
@@ -143,8 +143,8 @@ dlq.event.failed`}</pre>
               events are moved to the DLQ stream.
             </p>
           </div>
-          <div className="p-6 rounded-xl border border-border bg-white">
-            <h3 className="font-semibold text-text-primary mb-2">
+          <div className="p-6 rounded-xl border border-border bg-[#0a0a0a]">
+            <h3 className="font-semibold text-white mb-2">
               Dead Letter Queue
             </h3>
             <p className="text-sm text-text-secondary">

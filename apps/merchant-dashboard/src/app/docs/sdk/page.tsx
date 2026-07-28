@@ -44,7 +44,7 @@ export default function SdkPage() {
       </Link>
 
       <div className="mb-12">
-        <h1 className="text-4xl font-bold text-text-primary mb-4">
+        <h1 className="text-4xl font-bold text-white mb-4">
           SDKs & Libraries
         </h1>
         <p className="text-lg text-text-secondary max-w-2xl">
@@ -57,18 +57,18 @@ export default function SdkPage() {
         {sdks.map((sdk) => (
           <div
             key={sdk.name}
-            className="p-6 rounded-xl border border-border bg-white hover:border-secondary/30 transition-colors"
+            className="p-6 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 transition-colors"
           >
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-text-primary">
+                <h3 className="text-lg font-semibold text-white">
                   {sdk.name}
                 </h3>
                 <p className="text-sm text-text-secondary mt-1">
                   {sdk.description}
                 </p>
               </div>
-              <span className="inline-flex px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
+              <span className="inline-flex px-3 py-1 rounded-full text-xs font-medium bg-amber-950 text-amber-400 border border-amber-500/30">
                 {sdk.status}
               </span>
             </div>

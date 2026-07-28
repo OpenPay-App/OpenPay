@@ -8,23 +8,23 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black">
       {/* Top nav */}
-      <header className="border-b border-border bg-white sticky top-0 z-50">
+      <header className="border-b border-border bg-black sticky top-0 z-50">
         <div className="max-w-full mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <Image
-              src="/brand/logo.svg"
+              src="/brand/logo-dark.svg"
               alt="OpenPay"
               width={180}
               height={45}
-              className="h-9 w-auto"
+              className="h-9 w-auto brightness-0 invert"
             />
           </Link>
           <div className="flex items-center gap-6">
             <Link
               href="/"
-              className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+              className="text-sm text-text-secondary hover:text-white transition-colors"
             >
               Home
             </Link>
@@ -36,20 +36,20 @@ export default function DocsLayout({
             </Link>
             <Link
               href="/changelog"
-              className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+              className="text-sm text-text-secondary hover:text-white transition-colors"
             >
               Changelog
             </Link>
             <Link
               href="/status"
-              className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+              className="text-sm text-text-secondary hover:text-white transition-colors"
             >
               Status
             </Link>
             <a
               href="https://github.com/OpenPay-App/OpenPay"
               target="_blank"
-              className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+              className="text-sm text-text-secondary hover:text-white transition-colors"
             >
               GitHub
             </a>

@@ -57,18 +57,18 @@ export default function PaymentAnalyticsPage() {
     <div>
       <Link
         href="/analytics"
-        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary mb-4 transition-colors"
+        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-white mb-4 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Analytics
       </Link>
 
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-text-primary">Payment Analytics</h1>
+        <h1 className="text-2xl font-semibold text-white">Payment Analytics</h1>
         <select
           value={days}
           onChange={(e) => setDays(Number(e.target.value))}
-          className="px-3 py-2 border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+          className="px-3 py-2 border border-border rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
         >
           <option value={7}>Last 7 days</option>
           <option value={30}>Last 30 days</option>
@@ -78,39 +78,39 @@ export default function PaymentAnalyticsPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <CreditCard className="w-4 h-4 text-secondary" />
             <p className="text-xs text-text-secondary">Total Payments</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">{totalPayments}</p>
+          <p className="text-xl font-bold text-white">{totalPayments}</p>
         </div>
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <TrendingUp className="w-4 h-4 text-emerald-500" />
             <p className="text-xs text-text-secondary">Success Rate</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">
+          <p className="text-xl font-bold text-white">
             {avgSuccessRate.toFixed(1)}%
           </p>
           <p className="text-xs text-emerald-600 mt-1">{totalSuccess} succeeded</p>
         </div>
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <TrendingDown className="w-4 h-4 text-red-500" />
             <p className="text-xs text-text-secondary">Failed</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">{totalFailed}</p>
+          <p className="text-xl font-bold text-white">{totalFailed}</p>
           <p className="text-xs text-red-600 mt-1">
             {totalPayments > 0 ? ((totalFailed / totalPayments) * 100).toFixed(1) : 0}% failure
           </p>
         </div>
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <AlertTriangle className="w-4 h-4 text-amber-500" />
             <p className="text-xs text-text-secondary">Avg. Processing</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">
+          <p className="text-xl font-bold text-white">
             {avgProcessingTime.toFixed(0)}ms
           </p>
         </div>
@@ -118,8 +118,8 @@ export default function PaymentAnalyticsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Success Rate Chart */}
-        <div className="lg:col-span-2 p-5 rounded-xl border border-border bg-white">
-          <h3 className="font-semibold text-text-primary mb-4">Success Rate Over Time</h3>
+        <div className="lg:col-span-2 p-5 rounded-xl border border-border bg-[#0a0a0a]">
+          <h3 className="font-semibold text-white mb-4">Success Rate Over Time</h3>
           {loading ? (
             <div className="h-64 bg-bg-alt rounded-lg animate-pulse" />
           ) : metrics.length === 0 ? (
@@ -166,8 +166,8 @@ export default function PaymentAnalyticsPage() {
         </div>
 
         {/* Failure Reasons Pie */}
-        <div className="p-5 rounded-xl border border-border bg-white">
-          <h3 className="font-semibold text-text-primary mb-4">Failure Reasons</h3>
+        <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
+          <h3 className="font-semibold text-white mb-4">Failure Reasons</h3>
           {loading ? (
             <div className="h-64 bg-bg-alt rounded-lg animate-pulse" />
           ) : failures.length === 0 ? (
@@ -205,7 +205,7 @@ export default function PaymentAnalyticsPage() {
                         {f.reason}
                       </span>
                     </div>
-                    <span className="font-medium text-text-primary">{f.count}</span>
+                    <span className="font-medium text-white">{f.count}</span>
                   </div>
                 ))}
               </div>
@@ -215,9 +215,9 @@ export default function PaymentAnalyticsPage() {
       </div>
 
       {/* Failed Payments Table */}
-      <div className="rounded-xl border border-border bg-white">
+      <div className="rounded-xl border border-border bg-[#0a0a0a]">
         <div className="p-4 border-b border-border">
-          <h3 className="font-semibold text-text-primary">Failure Breakdown</h3>
+          <h3 className="font-semibold text-white">Failure Breakdown</h3>
         </div>
         <table className="w-full text-sm">
           <thead>
@@ -247,7 +247,7 @@ export default function PaymentAnalyticsPage() {
                 const pct = totalFailed > 0 ? (f.count / totalFailed) * 100 : 0;
                 return (
                   <tr key={f.reason} className="border-b border-border last:border-0">
-                    <td className="px-4 py-3 text-text-primary">{f.reason}</td>
+                    <td className="px-4 py-3 text-white">{f.reason}</td>
                     <td className="px-4 py-3 text-right text-text-secondary">{f.count}</td>
                     <td className="px-4 py-3 text-right text-text-secondary">{pct.toFixed(1)}%</td>
                   </tr>

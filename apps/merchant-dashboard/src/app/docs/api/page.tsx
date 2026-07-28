@@ -70,10 +70,10 @@ const endpoints = [
 ];
 
 const methodColors: Record<string, string> = {
-  GET: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  POST: "bg-blue-50 text-blue-700 border-blue-200",
-  PUT: "bg-amber-50 text-amber-700 border-amber-200",
-  DELETE: "bg-red-50 text-red-700 border-red-200",
+  GET: "bg-emerald-950 text-emerald-400 border-emerald-500/30",
+  POST: "bg-blue-950 text-blue-400 border-blue-500/30",
+  PUT: "bg-amber-950 text-amber-400 border-amber-500/30",
+  DELETE: "bg-red-950 text-red-400 border-red-500/30",
 };
 
 export default function ApiReferencePage() {
@@ -88,7 +88,7 @@ export default function ApiReferencePage() {
       </Link>
 
       <div className="mb-12">
-        <h1 className="text-4xl font-bold text-text-primary mb-4">
+        <h1 className="text-4xl font-bold text-white mb-4">
           API Reference
         </h1>
         <p className="text-lg text-text-secondary max-w-2xl">
@@ -104,7 +104,7 @@ export default function ApiReferencePage() {
         {endpoints.map((ep) => (
           <div
             key={`${ep.method}-${ep.path}`}
-            className="rounded-xl border border-border bg-white overflow-hidden"
+            className="rounded-xl border border-border bg-[#0a0a0a] overflow-hidden"
           >
             <div className="px-6 py-4 border-b border-border flex items-center gap-3">
               <span
@@ -112,7 +112,7 @@ export default function ApiReferencePage() {
               >
                 {ep.method}
               </span>
-              <code className="text-sm font-mono text-text-primary">
+              <code className="text-sm font-mono text-white">
                 {ep.path}
               </code>
             </div>

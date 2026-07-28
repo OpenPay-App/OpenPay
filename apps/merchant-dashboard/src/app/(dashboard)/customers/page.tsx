@@ -81,7 +81,7 @@ export default function CustomersPage() {
       </div>
 
       {/* Search */}
-      <div className="bg-white rounded-xl border border-border p-4 mb-6">
+      <div className="bg-[#0a0a0a] rounded-xl border border-border p-4 mb-6">
         <div className="flex items-center gap-2 bg-bg-alt rounded-lg px-3 py-2 max-w-sm">
           <Search className="w-4 h-4 text-text-muted" />
           <input
@@ -95,7 +95,7 @@ export default function CustomersPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl border border-border">
+      <div className="bg-[#0a0a0a] rounded-xl border border-border">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>

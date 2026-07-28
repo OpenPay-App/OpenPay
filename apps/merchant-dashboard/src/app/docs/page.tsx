@@ -5,7 +5,7 @@ export default function DocsIntroPage() {
   return (
     <div>
       <div className="mb-10">
-        <h1 className="text-4xl font-bold text-text-primary mb-4">
+        <h1 className="text-4xl font-bold text-white mb-4">
           Introduction to OpenPay
         </h1>
         <p className="text-lg text-text-secondary leading-relaxed">
@@ -17,8 +17,7 @@ export default function DocsIntroPage() {
       </div>
 
       {/* Why OpenPay */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold text-text-primary mb-6">
+      <section className="mb-12">          <h2 className="text-2xl font-bold text-white mb-6">
           Why OpenPay?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -50,12 +49,12 @@ export default function DocsIntroPage() {
           ].map((feature) => (
             <div
               key={feature.title}
-              className="p-6 rounded-xl border border-border bg-white"
+              className="p-6 rounded-xl border border-border bg-[#0a0a0a]"
             >
-              <div className="w-10 h-10 rounded-lg bg-secondary-light flex items-center justify-center mb-4">
+              <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center mb-4">
                 <feature.icon className="w-5 h-5 text-secondary" />
               </div>
-              <h3 className="font-semibold text-text-primary mb-2">
+              <h3 className="font-semibold text-white mb-2">
                 {feature.title}
               </h3>
               <p className="text-sm text-text-secondary leading-relaxed">
@@ -67,8 +66,7 @@ export default function DocsIntroPage() {
       </section>
 
       {/* What you can do */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold text-text-primary mb-6">
+      <section className="mb-12">          <h2 className="text-2xl font-bold text-white mb-6">
           What Can You Do?
         </h2>
         <div className="space-y-4">
@@ -105,7 +103,7 @@ export default function DocsIntroPage() {
             >
               <div className="w-2 h-2 rounded-full bg-secondary mt-2 shrink-0" />
               <div>
-                <h3 className="font-semibold text-text-primary mb-1">
+                <h3 className="font-semibold text-white mb-1">
                   {item.title}
                 </h3>
                 <p className="text-sm text-text-secondary">
@@ -118,21 +116,20 @@ export default function DocsIntroPage() {
       </section>
 
       {/* Tech Stack */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold text-text-primary mb-6">
+      <section className="mb-12">          <h2 className="text-2xl font-bold text-white mb-6">
           Tech Stack
         </h2>
         <div className="rounded-xl border border-border overflow-hidden">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-bg-alt border-b border-border">
-                <th className="text-left px-4 py-3 font-semibold text-text-primary">
+                <th className="text-left px-4 py-3 font-semibold text-white">
                   Component
                 </th>
-                <th className="text-left px-4 py-3 font-semibold text-text-primary">
+                <th className="text-left px-4 py-3 font-semibold text-white">
                   Technology
                 </th>
-                <th className="text-left px-4 py-3 font-semibold text-text-primary">
+                <th className="text-left px-4 py-3 font-semibold text-white">
                   Purpose
                 </th>
               </tr>
@@ -150,7 +147,7 @@ export default function DocsIntroPage() {
                 ["Authentication", "Kinde", "Login, register, RBAC, JWT sessions"],
               ].map(([component, tech, purpose]) => (
                 <tr key={component} className="border-b border-border last:border-0">
-                  <td className="px-4 py-3 font-medium text-text-primary">
+                  <td className="px-4 py-3 font-medium text-white">
                     {component}
                   </td>
                   <td className="px-4 py-3 text-secondary font-mono text-xs">
@@ -165,14 +162,12 @@ export default function DocsIntroPage() {
       </section>
 
       {/* Next Steps */}
-      <section>
-        <h2 className="text-2xl font-bold text-text-primary mb-6">
+      <section>          <h2 className="text-2xl font-bold text-white mb-6">
           Next Steps
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
-            href="/docs/quickstart"
-            className="flex items-center justify-between p-5 rounded-xl border border-border hover:border-secondary/30 hover:shadow-md transition-all group"
+            href="/docs/quickstart"              className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
           >
             <div>
               <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
@@ -185,8 +180,7 @@ export default function DocsIntroPage() {
             <ArrowRight className="w-4 h-4 text-text-muted group-hover:text-secondary transition-colors" />
           </Link>
           <Link
-            href="/docs/architecture"
-            className="flex items-center justify-between p-5 rounded-xl border border-border hover:border-secondary/30 hover:shadow-md transition-all group"
+            href="/docs/architecture"              className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
           >
             <div>
               <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
@@ -199,8 +193,7 @@ export default function DocsIntroPage() {
             <ArrowRight className="w-4 h-4 text-text-muted group-hover:text-secondary transition-colors" />
           </Link>
           <Link
-            href="/docs/guides/accepting-payments"
-            className="flex items-center justify-between p-5 rounded-xl border border-border hover:border-secondary/30 hover:shadow-md transition-all group"
+            href="/docs/guides/accepting-payments"              className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
           >
             <div>
               <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
@@ -213,8 +206,7 @@ export default function DocsIntroPage() {
             <ArrowRight className="w-4 h-4 text-text-muted group-hover:text-secondary transition-colors" />
           </Link>
           <Link
-            href="/docs/api"
-            className="flex items-center justify-between p-5 rounded-xl border border-border hover:border-secondary/30 hover:shadow-md transition-all group"
+            href="/docs/api"              className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
           >
             <div>
               <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">

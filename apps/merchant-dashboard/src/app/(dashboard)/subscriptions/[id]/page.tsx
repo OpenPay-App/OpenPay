@@ -24,12 +24,12 @@ import { useSandboxMode } from "@/lib/sandbox-mode";
 import type { Subscription } from "@/lib/types";
 
 const statusColors: Record<string, string> = {
-  active: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-  paused: "bg-amber-50 text-amber-700 border border-amber-200",
-  cancelled: "bg-red-50 text-red-700 border border-red-200",
-  trialing: "bg-blue-50 text-blue-700 border border-blue-200",
-  past_due: "bg-orange-50 text-orange-700 border border-orange-200",
-  incomplete: "bg-gray-50 text-gray-500 border border-gray-200",
+  active: "bg-emerald-950 text-emerald-400 border border-emerald-500/30",
+  paused: "bg-amber-950 text-amber-400 border border-amber-500/30",
+  cancelled: "bg-red-950 text-red-400 border border-red-500/30",
+  trialing: "bg-blue-950 text-blue-400 border border-blue-500/30",
+  past_due: "bg-orange-950 text-orange-400 border border-orange-500/30",
+  incomplete: "bg-gray-900 text-gray-400 border border-gray-700",
 };
 
 export default function SubscriptionDetailPage() {
@@ -81,7 +81,7 @@ export default function SubscriptionDetailPage() {
     return (
       <div className="space-y-4">
         <div className="h-8 w-48 bg-bg-alt rounded animate-pulse" />
-        <div className="h-64 bg-white rounded-xl border border-border animate-pulse" />
+        <div className="h-64 bg-[#0a0a0a] rounded-xl border border-border animate-pulse" />
       </div>
     );
   }
@@ -164,7 +164,7 @@ export default function SubscriptionDetailPage() {
               </button>
               <button
                 onClick={() => setShowConfirm("cancel")}
-                className="flex items-center gap-2 px-4 py-2 border border-red-200 rounded-lg text-sm text-red-600 hover:bg-red-50 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 border border-red-500/30 rounded-lg text-sm text-red-400 hover:bg-red-900/50 transition-colors"
               >
                 <XCircle className="w-4 h-4" />
                 Cancel
@@ -186,12 +186,12 @@ export default function SubscriptionDetailPage() {
 
       {/* Error Banner */}
       {error && sub && (
-        <div className="mb-6 flex items-center gap-2 px-4 py-3 rounded-xl border border-red-200 bg-red-50">
-          <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
-          <p className="text-sm text-red-700">{error}</p>
+        <div className="mb-6 flex items-center gap-2 px-4 py-3 rounded-xl border border-red-500/30 bg-red-950/50">
+          <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+          <p className="text-sm text-red-300">{error}</p>
           <button
             onClick={() => setError(null)}
-            className="ml-auto text-red-400 hover:text-red-600 transition-colors"
+            className="ml-auto text-red-500 hover:text-red-400 transition-colors"
           >
             <XCircle className="w-4 h-4" />
           </button>
@@ -200,8 +200,8 @@ export default function SubscriptionDetailPage() {
 
       {/* Confirm Modal */}
       {showConfirm && (
-        <div className="mb-6 p-5 rounded-xl border border-amber-300 bg-amber-50">
-          <p className="text-sm text-amber-800 font-medium mb-3">
+        <div className="mb-6 p-5 rounded-xl border border-amber-500/30 bg-amber-950/50">
+          <p className="text-sm text-amber-300 font-medium mb-3">
             {showConfirm === "pause"
               ? "Pause this subscription? The customer will lose access until resumed."
               : "Cancel this subscription? This action cannot be undone."}

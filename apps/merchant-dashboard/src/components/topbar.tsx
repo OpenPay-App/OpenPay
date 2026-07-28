@@ -31,12 +31,12 @@ export function Topbar() {
       {/* Production warning modal */}
       {showWarning && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white rounded-2xl p-6 max-w-md mx-4 shadow-2xl">
+          <div className="bg-[#0a0a0a] rounded-2xl p-6 max-w-md mx-4 shadow-2xl border border-border">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
-                <AlertTriangle className="w-5 h-5 text-red-600" />
+              <div className="w-10 h-10 rounded-full bg-red-950 flex items-center justify-center">
+                <AlertTriangle className="w-5 h-5 text-red-400" />
               </div>
-              <h3 className="text-lg font-semibold text-text-primary">
+              <h3 className="text-lg font-semibold text-white">
                 Switch to Production?
               </h3>
             </div>
@@ -49,7 +49,7 @@ export function Topbar() {
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowWarning(false)}
-                className="px-4 py-2 border border-border rounded-lg text-sm text-text-secondary hover:text-text-primary transition-colors"
+                className="px-4 py-2 border border-border rounded-lg text-sm text-text-secondary hover:text-white transition-colors"
               >
                 Cancel
               </button>
@@ -64,14 +64,13 @@ export function Topbar() {
         </div>
       )}
 
-      <header className="h-16 bg-white border-b border-border flex items-center justify-between px-8">
-        {/* Search */}
-        <div className="flex items-center gap-3 bg-bg-alt rounded-lg px-4 py-2 w-96">
+      <header className="h-16 bg-black border-b border-border flex items-center justify-between px-8">
+        {/* Search */}          <div className="flex items-center gap-3 bg-[#0a0a0a] rounded-lg px-4 py-2 w-96 border border-border">
           <Search className="w-4 h-4 text-text-muted" />
           <input
             type="text"
             placeholder="Search payments, customers..."
-            className="bg-transparent text-sm text-text-primary placeholder:text-text-muted outline-none w-full"
+            className="bg-transparent text-sm text-white placeholder:text-text-muted outline-none w-full"
           />
         </div>
 
@@ -94,7 +93,7 @@ export function Topbar() {
             {isSandbox ? "Sandbox" : "Production"}
           </button>
 
-          <button className="relative p-2 rounded-lg hover:bg-bg-alt transition-colors">
+          <button className="relative p-2 rounded-lg hover:bg-white/5 transition-colors">
             <Bell className="w-5 h-5 text-text-secondary" />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error" />
           </button>

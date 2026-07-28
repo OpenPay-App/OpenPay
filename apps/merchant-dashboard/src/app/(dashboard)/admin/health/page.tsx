@@ -52,15 +52,15 @@ export default function SystemHealthPage() {
   };
 
   const statusColor = (status: string) => {
-    if (status === "healthy" || status === "ok") return "bg-emerald-50 text-emerald-700 border border-emerald-200";
-    if (status === "degraded") return "bg-amber-50 text-amber-700 border border-amber-200";
-    return "bg-red-50 text-red-700 border border-red-200";
+    if (status === "healthy" || status === "ok") return "bg-emerald-950 text-emerald-400 border border-emerald-500/30";
+    if (status === "degraded") return "bg-amber-950 text-amber-400 border border-amber-500/30";
+    return "bg-red-950 text-red-400 border border-red-500/30";
   };
 
   const alertLevelColors: Record<string, string> = {
-    info: "bg-blue-50 text-blue-700",
-    warning: "bg-amber-50 text-amber-700",
-    critical: "bg-red-50 text-red-700",
+    info: "bg-blue-950 text-blue-400",
+    warning: "bg-amber-950 text-amber-400",
+    critical: "bg-red-950 text-red-400",
   };
 
   // Group health by category
@@ -115,20 +115,20 @@ export default function SystemHealthPage() {
 
       {/* Error Banner */}
       {error && (
-        <div className="p-4 rounded-xl border border-red-200 bg-red-50 mb-8">
+        <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/50 mb-8">
           <div className="flex items-center gap-3">
             <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0" />
             <div className="flex-1">
-              <p className="font-semibold text-red-700">
+              <p className="font-semibold text-red-300">
                 {error.includes("Cannot reach Hyperswitch")
                   ? "Cannot connect to Hyperswitch"
                   : "Error loading system health"}
               </p>
-              <p className="text-sm text-red-600 mt-0.5">{error}</p>
+              <p className="text-sm text-red-400 mt-0.5">{error}</p>
             </div>
             <button
               onClick={loadData}
-              className="flex items-center gap-2 px-3 py-1.5 border border-red-300 rounded-lg text-sm text-red-700 hover:bg-red-100 transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 border border-red-500/30 rounded-lg text-sm text-red-400 hover:bg-red-900/50 transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
               Retry
@@ -145,7 +145,7 @@ export default function SystemHealthPage() {
           ))}
         </div>
       ) : health.length === 0 ? (
-        <div className="p-12 rounded-xl border border-border bg-white text-center mb-8">
+        <div className="p-12 rounded-xl border border-border bg-[#0a0a0a] text-center mb-8">
           <Server className="w-10 h-10 text-text-muted mx-auto mb-3" />
           <p className="text-text-secondary font-medium">No services configured</p>
           <p className="text-sm text-text-muted mt-1">
@@ -162,7 +162,7 @@ export default function SystemHealthPage() {
               {services.map((service) => (
                 <div
                   key={service.service_name}
-                  className="p-5 rounded-xl border border-border bg-white"
+                  className="p-5 rounded-xl border border-border bg-[#0a0a0a]"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
@@ -218,7 +218,7 @@ export default function SystemHealthPage() {
       )}
 
       {/* Alert Logs */}
-      <div className="rounded-xl border border-border bg-white">
+      <div className="rounded-xl border border-border bg-[#0a0a0a]">
         <div className="p-4 border-b border-border">
           <h3 className="font-semibold text-text-primary">Recent Alerts</h3>
         </div>
@@ -237,7 +237,7 @@ export default function SystemHealthPage() {
                 <div className="flex items-center gap-3">
                   <span
                     className={`px-2 py-0.5 rounded text-xs font-medium ${
-                      alertLevelColors[alert.level] || "bg-gray-50 text-gray-500"
+                      alertLevelColors[alert.level] || "bg-gray-900 text-gray-400"
                     }`}
                   >
                     {alert.level}

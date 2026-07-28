@@ -14,9 +14,9 @@ import { getFraudRules, createFraudRule, updateFraudRule, deleteFraudRule } from
 import type { FraudRule } from "@/lib/types";
 
 const severityColors: Record<string, string> = {
-  low: "bg-blue-50 text-blue-700 border border-blue-200",
-  medium: "bg-amber-50 text-amber-700 border border-amber-200",
-  high: "bg-red-50 text-red-700 border border-red-200",
+  low: "bg-blue-950 text-blue-400 border border-blue-500/30",
+  medium: "bg-amber-950 text-amber-400 border border-amber-500/30",
+  high: "bg-red-950 text-red-400 border border-red-500/30",
 };
 
 export default function FraudRulesPage() {
@@ -113,10 +113,10 @@ export default function FraudRulesPage() {
       </div>
 
       {error && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
+        <div className="mb-6 p-4 rounded-xl bg-red-950/50 border border-red-500/30 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5 shrink-0" />
           <div className="flex-1">
-            <p className="text-sm font-medium text-red-800">
+            <p className="text-sm font-medium text-red-300">
               {error.includes("Cannot reach Hyperswitch")
                 ? "Cannot connect to Hyperswitch"
                 : error}
@@ -124,7 +124,7 @@ export default function FraudRulesPage() {
           </div>
           <button
             onClick={loadRules}
-            className="px-3 py-1.5 text-xs font-medium bg-white border border-red-200 rounded-lg text-red-700 hover:bg-red-100 transition-colors shrink-0"
+            className="px-3 py-1.5 text-xs font-medium bg-red-950 border border-red-500/30 rounded-lg text-red-400 hover:bg-red-900/50 transition-colors shrink-0"
           >
             Retry
           </button>
@@ -133,7 +133,7 @@ export default function FraudRulesPage() {
 
       {/* Create Form */}
       {showCreate && (
-        <div className="mb-6 p-5 rounded-xl border border-secondary/30 bg-white">
+        <div className="mb-6 p-5 rounded-xl border border-secondary/30 bg-[#0a0a0a]">
           <h3 className="font-semibold text-text-primary mb-4">Create New Rule</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -224,7 +224,7 @@ export default function FraudRulesPage() {
       )}
 
       {/* Rules List */}
-      <div className="rounded-xl border border-border bg-white">
+      <div className="rounded-xl border border-border bg-[#0a0a0a]">
         <div className="p-4 border-b border-border">
           <h3 className="font-semibold text-text-primary">Active Rules</h3>
         </div>
@@ -257,7 +257,7 @@ export default function FraudRulesPage() {
                         {rule.severity}
                       </span>
                       {!rule.enabled && (
-                        <span className="px-2 py-0.5 rounded text-xs bg-gray-100 text-gray-500">
+                        <span className="px-2 py-0.5 rounded text-xs bg-gray-900 text-gray-400">
                           Disabled
                         </span>
                       )}

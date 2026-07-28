@@ -88,13 +88,13 @@ export default function WebhooksPage() {
   const statusColor = (status?: string) => {
     switch (status) {
       case "active":
-        return "bg-emerald-50 text-emerald-700";
+        return "bg-emerald-950 text-emerald-400 border border-emerald-500/30";
       case "failing":
-        return "bg-red-50 text-red-700";
+        return "bg-red-950/50 text-red-700";
       case "disabled":
-        return "bg-gray-50 text-gray-500";
+        return "bg-gray-900 text-gray-400 border border-gray-700";
       default:
-        return "bg-gray-50 text-gray-500";
+        return "bg-gray-900 text-gray-400 border border-gray-700";
     }
   };
 
@@ -102,7 +102,7 @@ export default function WebhooksPage() {
     <div>
       {/* Error Banner */}
       {error && (
-        <div className="mb-6 p-4 rounded-xl border border-red-200 bg-red-50 flex items-start gap-3">
+        <div className="mb-6 p-4 rounded-xl border border-red-200 bg-red-950/50 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 shrink-0" />
           <div className="flex-1">
             <p className="text-sm font-medium text-red-800">
@@ -162,7 +162,7 @@ export default function WebhooksPage() {
                 {availableEvents.map((event) => (
                   <label
                     key={event}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-white text-sm cursor-pointer hover:border-secondary/30 transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-[#0a0a0a] text-sm cursor-pointer hover:border-secondary/30 transition-colors"
                   >
                     <input
                       type="checkbox"
@@ -202,11 +202,11 @@ export default function WebhooksPage() {
       {loading ? (
         <div className="space-y-3">
           {[1, 2].map((i) => (
-            <div key={i} className="h-20 rounded-xl bg-white border border-border animate-pulse" />
+            <div key={i} className="h-20 rounded-xl bg-[#0a0a0a] border border-border animate-pulse" />
           ))}
         </div>
       ) : webhooks.length === 0 ? (
-        <div className="text-center py-16 rounded-xl border border-border bg-white">
+        <div className="text-center py-16 rounded-xl border border-border bg-[#0a0a0a]">
           <Webhook className="w-10 h-10 text-text-muted mx-auto mb-3" />
           <p className="text-text-secondary">No webhook endpoints configured</p>
           <p className="text-sm text-text-muted mt-1">
@@ -218,11 +218,11 @@ export default function WebhooksPage() {
           {webhooks.map((wh) => (
             <div
               key={wh.webhook_id}
-              className="p-4 rounded-xl border border-border bg-white"
+              className="p-4 rounded-xl border border-border bg-[#0a0a0a]"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-secondary-light flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0 mt-0.5">
                     <Webhook className="w-5 h-5 text-secondary" />
                   </div>
                   <div>
@@ -263,7 +263,7 @@ export default function WebhooksPage() {
                   </button>
                   <button
                     onClick={() => handleDelete(wh.webhook_id)}
-                    className="p-1.5 rounded-lg text-text-muted hover:text-red-500 hover:bg-red-50 transition-colors"
+                    className="p-1.5 rounded-lg text-text-muted hover:text-red-500 hover:bg-red-950/50 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

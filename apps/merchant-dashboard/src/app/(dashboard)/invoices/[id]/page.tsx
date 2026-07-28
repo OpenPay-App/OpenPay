@@ -10,12 +10,12 @@ import { useSandboxMode } from "@/lib/sandbox-mode";
 import type { Invoice } from "@/lib/types";
 
 const statusColors: Record<string, string> = {
-  draft: "bg-gray-50 text-gray-500 border border-gray-200",
-  pending: "bg-amber-50 text-amber-700 border border-amber-200",
-  paid: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-  overdue: "bg-red-50 text-red-700 border border-red-200",
-  void: "bg-gray-50 text-gray-400 border border-gray-200",
-  uncollectible: "bg-red-50 text-red-700 border border-red-200",
+  draft: "bg-gray-900 text-gray-400 border border-gray-700",
+  pending: "bg-amber-950 text-amber-400 border border-amber-500/30",
+  paid: "bg-emerald-950 text-emerald-400 border border-emerald-500/30",
+  overdue: "bg-red-950 text-red-400 border border-red-500/30",
+  void: "bg-gray-900 text-gray-500 border border-gray-700",
+  uncollectible: "bg-red-950 text-red-400 border border-red-500/30",
 };
 
 export default function InvoiceDetailPage() {
@@ -115,7 +115,7 @@ export default function InvoiceDetailPage() {
         {/* Invoice Details */}
         <div className="lg:col-span-2 space-y-6">
           {/* Line Items */}
-          <div className="rounded-xl border border-border bg-white overflow-hidden">
+          <div className="rounded-xl border border-border bg-[#0a0a0a] overflow-hidden">
             <div className="p-4 border-b border-border bg-bg-alt">
               <h3 className="font-semibold text-text-primary text-sm">
                 Line Items

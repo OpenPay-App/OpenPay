@@ -75,7 +75,7 @@ export default function AnalyticsPage() {
         <select
           value={days}
           onChange={(e) => setDays(Number(e.target.value))}
-          className="px-3 py-2 border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+          className="px-3 py-2 border border-border rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
         >
           <option value={7}>Last 7 days</option>
           <option value={30}>Last 30 days</option>
@@ -86,12 +86,12 @@ export default function AnalyticsPage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="p-5 rounded-xl border border-border bg-white">
+        <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center justify-between mb-2">
             <p className="text-sm text-text-secondary">Total Revenue</p>
             <DollarSign className="w-5 h-5 text-secondary" />
           </div>
-          <p className="text-2xl font-bold text-text-primary">
+          <p className="text-2xl font-bold text-white">
             {formatCurrency(totalRevenue)}
           </p>
           <div className="flex items-center gap-1 mt-1">
@@ -99,12 +99,12 @@ export default function AnalyticsPage() {
             <span className="text-xs text-emerald-600">Gross revenue</span>
           </div>
         </div>
-        <div className="p-5 rounded-xl border border-border bg-white">
+        <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center justify-between mb-2">
             <p className="text-sm text-text-secondary">Refunds</p>
             <TrendingDown className="w-5 h-5 text-red-500" />
           </div>
-          <p className="text-2xl font-bold text-text-primary">
+          <p className="text-2xl font-bold text-white">
             {formatCurrency(totalRefunds)}
           </p>
           <div className="flex items-center gap-1 mt-1">
@@ -116,12 +116,12 @@ export default function AnalyticsPage() {
             </span>
           </div>
         </div>
-        <div className="p-5 rounded-xl border border-border bg-white">
+        <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center justify-between mb-2">
             <p className="text-sm text-text-secondary">Net Revenue</p>
             <BarChart3 className="w-5 h-5 text-secondary" />
           </div>
-          <p className="text-2xl font-bold text-text-primary">
+          <p className="text-2xl font-bold text-white">
             {formatCurrency(netRevenue)}
           </p>
           <div className="flex items-center gap-1 mt-1">
@@ -133,8 +133,8 @@ export default function AnalyticsPage() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Revenue Chart */}
-        <div className="lg:col-span-2 p-5 rounded-xl border border-border bg-white">
-          <h3 className="font-semibold text-text-primary mb-4">
+        <div className="lg:col-span-2 p-5 rounded-xl border border-border bg-[#0a0a0a]">
+          <h3 className="font-semibold text-white mb-4">
             Revenue Over Time
           </h3>
           {loading ? (
@@ -171,8 +171,8 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Top Customers */}
-        <div className="p-5 rounded-xl border border-border bg-white">
-          <h3 className="font-semibold text-text-primary mb-4">
+        <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
+          <h3 className="font-semibold text-white mb-4">
             Top Customers
           </h3>
           {loading ? (
@@ -191,14 +191,14 @@ export default function AnalyticsPage() {
                 <Link
                   key={c.customer_id}
                   href={`/customers/${c.customer_id}`}
-                  className="flex items-center justify-between p-3 rounded-lg hover:bg-bg-alt transition-colors"
+                  className="flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-xs text-text-muted w-4">
                       {i + 1}.
                     </span>
                     <div>
-                      <p className="text-sm font-medium text-text-primary">
+                      <p className="text-sm font-medium text-white">
                         {c.name || c.email || c.customer_id}
                       </p>
                       <p className="text-xs text-text-muted">
@@ -206,7 +206,7 @@ export default function AnalyticsPage() {
                       </p>
                     </div>
                   </div>
-                  <span className="text-sm font-medium text-text-primary">
+                  <span className="text-sm font-medium text-white">
                     {formatCurrency(c.total_spent)}
                   </span>
                 </Link>
@@ -220,10 +220,10 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Link
           href="/analytics/revenue"
-          className="flex items-center justify-between p-5 rounded-xl border border-border bg-white hover:border-secondary/30 hover:shadow-md transition-all group"
+          className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
         >
           <div>
-            <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
+            <h3 className="font-semibold text-white group-hover:text-secondary transition-colors">
               Revenue Details
             </h3>
             <p className="text-sm text-text-secondary mt-1">
@@ -234,10 +234,10 @@ export default function AnalyticsPage() {
         </Link>
         <Link
           href="/analytics/customers"
-          className="flex items-center justify-between p-5 rounded-xl border border-border bg-white hover:border-secondary/30 hover:shadow-md transition-all group"
+          className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
         >
           <div>
-            <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
+            <h3 className="font-semibold text-white group-hover:text-secondary transition-colors">
               Customer Metrics
             </h3>
             <p className="text-sm text-text-secondary mt-1">
@@ -248,10 +248,10 @@ export default function AnalyticsPage() {
         </Link>
         <Link
           href="/analytics/payments"
-          className="flex items-center justify-between p-5 rounded-xl border border-border bg-white hover:border-secondary/30 hover:shadow-md transition-all group"
+          className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
         >
           <div>
-            <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
+            <h3 className="font-semibold text-white group-hover:text-secondary transition-colors">
               Payment Analytics
             </h3>
             <p className="text-sm text-text-secondary mt-1">

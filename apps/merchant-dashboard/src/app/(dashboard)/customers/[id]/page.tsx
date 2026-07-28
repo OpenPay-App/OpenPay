@@ -96,9 +96,9 @@ export default function CustomerDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Profile */}
-        <div className="bg-white rounded-xl border border-border p-6">
+        <div className="bg-[#0a0a0a] rounded-xl border border-border p-6">
           <div className="text-center">
-            <div className="w-16 h-16 rounded-full bg-secondary-light flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-4">
               <Users className="w-8 h-8 text-secondary" />
             </div>
             <h1 className="text-xl font-semibold text-text-primary">
@@ -131,7 +131,7 @@ export default function CustomerDetailPage() {
 
         {/* Tabs */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-xl border border-border">
+          <div className="bg-[#0a0a0a] rounded-xl border border-border">
             <div className="flex border-b border-border">
               {tabs.map((tab) => (
                 <button

@@ -12,7 +12,7 @@ export default function DashboardLayout({
   return (
     <SandboxModeProvider>
       <BusinessProfileProvider>
-        <div className="min-h-screen bg-bg-alt">
+        <div className="min-h-screen bg-surface">
           <Sidebar />
           <div className="ml-64">
             <Topbar />

@@ -65,7 +65,7 @@ export default function CustomerAnalyticsPage() {
     <div>
       <Link
         href="/analytics"
-        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary mb-4 transition-colors"
+        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-white mb-4 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Analytics
@@ -73,11 +73,11 @@ export default function CustomerAnalyticsPage() {
 
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-semibold text-text-primary">Customer Metrics</h1>
+          <h1 className="text-2xl font-semibold text-white">Customer Metrics</h1>
           <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
             isSandbox
-              ? "bg-amber-50 border-amber-300 text-amber-700"
-              : "bg-emerald-50 border-emerald-300 text-emerald-700"
+              ? "bg-amber-950 border-amber-500/30 text-amber-400"
+              : "bg-emerald-950 border-emerald-500/30 text-emerald-400"
           }`}>
             {isSandbox ? "Sandbox" : "Production"}
           </span>
@@ -85,7 +85,7 @@ export default function CustomerAnalyticsPage() {
         <select
           value={days}
           onChange={(e) => setDays(Number(e.target.value))}
-          className="px-3 py-2 border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+          className="px-3 py-2 border border-border rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
         >
           <option value={7}>Last 7 days</option>
           <option value={30}>Last 30 days</option>
@@ -95,12 +95,12 @@ export default function CustomerAnalyticsPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <Users className="w-4 h-4 text-secondary" />
             <p className="text-xs text-text-secondary">New Customers</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">{totalNew}</p>
+          <p className="text-xl font-bold text-white">{totalNew}</p>
           <div className="flex items-center gap-1 mt-1">
             <TrendingUp className="w-3 h-3 text-emerald-500" />
             <span className="text-xs text-emerald-600">
@@ -108,36 +108,36 @@ export default function CustomerAnalyticsPage() {
             </span>
           </div>
         </div>
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <TrendingDown className="w-4 h-4 text-red-500" />
             <p className="text-xs text-text-secondary">Churned</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">{totalChurned}</p>
+          <p className="text-xl font-bold text-white">{totalChurned}</p>
           <div className="flex items-center gap-1 mt-1">
             <span className="text-xs text-text-muted">
               {avgChurn.toFixed(1)}% avg churn
             </span>
           </div>
         </div>
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <DollarSign className="w-4 h-4 text-emerald-500" />
             <p className="text-xs text-text-secondary">Avg. LTV</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">
+          <p className="text-xl font-bold text-white">
             {formatCurrency(avgLtv)}
           </p>
           <div className="flex items-center gap-1 mt-1">
             <span className="text-xs text-text-muted">Per customer</span>
           </div>
         </div>
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <Users className="w-4 h-4 text-blue-500" />
             <p className="text-xs text-text-secondary">Net Growth</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">
+          <p className="text-xl font-bold text-white">
             {totalNew - totalChurned}
           </p>
           <div className="flex items-center gap-1 mt-1">
@@ -147,8 +147,8 @@ export default function CustomerAnalyticsPage() {
       </div>
 
       {/* Customer Growth Chart */}
-      <div className="p-5 rounded-xl border border-border bg-white mb-8">
-        <h3 className="font-semibold text-text-primary mb-4">Customer Growth</h3>
+      <div className="p-5 rounded-xl border border-border bg-[#0a0a0a] mb-8">
+        <h3 className="font-semibold text-white mb-4">Customer Growth</h3>
         {loading ? (
           <div className="h-64 bg-bg-alt rounded-lg animate-pulse" />
         ) : metrics.length === 0 ? (
@@ -202,9 +202,9 @@ export default function CustomerAnalyticsPage() {
       </div>
 
       {/* Top Customers Table */}
-      <div className="rounded-xl border border-border bg-white">
+      <div className="rounded-xl border border-border bg-[#0a0a0a]">
         <div className="p-4 border-b border-border">
-          <h3 className="font-semibold text-text-primary">Top Customers by Revenue</h3>
+          <h3 className="font-semibold text-white">Top Customers by Revenue</h3>
         </div>
         <table className="w-full text-sm">
           <thead>
@@ -237,13 +237,13 @@ export default function CustomerAnalyticsPage() {
                   <td className="px-4 py-3">
                     <Link
                       href={`/customers/${c.customer_id}`}
-                      className="text-text-primary hover:text-secondary transition-colors"
+                      className="text-white hover:text-secondary transition-colors"
                     >
                       {c.name || c.email || c.customer_id}
                     </Link>
                   </td>
                   <td className="px-4 py-3 text-center text-text-secondary">{c.payment_count}</td>
-                  <td className="px-4 py-3 text-right font-medium text-text-primary">
+                  <td className="px-4 py-3 text-right font-medium text-white">
                     {formatCurrency(c.total_spent)}
                   </td>
                 </tr>

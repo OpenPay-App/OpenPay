@@ -78,11 +78,11 @@ export default function PaymentMethodsPage() {
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-20 rounded-xl bg-white border border-border animate-pulse" />
+            <div key={i} className="h-20 rounded-xl bg-[#0a0a0a] border border-border animate-pulse" />
           ))}
         </div>
       ) : connectors.length === 0 ? (
-        <div className="text-center py-16 rounded-xl border border-border bg-white">
+        <div className="text-center py-16 rounded-xl border border-border bg-[#0a0a0a]">
           <CreditCard className="w-10 h-10 text-text-muted mx-auto mb-3" />
           <p className="text-text-secondary">No connectors configured</p>
           <p className="text-sm text-text-muted mt-1 mb-4">
@@ -103,7 +103,7 @@ export default function PaymentMethodsPage() {
           {connectors.map((connector) => (
             <div
               key={connector.connector_id}
-              className="flex items-center justify-between p-4 rounded-xl border border-border bg-white"
+              className="flex items-center justify-between p-4 rounded-xl border border-border bg-[#0a0a0a]"
             >
               <div className="flex items-center gap-4">
                 <div

@@ -12,11 +12,11 @@ import { getFraudCases, updateFraudCase } from "@/lib/hyperswitch";
 import type { FraudCase } from "@/lib/types";
 
 const statusColors: Record<string, string> = {
-  open: "bg-blue-50 text-blue-700 border border-blue-200",
-  investigating: "bg-amber-50 text-amber-700 border border-amber-200",
-  resolved_legitimate: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-  resolved_fraudulent: "bg-red-50 text-red-700 border border-red-200",
-  closed: "bg-gray-50 text-gray-500 border border-gray-200",
+  open: "bg-blue-950 text-blue-400 border border-blue-500/30",
+  investigating: "bg-amber-950 text-amber-400 border border-amber-500/30",
+  resolved_legitimate: "bg-emerald-950 text-emerald-400 border border-emerald-500/30",
+  resolved_fraudulent: "bg-red-950 text-red-400 border border-red-500/30",
+  closed: "bg-gray-900 text-gray-400 border border-gray-700",
 };
 
 export default function CasesPage() {
@@ -79,10 +79,10 @@ export default function CasesPage() {
       </div>
 
       {error && (
-        <div className="mb-4 p-4 rounded-lg bg-red-50 border border-red-200 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+        <div className="mb-4 p-4 rounded-lg bg-red-950/50 border border-red-500/30 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
           <div className="flex-1">
-            <p className="text-sm font-medium text-red-800">
+            <p className="text-sm font-medium text-red-300">
               {error.includes("Cannot reach Hyperswitch")
                 ? "Cannot connect to Hyperswitch"
                 : error}
@@ -90,14 +90,14 @@ export default function CasesPage() {
           </div>
           <button
             onClick={loadCases}
-            className="px-3 py-1 text-xs font-medium text-red-700 bg-red-100 border border-red-300 rounded hover:bg-red-200 transition-colors flex-shrink-0"
+            className="px-3 py-1 text-xs font-medium text-red-400 bg-red-950 border border-red-500/30 rounded hover:bg-red-900/50 transition-colors flex-shrink-0"
           >
             Retry
           </button>
         </div>
       )}
 
-      <div className="rounded-xl border border-border bg-white">
+      <div className="rounded-xl border border-border bg-[#0a0a0a]">
         {loading ? (
           <div className="p-6 space-y-3">
             {[1, 2, 3].map((i) => (

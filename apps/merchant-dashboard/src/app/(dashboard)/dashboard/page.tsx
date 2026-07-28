@@ -23,16 +23,16 @@ interface Stats {
 
 function statusBadge(status: string) {
   const styles: Record<string, string> = {
-    succeeded: "bg-emerald-50 text-emerald-700",
-    failed: "bg-red-50 text-red-700",
-    pending: "bg-amber-50 text-amber-700",
-    processing: "bg-blue-50 text-blue-700",
-    cancelled: "bg-gray-100 text-gray-600",
-    refunded: "bg-purple-50 text-purple-700",
+    succeeded: "bg-emerald-950 text-emerald-400 border border-emerald-500/30",
+    failed: "bg-red-950 text-red-400 border border-red-500/30",
+    pending: "bg-amber-950 text-amber-400 border border-amber-500/30",
+    processing: "bg-blue-950 text-blue-400 border border-blue-500/30",
+    cancelled: "bg-gray-900 text-gray-400 border border-gray-700",
+    refunded: "bg-purple-950 text-purple-400 border border-purple-500/30",
   };
   return (
     <span
-      className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || "bg-gray-100 text-gray-600"}`}
+      className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || "bg-gray-900 text-gray-400 border border-gray-700"}`}
     >
       {status}
     </span>
@@ -81,8 +81,8 @@ export default function DashboardPage() {
       label: "Total Revenue",
       value: formatCurrency(data.totalRevenue, currency),
       icon: DollarSign,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
+      color: "text-emerald-400",
+      bg: "bg-emerald-950",
     },
     {
       label: "Successful Payments",
@@ -96,7 +96,7 @@ export default function DashboardPage() {
       value: String(data.failed),
       icon: AlertTriangle,
       color: "text-error",
-      bg: "bg-red-50",
+      bg: "bg-red-950",
     },
     {
       label: "Active Customers",
@@ -112,7 +112,7 @@ export default function DashboardPage() {
       <div className="mb-8 flex items-center gap-3">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-semibold text-text-primary">Dashboard</h1>
+            <h1 className="text-2xl font-semibold text-white">Dashboard</h1>
             <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
               isSandbox
                 ? "bg-amber-50 border-amber-300 text-amber-700"
@@ -132,7 +132,7 @@ export default function DashboardPage() {
         {kpis.map((stat) => (
           <div
             key={stat.label}
-            className="bg-white rounded-xl border border-border p-6"
+            className="bg-[#0a0a0a] rounded-xl border border-border p-6"
           >
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-medium text-text-secondary">
@@ -144,7 +144,7 @@ export default function DashboardPage() {
                 <stat.icon className={`w-5 h-5 ${stat.color}`} />
               </div>
             </div>
-            <div className="text-3xl font-bold text-text-primary">
+            <div className="text-3xl font-bold text-white">
               {stat.value}
             </div>
           </div>
@@ -157,9 +157,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Transactions */}
-      <div className="bg-white rounded-xl border border-border">
+      <div className="bg-[#0a0a0a] rounded-xl border border-border">
         <div className="px-6 py-4 border-b border-border">
-          <h2 className="font-semibold text-text-primary">
+          <h2 className="font-semibold text-white">
             Recent Transactions
           </h2>
         </div>

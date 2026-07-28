@@ -9,12 +9,12 @@ import { useSandboxMode } from "@/lib/sandbox-mode";
 import type { Subscription, SubscriptionStatus } from "@/lib/types";
 
 const statusColors: Record<SubscriptionStatus, string> = {
-  active: "bg-emerald-50 text-emerald-700",
-  paused: "bg-amber-50 text-amber-700",
-  cancelled: "bg-red-50 text-red-700",
-  trialing: "bg-blue-50 text-blue-700",
-  past_due: "bg-orange-50 text-orange-700",
-  incomplete: "bg-gray-50 text-gray-500",
+  active: "bg-emerald-950 text-emerald-400 border border-emerald-500/30",
+  paused: "bg-amber-950 text-amber-400 border border-amber-500/30",
+  cancelled: "bg-red-950 text-red-400 border border-red-500/30",
+  trialing: "bg-blue-950 text-blue-400 border border-blue-500/30",
+  past_due: "bg-orange-950 text-orange-400 border border-orange-500/30",
+  incomplete: "bg-gray-900 text-gray-400 border border-gray-700",
 };
 
 export default function SubscriptionsPage() {
@@ -59,8 +59,8 @@ export default function SubscriptionsPage() {
           </p>
           <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
             isSandbox
-              ? "bg-amber-50 border-amber-300 text-amber-700"
-              : "bg-emerald-50 border-emerald-300 text-emerald-700"
+              ? "bg-amber-950 border-amber-500/30 text-amber-400"
+              : "bg-emerald-950 border-emerald-500/30 text-emerald-400"
           }`}>
             {isSandbox ? "Sandbox" : "Production"}
           </span>
@@ -69,7 +69,7 @@ export default function SubscriptionsPage() {
           onClick={() => {
             alert("Create Subscription coming soon!");
           }}
-          className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-hover transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-secondary to-accent text-white rounded-lg text-sm font-medium hover:opacity-90 transition-all hover:scale-105"
         >
           <Plus className="w-4 h-4" />
           Create Subscription
@@ -103,16 +103,16 @@ export default function SubscriptionsPage() {
       </div>
 
       {error && (
-        <div className="flex items-center gap-3 px-4 py-3 mb-6 rounded-lg bg-red-50 border border-red-200">
-          <AlertTriangle className="w-5 h-5 text-red-600 shrink-0" />
-          <p className="flex-1 text-sm text-red-800">
+        <div className="flex items-center gap-3 px-4 py-3 mb-6 rounded-lg bg-red-950/50 border border-red-500/30">
+          <AlertTriangle className="w-5 h-5 text-red-400 shrink-0" />
+          <p className="flex-1 text-sm text-red-300">
             {error.includes("Cannot reach Hyperswitch")
               ? "Cannot connect to Hyperswitch"
               : error}
           </p>
           <button
             onClick={loadSubscriptions}
-            className="px-3 py-1 text-sm font-medium text-red-700 bg-white border border-red-300 rounded-lg hover:bg-red-50 transition-colors"
+            className="px-3 py-1 text-sm font-medium text-red-400 bg-red-950 border border-red-500/30 rounded-lg hover:bg-red-900/50 transition-colors"
           >
             Retry
           </button>
@@ -120,7 +120,7 @@ export default function SubscriptionsPage() {
       )}
 
       {/* Table */}
-      <div className="rounded-xl border border-border bg-white overflow-hidden">
+      <div className="rounded-xl border border-border bg-[#0a0a0a] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -179,7 +179,7 @@ export default function SubscriptionsPage() {
                         href={`/customers/${sub.customer_id}`}
                         className="hover:text-secondary transition-colors"
                       >
-                        <p className="font-medium text-text-primary">
+                        <p className="font-medium text-white">
                           {sub.customer_name || sub.customer_email || sub.customer_id}
                         </p>
                         {sub.customer_email && sub.customer_name && (

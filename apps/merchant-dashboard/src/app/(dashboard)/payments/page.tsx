@@ -80,15 +80,15 @@ export default function PaymentsPage() {
       </div>
 
       {/* Filters bar */}
-      <div className="bg-white rounded-xl border border-border p-4 mb-6 flex flex-wrap items-center gap-4">
-        <div className="flex items-center gap-2 bg-bg-alt rounded-lg px-3 py-2 flex-1 min-w-[200px] max-w-sm">
+      <div className="bg-[#0a0a0a] rounded-xl border border-border p-4 mb-6 flex flex-wrap items-center gap-4">
+        <div className="flex items-center gap-2 bg-black rounded-lg px-3 py-2 flex-1 min-w-[200px] max-w-sm border border-border">
           <Search className="w-4 h-4 text-text-muted" />
           <input
             type="text"
             placeholder="Search by ID or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="bg-transparent text-sm text-text-primary placeholder:text-text-muted outline-none w-full"
+            className="bg-transparent text-sm text-white placeholder:text-text-muted outline-none w-full"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -116,7 +116,7 @@ export default function PaymentsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl border border-border">
+      <div className="bg-[#0a0a0a] rounded-xl border border-border">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -162,7 +162,7 @@ export default function PaymentsPage() {
                 filtered.map((p) => (
                   <tr
                     key={p.payment_id}
-                    className="border-b border-border last:border-0 hover:bg-bg-alt/50 transition-colors"
+                    className="border-b border-border last:border-0 hover:bg-white/5 transition-colors"
                   >
                     <td className="px-6 py-4">
                       <a

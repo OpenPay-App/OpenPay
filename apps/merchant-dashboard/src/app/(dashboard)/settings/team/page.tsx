@@ -46,13 +46,13 @@ export default function TeamPage() {
       </div>
 
       {/* Roles Legend */}
-      <div className="mb-6 p-4 rounded-xl border border-border bg-white">
+      <div className="mb-6 p-4 rounded-xl border border-border bg-[#0a0a0a]">
         <h3 className="text-sm font-medium text-text-primary mb-3">
           Role Permissions
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-lg bg-secondary-light flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0">
               <Shield className="w-4 h-4 text-secondary" />
             </div>
             <div>
@@ -82,7 +82,7 @@ export default function TeamPage() {
       {loading ? (
         <div className="space-y-3">
           {[1, 2].map((i) => (
-            <div key={i} className="h-16 rounded-xl bg-white border border-border animate-pulse" />
+            <div key={i} className="h-16 rounded-xl bg-[#0a0a0a] border border-border animate-pulse" />
           ))}
         </div>
       ) : (
@@ -90,10 +90,10 @@ export default function TeamPage() {
           {members.map((member) => (
             <div
               key={member.member_id}
-              className="flex items-center justify-between p-4 rounded-xl border border-border bg-white"
+              className="flex items-center justify-between p-4 rounded-xl border border-border bg-[#0a0a0a]"
             >
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-secondary-light flex items-center justify-center text-secondary font-semibold text-sm">
+                <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary font-semibold text-sm">
                   {member.name
                     .split(" ")
                     .map((n) => n[0])
@@ -111,7 +111,7 @@ export default function TeamPage() {
                 <span
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium ${
                     member.role === "admin"
-                      ? "bg-secondary-light text-secondary"
+                      ? "bg-secondary/10 text-secondary"
                       : "bg-bg-alt text-text-secondary"
                   }`}
                 >

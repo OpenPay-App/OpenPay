@@ -9,12 +9,12 @@ import { useSandboxMode } from "@/lib/sandbox-mode";
 import type { Invoice, InvoiceStatus } from "@/lib/types";
 
 const statusColors: Record<InvoiceStatus, string> = {
-  draft: "bg-gray-50 text-gray-500",
-  pending: "bg-amber-50 text-amber-700",
-  paid: "bg-emerald-50 text-emerald-700",
-  overdue: "bg-red-50 text-red-700",
-  void: "bg-gray-50 text-gray-400",
-  uncollectible: "bg-red-50 text-red-700",
+  draft: "bg-gray-900 text-gray-400",
+  pending: "bg-amber-950 text-amber-400",
+  paid: "bg-emerald-950 text-emerald-400",
+  overdue: "bg-red-950 text-red-400",
+  void: "bg-gray-900 text-gray-500",
+  uncollectible: "bg-red-950 text-red-400",
 };
 
 export default function InvoicesPage() {
@@ -108,7 +108,7 @@ export default function InvoicesPage() {
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border border-border bg-white overflow-hidden">
+      <div className="rounded-xl border border-border bg-[#0a0a0a] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -200,7 +200,7 @@ export default function InvoicesPage() {
                       {inv.status === "overdue" && (
                         <button
                           onClick={() => handleSendReminder(inv.invoice_id)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-secondary border border-secondary/30 rounded-lg hover:bg-secondary-light transition-colors"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-secondary border border-secondary/30 rounded-lg hover:bg-secondary/10 transition-colors"
                         >
                           <Send className="w-3 h-3" />
                           Remind

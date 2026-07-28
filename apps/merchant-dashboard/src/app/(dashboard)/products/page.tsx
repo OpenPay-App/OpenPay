@@ -123,8 +123,8 @@ export default function ProductsPage() {
           </p>
           <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
             isSandbox
-              ? "bg-amber-50 border-amber-300 text-amber-700"
-              : "bg-emerald-50 border-emerald-300 text-emerald-700"
+              ? "bg-amber-950 border-amber-500/30 text-amber-400"
+              : "bg-emerald-950 border-emerald-500/30 text-emerald-400"
           }`}>
             {isSandbox ? "Sandbox" : "Production"}
           </span>
@@ -140,7 +140,7 @@ export default function ProductsPage() {
 
       {/* Connection Error Banner */}
       {error && (
-        <div className="mb-6 p-4 rounded-xl border border-red-200 bg-red-50">
+        <div className="mb-6 p-4 rounded-xl border border-red-200 bg-red-950/50">
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
             <div className="flex-1">
@@ -152,7 +152,7 @@ export default function ProductsPage() {
             </div>
             <button
               onClick={loadData}
-              className="px-3 py-1.5 text-sm font-medium text-red-700 bg-white border border-red-200 rounded-lg hover:bg-red-100 transition-colors shrink-0"
+              className="px-3 py-1.5 text-sm font-medium text-red-700 bg-[#0a0a0a] border border-red-200 rounded-lg hover:bg-red-100 transition-colors shrink-0"
             >
               Retry
             </button>
@@ -162,7 +162,7 @@ export default function ProductsPage() {
 
       {/* Inline Action Error */}
       {actionError && (
-        <div className="mb-4 p-3 rounded-lg border border-red-200 bg-red-50">
+        <div className="mb-4 p-3 rounded-lg border border-red-200 bg-red-950/50">
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
             <p className="text-sm text-red-700 flex-1">
@@ -338,11 +338,11 @@ export default function ProductsPage() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2].map((i) => (
-            <div key={i} className="h-32 rounded-xl bg-white border border-border animate-pulse" />
+            <div key={i} className="h-32 rounded-xl bg-[#0a0a0a] border border-border animate-pulse" />
           ))}
         </div>
       ) : products.length === 0 && !error ? (
-        <div className="text-center py-16 rounded-xl border border-border bg-white">
+        <div className="text-center py-16 rounded-xl border border-border bg-[#0a0a0a]">
           <Package className="w-10 h-10 text-text-muted mx-auto mb-3" />
           <p className="text-text-secondary">{isSandbox ? "No sandbox products yet" : "No products yet"}</p>
           <p className="text-sm text-text-muted mt-1">
@@ -358,11 +358,11 @@ export default function ProductsPage() {
             return (
               <div
                 key={product.product_id}
-                className="p-5 rounded-xl border border-border bg-white"
+                className="p-5 rounded-xl border border-border bg-[#0a0a0a]"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-secondary-light flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0">
                       <Package className="w-5 h-5 text-secondary" />
                     </div>
                     <div>
@@ -375,7 +375,7 @@ export default function ProductsPage() {
                         </p>
                       )}
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-xs font-medium">
+                        <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 text-xs font-medium border border-emerald-500/30">
                           Active
                         </span>
                         <span className="text-xs text-text-muted">
@@ -386,7 +386,7 @@ export default function ProductsPage() {
                   </div>
                   <button
                     onClick={() => handleDeleteProduct(product.product_id)}
-                    className="p-1.5 rounded-lg text-text-muted hover:text-red-500 hover:bg-red-50 transition-colors"
+                    className="p-1.5 rounded-lg text-text-muted hover:text-red-500 hover:bg-red-950/50 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

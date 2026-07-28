@@ -70,7 +70,7 @@ export default function RevenueDetailPage() {
     <div>
       <Link
         href="/analytics"
-        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary mb-4 transition-colors"
+        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-white mb-4 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Analytics
@@ -78,11 +78,11 @@ export default function RevenueDetailPage() {
 
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-semibold text-text-primary">Revenue Details</h1>
+          <h1 className="text-2xl font-semibold text-white">Revenue Details</h1>
           <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
             isSandbox
-              ? "bg-amber-50 border-amber-300 text-amber-700"
-              : "bg-emerald-50 border-emerald-300 text-emerald-700"
+              ? "bg-amber-950 border-amber-500/30 text-amber-400"
+              : "bg-emerald-950 border-emerald-500/30 text-emerald-400"
           }`}>
             {isSandbox ? "Sandbox" : "Production"}
           </span>
@@ -90,7 +90,7 @@ export default function RevenueDetailPage() {
         <select
           value={days}
           onChange={(e) => setDays(Number(e.target.value))}
-          className="px-3 py-2 border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+          className="px-3 py-2 border border-border rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
         >
           <option value={7}>Last 7 days</option>
           <option value={30}>Last 30 days</option>
@@ -101,40 +101,40 @@ export default function RevenueDetailPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <DollarSign className="w-4 h-4 text-secondary" />
             <p className="text-xs text-text-secondary">Gross Revenue</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">{formatCurrency(totalRevenue)}</p>
+          <p className="text-xl font-bold text-white">{formatCurrency(totalRevenue)}</p>
         </div>
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <TrendingDown className="w-4 h-4 text-red-500" />
             <p className="text-xs text-text-secondary">Refunds</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">{formatCurrency(totalRefunds)}</p>
+          <p className="text-xl font-bold text-white">{formatCurrency(totalRefunds)}</p>
         </div>
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <TrendingUp className="w-4 h-4 text-emerald-500" />
             <p className="text-xs text-text-secondary">Net Revenue</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">{formatCurrency(netRevenue)}</p>
+          <p className="text-xl font-bold text-white">{formatCurrency(netRevenue)}</p>
         </div>
-        <div className="p-4 rounded-xl border border-border bg-white">
+        <div className="p-4 rounded-xl border border-border bg-[#0a0a0a]">
           <div className="flex items-center gap-2 mb-1">
             <Calendar className="w-4 h-4 text-blue-500" />
             <p className="text-xs text-text-secondary">Avg. Daily</p>
           </div>
-          <p className="text-xl font-bold text-text-primary">{formatCurrency(avgDaily)}</p>
+          <p className="text-xl font-bold text-white">{formatCurrency(avgDaily)}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Daily Revenue Bar Chart */}
-        <div className="lg:col-span-2 p-5 rounded-xl border border-border bg-white">
-          <h3 className="font-semibold text-text-primary mb-4">Daily Revenue</h3>
+        <div className="lg:col-span-2 p-5 rounded-xl border border-border bg-[#0a0a0a]">
+          <h3 className="font-semibold text-white mb-4">Daily Revenue</h3>
           {loading ? (
             <div className="h-64 bg-bg-alt rounded-lg animate-pulse" />
           ) : data.length === 0 ? (              <div className="h-64 flex items-center justify-center text-text-muted text-sm">{isSandbox ? "No test data yet" : "No data yet"}</div>
@@ -159,8 +159,8 @@ export default function RevenueDetailPage() {
         </div>
 
         {/* Payment Methods Pie */}
-        <div className="p-5 rounded-xl border border-border bg-white">
-          <h3 className="font-semibold text-text-primary mb-4">By Payment Method</h3>
+        <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
+          <h3 className="font-semibold text-white mb-4">By Payment Method</h3>
           {loading ? (
             <div className="h-64 bg-bg-alt rounded-lg animate-pulse" />
           ) : paymentMethodData.length === 0 ? (              <div className="h-64 flex items-center justify-center text-text-muted text-sm">{isSandbox ? "No test data yet" : "No data yet"}</div>
@@ -194,7 +194,7 @@ export default function RevenueDetailPage() {
                       />
                       <span className="text-text-secondary">{item.name}</span>
                     </div>
-                    <span className="font-medium text-text-primary">{formatCurrency(item.value)}</span>
+                    <span className="font-medium text-white">{formatCurrency(item.value)}</span>
                   </div>
                 ))}
               </div>

@@ -1,3 +1,7 @@
+"use client";
+
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+
 const features = [
   {
     icon: (
@@ -157,16 +161,81 @@ const features = [
   },
 ];
 
-export function Features() {
+function FeatureCard({ feature, index }: { feature: typeof features[number]; index: number }) {
+  const { ref, isVisible } = useScrollReveal({ threshold: 0.1 });
+
   return (
-    <section className="py-24 bg-white" id="features">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-sm font-medium mb-6">
+    <div
+      ref={ref}
+      className={`group relative p-7 rounded-2xl bg-[#0a0a0a] border border-white/[0.06] hover:border-orange-500/20 transition-all duration-500 overflow-hidden ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      }`}
+      style={{
+        transitionDelay: `${index * 60}ms`,
+        transitionProperty: "opacity, transform",
+        transitionDuration: "0.7s",
+        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+      }}
+    >
+      {/* Gradient overlay on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-secondary/[0.03] to-accent/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+      {/* Top gradient border line on hover */}
+      <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-secondary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+      <div className="relative flex items-start gap-5">
+        {/* Icon container with glow */}
+        <div className="relative shrink-0">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary/10 to-accent/5 border border-secondary/15 flex items-center justify-center group-hover:shadow-lg group-hover:shadow-secondary/10 group-hover:scale-105 transition-all duration-300">
+            {feature.icon}
+          </div>
+          {/* Icon glow */}
+          <div className="absolute -inset-2 bg-gradient-to-r from-secondary/5 to-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-500 pointer-events-none" />
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <h3 className="text-lg font-semibold text-white group-hover:text-orange-300 transition-colors duration-300">
+              {feature.title}
+            </h3>
+            <span className="shrink-0 px-2.5 py-0.5 rounded-full bg-red-950/50 border border-red-500/20 text-red-400 text-[11px] font-medium whitespace-nowrap">
+              {feature.badge}
+            </span>
+          </div>
+          <p className="text-[15px] text-text-secondary leading-relaxed group-hover:text-white/70 transition-colors duration-300">
+            {feature.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Features() {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollReveal();
+
+  return (
+    <section className="relative py-24 lg:py-32 bg-black overflow-hidden" id="features">
+      {/* Subtle background gradient */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-gradient-to-b from-secondary/[0.02] to-transparent blur-3xl pointer-events-none" />
+
+      <div className="relative max-w-6xl mx-auto px-6">
+        {/* Section header */}
+        <div
+          ref={headerRef}
+          className={`text-center mb-16 transition-all duration-700 ${
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <div className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full bg-secondary/10 border border-secondary/20 text-orange-300 text-sm font-medium mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
             Everything Stripe charges extra for — included free
           </div>
-          <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-            A complete financial stack, at zero platform cost
+          <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-white mb-4">
+            A complete financial stack,{" "}
+            <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
+              at zero platform cost
+            </span>
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
             Payments, subscriptions, fraud detection, invoicing, analytics,
@@ -175,32 +244,10 @@ export function Features() {
           </p>
         </div>
 
+        {/* Cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {features.map((feature) => (
-            <div
-              key={feature.title}
-              className="group relative p-7 rounded-2xl border border-border bg-white hover:border-[#F56600]/25 transition-all duration-300 overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-secondary/[0.02] to-accent/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative flex items-start gap-5">
-                <div className="shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-secondary/8 to-accent/8 border border-secondary/10 flex items-center justify-center group-hover:shadow-lg group-hover:shadow-secondary/10 transition-shadow duration-300">
-                  {feature.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-3 mb-2">
-                    <h3 className="text-lg font-semibold text-text-primary">
-                      {feature.title}
-                    </h3>
-                    <span className="shrink-0 px-2.5 py-0.5 rounded-full bg-red-50 border border-red-200/60 text-red-500 text-[11px] font-medium whitespace-nowrap">
-                      {feature.badge}
-                    </span>
-                  </div>
-                  <p className="text-[15px] text-text-secondary leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            </div>
+          {features.map((feature, index) => (
+            <FeatureCard key={feature.title} feature={feature} index={index} />
           ))}
         </div>
       </div>

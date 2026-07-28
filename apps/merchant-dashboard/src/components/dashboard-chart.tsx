@@ -47,8 +47,8 @@ export function DashboardChart({ payments }: { payments: Payment[] }) {
   const data = aggregateByDay(payments);
 
   return (
-    <div className="bg-white rounded-xl border border-border p-6">
-      <h2 className="font-semibold text-text-primary mb-4">
+    <div className="bg-[#0a0a0a] rounded-xl border border-border p-6">
+      <h2 className="font-semibold text-white mb-4">
         Revenue — Last 30 Days
       </h2>
       <div className="h-72">
@@ -60,15 +60,15 @@ export function DashboardChart({ payments }: { payments: Payment[] }) {
                 <stop offset="95%" stopColor="#F56600" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#1f1f1f" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 12, fill: "#6B7280" }}
+              tick={{ fontSize: 12, fill: "#666666" }}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              tick={{ fontSize: 12, fill: "#6B7280" }}
+              tick={{ fontSize: 12, fill: "#666666" }}
               tickLine={false}
               axisLine={false}
               tickFormatter={(v) => `₦${v.toLocaleString()}`}
@@ -77,9 +77,11 @@ export function DashboardChart({ payments }: { payments: Payment[] }) {
               formatter={(value: number) => [`₦${value.toLocaleString()}`, "Revenue"]}
               contentStyle={{
                 borderRadius: "8px",
-                border: "1px solid #e5e7eb",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #1f1f1f",
+                background: "#0a0a0a",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.5)",
               }}
+              labelStyle={{ color: "#f5f5f5" }}
             />
             <Area
               type="monotone"

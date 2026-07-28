@@ -101,7 +101,7 @@ function NavSection({ item, depth = 0 }: { item: NavItem; depth?: number }) {
           } ${
             isActive
               ? "bg-secondary/10 text-secondary font-medium"
-              : "text-text-secondary hover:text-text-primary hover:bg-bg-alt"
+              : "text-text-secondary hover:text-white hover:bg-white/5"
           }`}
         >
           {item.label}
@@ -118,8 +118,8 @@ function NavSection({ item, depth = 0 }: { item: NavItem; depth?: number }) {
           depth > 0 ? "ml-4" : ""
         } ${
           isChildActive
-            ? "text-text-primary font-medium"
-            : "text-text-secondary hover:text-text-primary hover:bg-bg-alt"
+            ? "text-white font-medium"
+            : "text-text-secondary hover:text-white hover:bg-white/5"
         }`}
       >
         <span className="flex items-center gap-2">
@@ -145,7 +145,7 @@ function NavSection({ item, depth = 0 }: { item: NavItem; depth?: number }) {
 
 export function DocsSidebar() {
   return (
-    <nav className="w-64 shrink-0 border-r border-border bg-white h-[calc(100vh-4rem)] overflow-y-auto sticky top-16">
+    <nav className="w-64 shrink-0 border-r border-border bg-black h-[calc(100vh-4rem)] overflow-y-auto sticky top-16">
       <div className="p-4">
         <ul className="space-y-1">
           {navigation.map((item) => (
