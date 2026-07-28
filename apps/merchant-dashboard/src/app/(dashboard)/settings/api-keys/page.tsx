@@ -8,6 +8,7 @@ import {
   CheckCircle,
   Key,
   AlertTriangle,
+  Sparkles,
 } from "lucide-react";
 import { listApiKeys, createApiKey, deleteApiKey } from "@/lib/hyperswitch";
 import { useSandboxMode } from "@/lib/sandbox-mode";
@@ -23,10 +24,16 @@ export default function ApiKeysPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
+  const [justCreated, setJustCreated] = useState(false);
 
   useEffect(() => {
     loadKeys();
   }, []);
+
+  useEffect(() => {
+    setRevealedKey(null);
+    setJustCreated(false);
+  }, [mode]);
 
   const loadKeys = async () => {
     setLoading(true);
@@ -46,10 +53,12 @@ export default function ApiKeysPage() {
     setCreating(true);
     setError(null);
     try {
-      const res = await createApiKey(newKeyName.trim());
+      const res = await createApiKey(newKeyName.trim(), mode === "sandbox" ? "sandbox" : "production");
       if (res.data) {
         setKeys((prev) => [res.data!, ...prev]);
         setRevealedKey(res.data.api_key);
+        setJustCreated(true);
+        setTimeout(() => setJustCreated(false), 2000);
         setNewKeyName("");
         setShowCreate(false);
       }
@@ -133,7 +142,7 @@ export default function ApiKeysPage() {
 
       {/* Create Form */}
       {showCreate && (
-        <div className="mb-6 p-4 rounded-xl border border-secondary/30 bg-secondary/5">
+        <div className="mb-6 p-4 rounded-xl border border-secondary/30 bg-secondary/5 animate-slide-in">
           <label className="block text-sm font-medium text-text-primary mb-2">
             Key Name
           </label>
@@ -168,20 +177,50 @@ export default function ApiKeysPage() {
 
       {/* Newly Created Key */}
       {revealedKey && (
-        <div className="mb-6 p-4 rounded-xl border border-amber-300 bg-amber-50">
+        <div className={`mb-6 p-5 rounded-xl border transition-all duration-500 animate-fade-in ${
+          justCreated
+            ? "border-emerald-300 bg-emerald-50 shadow-lg shadow-emerald-100 scale-[1.01]"
+            : "border-amber-300 bg-amber-50"
+        }`}>
           <div className="flex items-start gap-3">
-            <Key className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 ${
+              justCreated
+                ? "bg-emerald-100 animate-bounce-once"
+                : "bg-amber-100"
+            }`}>
+              {justCreated ? (
+                <Sparkles className="w-5 h-5 text-emerald-600" />
+              ) : (
+                <Key className="w-5 h-5 text-amber-600" />
+              )}
+            </div>
             <div className="flex-1">
-              <p className="text-sm font-medium text-amber-800">
-                Copy your API key now — it won&apos;t be shown again.
+              <p className={`text-sm font-medium ${
+                justCreated ? "text-emerald-800" : "text-amber-800"
+              }`}>
+                {justCreated
+                  ? "API key generated successfully!"
+                  : "Copy your API key now — it won't be shown again."}
+                {" "}
+                <span className={`inline-block px-1.5 py-0.5 rounded text-xs font-medium ml-1 ${
+                  revealedKey.startsWith("op_live_")
+                    ? "bg-emerald-100 text-emerald-700"
+                    : "bg-amber-100 text-amber-700"
+                }`}>
+                  {revealedKey.startsWith("op_live_") ? "Production" : "Sandbox"}
+                </span>
               </p>
-              <div className="mt-2 flex items-center gap-2">
-                <code className="flex-1 px-3 py-2 bg-white rounded border border-amber-200 font-mono text-sm text-text-primary break-all">
+              <div className="mt-3 flex items-center gap-2">
+                <code className={`flex-1 px-3 py-2.5 rounded-lg border font-mono text-sm break-all transition-all duration-300 ${
+                  justCreated
+                    ? "bg-white border-emerald-200 text-emerald-900"
+                    : "bg-white border-amber-200 text-text-primary"
+                }`}>
                   {revealedKey}
                 </code>
                 <button
                   onClick={() => copyKey(revealedKey)}
-                  className="shrink-0 p-2 rounded-lg hover:bg-amber-100 transition-colors"
+                  className="shrink-0 p-2.5 rounded-lg hover:bg-amber-100 transition-colors"
                 >
                   {copied === revealedKey ? (
                     <CheckCircle className="w-4 h-4 text-emerald-500" />
@@ -229,7 +268,7 @@ export default function ApiKeysPage() {
             return (
               <div
                 key={key.api_key}
-                className="flex items-center justify-between p-4 rounded-xl border border-border bg-white"
+                className="flex items-center justify-between p-4 rounded-xl border border-border bg-white animate-slide-in"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-lg bg-secondary-light flex items-center justify-center">

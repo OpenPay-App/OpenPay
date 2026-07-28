@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, FileText, Send } from "lucide-react";
+import { Search, FileText, Send, Plus } from "lucide-react";
 import { listInvoices, sendInvoice } from "@/lib/hyperswitch";
+import { formatCurrency } from "@/lib/format";
+import { useSandboxMode } from "@/lib/sandbox-mode";
 import type { Invoice, InvoiceStatus } from "@/lib/types";
 
 const statusColors: Record<InvoiceStatus, string> = {
@@ -19,30 +21,34 @@ export default function InvoicesPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [search, setSearch] = useState("");
+  const { isSandbox } = useSandboxMode();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadInvoices();
-  }, [statusFilter]);
+  }, []);
 
   const loadInvoices = async () => {
-    const res = await listInvoices({ status: statusFilter || undefined });
-    setInvoices(res.data);
-    setLoading(false);
+    setLoading(true);
+    try {
+      const res = await listInvoices();
+      setInvoices(res.data);
+    } catch {
+      // graceful
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const formatAmount = (amount: number, currency: string) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-      minimumFractionDigits: 0,
-    }).format(amount / 100);
+  const filteredInvoices = statusFilter
+    ? invoices.filter((inv) => inv.status === statusFilter)
+    : invoices;
 
   const handleSendReminder = async (id: string) => {
     await sendInvoice(id);
   };
 
-  const filtered = invoices.filter(
+  const filtered = filteredInvoices.filter(
     (inv) =>
       inv.customer_name?.toLowerCase().includes(search.toLowerCase()) ||
       inv.customer_email?.toLowerCase().includes(search.toLowerCase()) ||
@@ -52,9 +58,28 @@ export default function InvoicesPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <p className="text-sm text-text-secondary">
-          Generated invoices for subscriptions and one-time charges.
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="text-sm text-text-secondary">
+            Generated invoices for subscriptions and one-time charges.
+          </p>
+          <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
+            isSandbox
+              ? "bg-amber-50 border-amber-300 text-amber-700"
+              : "bg-emerald-50 border-emerald-300 text-emerald-700"
+          }`}>
+            {isSandbox ? "Sandbox" : "Production"}
+          </span>
+        </div>
+        <button
+          onClick={() => {
+            /* TODO: implement create invoice modal */
+            alert("Create Invoice coming soon!");
+          }}
+          className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-hover transition-colors"
+        >
+          <Plus className="w-4 h-4" />
+          Create Invoice
+        </button>
       </div>
 
       {/* Filters */}
@@ -126,9 +151,11 @@ export default function InvoicesPage() {
                 <tr>
                   <td colSpan={7} className="px-4 py-16 text-center">
                     <FileText className="w-8 h-8 text-text-muted mx-auto mb-2" />
-                    <p className="text-text-secondary">No invoices found</p>
+                    <p className="text-text-secondary">{isSandbox ? "No test invoices found" : "No invoices found"}</p>
                     <p className="text-xs text-text-muted mt-1">
-                      Invoices are generated automatically from subscriptions.
+                      {isSandbox
+                        ? "Test invoices will appear here once subscriptions are created."
+                        : "Invoices are generated automatically from subscriptions."}
                     </p>
                   </td>
                 </tr>
@@ -152,7 +179,7 @@ export default function InvoicesPage() {
                       </p>
                     </td>
                     <td className="px-4 py-3 font-medium text-text-primary">
-                      {formatAmount(inv.amount, inv.currency)}
+                      {formatCurrency(inv.amount, inv.currency, 0)}
                     </td>
                     <td className="px-4 py-3">
                       <span

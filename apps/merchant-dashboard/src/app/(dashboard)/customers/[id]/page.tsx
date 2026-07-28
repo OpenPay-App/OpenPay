@@ -11,7 +11,8 @@ import {
   CreditCard,
 } from "lucide-react";
 import { Customer, Payment } from "@/lib/types";
-import { formatCurrency, formatDate, statusColor } from "@/lib/format";
+import { formatCurrency as fmtCurrency, formatDate, statusColor } from "@/lib/format";
+import { useBusinessProfile } from "@/lib/business-profile-context";
 
 export default function CustomerDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +20,10 @@ export default function CustomerDetailPage() {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { currency } = useBusinessProfile();
   const [activeTab, setActiveTab] = useState<"payments" | "subscriptions" | "invoices">("payments");
+
+  const formatCurrency = (amount: number, cur?: string) => fmtCurrency(amount, cur || currency);
 
   useEffect(() => {
     async function load() {
@@ -106,7 +110,7 @@ export default function CustomerDetailPage() {
           <div className="mt-6 space-y-3">
             {[
               { label: "Customer ID", value: customer.customer_id },
-              { label: "Total Spent", value: formatCurrency(totalSpent, "NGN") },
+              { label: "Total Spent", value: formatCurrency(totalSpent) },
               { label: "Payments", value: String(payments.length) },
               { label: "Joined", value: formatDate(customer.created) },
             ].map((field) => (

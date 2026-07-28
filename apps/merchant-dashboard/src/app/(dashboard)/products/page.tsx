@@ -16,6 +16,8 @@ import {
   deleteProduct,
   deletePricingTier,
 } from "@/lib/hyperswitch";
+import { useSandboxMode } from "@/lib/sandbox-mode";
+import { formatCurrency } from "@/lib/format";
 import type { Product, PricingTier, BillingInterval, Currency } from "@/lib/types";
 
 export default function ProductsPage() {
@@ -24,14 +26,16 @@ export default function ProductsPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { isSandbox } = useSandboxMode();
   const [actionError, setActionError] = useState<string | null>(null);
 
   // Form state
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [features, setFeatures] = useState<string[]>([""]);
   const [tierName, setTierName] = useState("");
   const [amount, setAmount] = useState("");
-  const [currency, setCurrency] = useState<Currency>("NGN");
+  const [currency, setCurrency] = useState<Currency>("EUR");
   const [interval, setInterval] = useState<BillingInterval>("monthly");
   const [trialDays, setTrialDays] = useState("");
 
@@ -57,7 +61,8 @@ export default function ProductsPage() {
     if (!name.trim()) return;
     setActionError(null);
     try {
-      const res = await createProduct({ name: name.trim(), description: description.trim() });
+      const validFeatures = features.filter((f) => f.trim());
+      const res = await createProduct({ name: name.trim(), description: description.trim(), features: validFeatures });
       if (res.data) {
         if (amount && tierName) {
           await createPricingTier({
@@ -73,8 +78,11 @@ export default function ProductsPage() {
         setShowCreate(false);
         setName("");
         setDescription("");
+        setFeatures([""]);
         setTierName("");
         setAmount("");
+        setCurrency("EUR");
+        setInterval("monthly");
         setTrialDays("");
       }
     } catch (err: any) {
@@ -102,24 +110,25 @@ export default function ProductsPage() {
     }
   };
 
-  const formatAmount = (amount: number, currency: string) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-      minimumFractionDigits: 0,
-    }).format(amount / 100);
-  };
-
   const getTiersForProduct = (productId: string) =>
     tiers.filter((t) => t.product_id === productId);
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <p className="text-sm text-text-secondary">
-          Products and pricing tiers powered by Kill Bill. Each product can
-          have multiple pricing tiers (monthly, yearly, etc.).
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="text-sm text-text-secondary">
+            Products and pricing tiers powered by Kill Bill. Each product can
+            have multiple pricing tiers (monthly, yearly, etc.).
+          </p>
+          <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
+            isSandbox
+              ? "bg-amber-50 border-amber-300 text-amber-700"
+              : "bg-emerald-50 border-emerald-300 text-emerald-700"
+          }`}>
+            {isSandbox ? "Sandbox" : "Production"}
+          </span>
+        </div>
         <button
           onClick={() => setShowCreate(true)}
           className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-hover transition-colors"
@@ -264,6 +273,49 @@ export default function ProductsPage() {
               </div>
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-text-primary mb-1.5">
+                Features
+              </label>
+              <p className="text-xs text-text-muted mb-2">
+                Add features included in this product (one per line)
+              </p>
+              <div className="space-y-2">
+                {features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={feature}
+                      onChange={(e) => {
+                        const updated = [...features];
+                        updated[idx] = e.target.value;
+                        setFeatures(updated);
+                      }}
+                      placeholder={`Feature ${idx + 1} (e.g., Priority support)`}
+                      className="flex-1 px-3 py-2 border border-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+                    />
+                    {features.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => setFeatures(features.filter((_, i) => i !== idx))}
+                        className="p-2 text-text-muted hover:text-red-500 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setFeatures([...features, ""])}
+                  className="flex items-center gap-1.5 text-xs text-secondary hover:text-secondary-hover font-medium transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Add feature
+                </button>
+              </div>
+            </div>
+
             <div className="flex gap-3">
               <button
                 onClick={handleCreate}
@@ -292,9 +344,11 @@ export default function ProductsPage() {
       ) : products.length === 0 && !error ? (
         <div className="text-center py-16 rounded-xl border border-border bg-white">
           <Package className="w-10 h-10 text-text-muted mx-auto mb-3" />
-          <p className="text-text-secondary">No products yet</p>
+          <p className="text-text-secondary">{isSandbox ? "No sandbox products yet" : "No products yet"}</p>
           <p className="text-sm text-text-muted mt-1">
-            Create a product with pricing tiers to start offering subscriptions.
+            {isSandbox
+              ? "Create a test product to start experimenting with subscriptions."
+              : "Create a product with pricing tiers to start offering subscriptions."}
           </p>
         </div>
       ) : (
@@ -352,7 +406,7 @@ export default function ProductsPage() {
                               {tier.name}
                             </p>
                             <p className="text-xs text-text-secondary">
-                              {formatAmount(tier.amount, tier.currency)} /{" "}
+                              {formatCurrency(tier.amount, tier.currency, 0)} /{" "}
                               {tier.interval}
                               {tier.trial_days
                                 ? ` · ${tier.trial_days} day trial`

@@ -89,8 +89,15 @@ export default function CheckoutPage() {
   };
 
   const formatCurrency = (amount: number, currency: string) => {
-    const symbols: Record<string, string> = { NGN: "₦", USD: "$", GHS: "GH₵" };
-    return `${symbols[currency] || currency} ${(amount / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}`;
+    try {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency,
+        minimumFractionDigits: 2,
+      }).format(amount / 100);
+    } catch {
+      return `${currency} ${(amount / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+    }
   };
 
   if (status === "loading") {

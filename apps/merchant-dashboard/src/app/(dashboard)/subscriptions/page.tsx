@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { RefreshCw, Search, Filter, AlertTriangle } from "lucide-react";
+import { RefreshCw, Search, Filter, AlertTriangle, Plus } from "lucide-react";
 import { listSubscriptions } from "@/lib/hyperswitch";
+import { formatCurrency } from "@/lib/format";
+import { useSandboxMode } from "@/lib/sandbox-mode";
 import type { Subscription, SubscriptionStatus } from "@/lib/types";
 
 const statusColors: Record<SubscriptionStatus, string> = {
@@ -19,6 +21,7 @@ export default function SubscriptionsPage() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [search, setSearch] = useState("");
+  const { isSandbox } = useSandboxMode();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,13 +41,6 @@ export default function SubscriptionsPage() {
     }
   };
 
-  const formatAmount = (amount: number, currency: string) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-      minimumFractionDigits: 0,
-    }).format(amount / 100);
-
   const filtered = subscriptions.filter(
     (s) =>
       s.customer_name?.toLowerCase().includes(search.toLowerCase()) ||
@@ -56,10 +52,28 @@ export default function SubscriptionsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <p className="text-sm text-text-secondary">
-          All customer subscriptions. Manage billing cycles, plan changes, and
-          cancellations.
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="text-sm text-text-secondary">
+            All customer subscriptions. Manage billing cycles, plan changes, and
+            cancellations.
+          </p>
+          <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
+            isSandbox
+              ? "bg-amber-50 border-amber-300 text-amber-700"
+              : "bg-emerald-50 border-emerald-300 text-emerald-700"
+          }`}>
+            {isSandbox ? "Sandbox" : "Production"}
+          </span>
+        </div>
+        <button
+          onClick={() => {
+            alert("Create Subscription coming soon!");
+          }}
+          className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-hover transition-colors"
+        >
+          <Plus className="w-4 h-4" />
+          Create Subscription
+        </button>
       </div>
 
       {/* Filters */}
@@ -146,9 +160,11 @@ export default function SubscriptionsPage() {
                 <tr>
                   <td colSpan={6} className="px-4 py-16 text-center">
                     <RefreshCw className="w-8 h-8 text-text-muted mx-auto mb-2" />
-                    <p className="text-text-secondary">No subscriptions found</p>
+                    <p className="text-text-secondary">{isSandbox ? "No test subscriptions found" : "No subscriptions found"}</p>
                     <p className="text-xs text-text-muted mt-1">
-                      Subscriptions will appear here when customers subscribe to your plans.
+                      {isSandbox
+                        ? "Test subscriptions will appear here when customers subscribe to your plans."
+                        : "Subscriptions will appear here when customers subscribe to your plans."}
                     </p>
                   </td>
                 </tr>
@@ -189,7 +205,7 @@ export default function SubscriptionsPage() {
                       </span>
                     </td>
                     <td className="px-4 py-3 font-medium text-text-primary">
-                      {formatAmount(sub.amount, sub.currency)}
+                      {formatCurrency(sub.amount, sub.currency, 0)}
                     </td>
                     <td className="px-4 py-3 text-text-secondary text-xs">
                       {new Date(sub.current_period_start).toLocaleDateString()} —{" "}

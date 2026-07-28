@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="openPayWarmGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F56600" />
+      <stop offset="100%" stop-color="#FFC60A" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(10, 10)">
+    <path d="M 40,10 A 30,30 0 1 0 70,40" 
+          fill="none" 
+          stroke="#ffffff" 
+          stroke-width="12" 
+          stroke-linecap="round" />
+    <path d="M 25,70 A 30,30 0 1 0 55,10" 
+          fill="none" 
+          stroke="url(#openPayWarmGradient)" 
+          stroke-width="12" 
+          stroke-linecap="round" />
+    <circle cx="40" cy="40" r="6" fill="#FFC60A" />
+  </g>
+  <text x="110" y="58" font-family="'Inter', 'Plus Jakarta Sans', system-ui, sans-serif" font-size="42" font-weight="800" fill="#ffffff" letter-spacing="-1">
+    Open<tspan font-weight="400" fill="#F56600">Pay</tspan>
+  </text>
+  <text x="112" y="82" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="600" fill="rgba(255,255,255,0.45)" letter-spacing="2">
+    OPEN-SOURCE PAYMENT INFRASTRUCTURE
+  </text>
+</svg>

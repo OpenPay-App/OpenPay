@@ -1,6 +1,6 @@
 export type PaymentStatus = "pending" | "processing" | "requires_confirmation" | "succeeded" | "failed" | "cancelled" | "refunded" | "partially_refunded";
 
-export type Currency = "NGN" | "USD" | "GHS" | "ZAR" | "KES";
+export type Currency = "EUR" | "USD" | "GBP" | "NGN" | "GHS" | "ZAR" | "KES" | "JPY" | "CAD" | "AUD" | "INR" | "BRL" | "MXN";
 
 export type PaymentMethod = "card" | "bank_transfer" | "ussd" | "mobile_money" | "wallet";
 
@@ -149,6 +149,7 @@ export interface Product {
   product_id: string;
   name: string;
   description?: string;
+  features: string[];
   active: boolean;
   created: string;
   metadata?: Record<string, unknown>;

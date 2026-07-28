@@ -22,6 +22,9 @@ import {
   Cell,
 } from "recharts";
 import { getRevenueMetrics } from "@/lib/hyperswitch";
+import { useBusinessProfile } from "@/lib/business-profile-context";
+import { useSandboxMode } from "@/lib/sandbox-mode";
+import { formatCurrency as fmt } from "@/lib/format";
 import type { RevenueMetric } from "@/lib/types";
 import Link from "next/link";
 
@@ -30,6 +33,8 @@ const COLORS = ["#F56600", "#FFC60A", "#10b981", "#3b82f6", "#8b5cf6", "#ec4899"
 export default function RevenueDetailPage() {
   const [data, setData] = useState<RevenueMetric[]>([]);
   const [days, setDays] = useState(30);
+  const { currency } = useBusinessProfile();
+  const { isSandbox } = useSandboxMode();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,12 +50,7 @@ export default function RevenueDetailPage() {
   const netRevenue = data.reduce((sum, r) => sum + r.net, 0);
   const avgDaily = data.length > 0 ? netRevenue / data.length : 0;
 
-  const formatCurrency = (v: number) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "NGN",
-      minimumFractionDigits: 0,
-    }).format(v / 100);
+  const formatCurrency = (v: number) => fmt(v, currency, 0);
 
   // Payment method breakdown
   const paymentMethods = data.reduce(
@@ -77,7 +77,16 @@ export default function RevenueDetailPage() {
       </Link>
 
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-text-primary">Revenue Details</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-semibold text-text-primary">Revenue Details</h1>
+          <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
+            isSandbox
+              ? "bg-amber-50 border-amber-300 text-amber-700"
+              : "bg-emerald-50 border-emerald-300 text-emerald-700"
+          }`}>
+            {isSandbox ? "Sandbox" : "Production"}
+          </span>
+        </div>
         <select
           value={days}
           onChange={(e) => setDays(Number(e.target.value))}
@@ -128,8 +137,7 @@ export default function RevenueDetailPage() {
           <h3 className="font-semibold text-text-primary mb-4">Daily Revenue</h3>
           {loading ? (
             <div className="h-64 bg-bg-alt rounded-lg animate-pulse" />
-          ) : data.length === 0 ? (
-            <div className="h-64 flex items-center justify-center text-text-muted text-sm">No data</div>
+          ) : data.length === 0 ? (              <div className="h-64 flex items-center justify-center text-text-muted text-sm">{isSandbox ? "No test data yet" : "No data yet"}</div>
           ) : (
             <ResponsiveContainer width="100%" height={256}>
               <BarChart data={data}>
@@ -155,8 +163,7 @@ export default function RevenueDetailPage() {
           <h3 className="font-semibold text-text-primary mb-4">By Payment Method</h3>
           {loading ? (
             <div className="h-64 bg-bg-alt rounded-lg animate-pulse" />
-          ) : paymentMethodData.length === 0 ? (
-            <div className="h-64 flex items-center justify-center text-text-muted text-sm">No data</div>
+          ) : paymentMethodData.length === 0 ? (              <div className="h-64 flex items-center justify-center text-text-muted text-sm">{isSandbox ? "No test data yet" : "No data yet"}</div>
           ) : (
             <>
               <ResponsiveContainer width="100%" height={200}>

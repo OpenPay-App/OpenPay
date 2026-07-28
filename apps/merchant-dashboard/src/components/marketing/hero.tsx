@@ -7,7 +7,7 @@ import { ArrowRight, Github } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative bg-bg-dark text-white overflow-hidden">
+    <section className="relative text-white overflow-hidden bg-black">
       {/* Grid pattern overlay */}
       <div
         className="absolute inset-0 opacity-10"
@@ -26,7 +26,7 @@ export function Hero() {
         <nav className="absolute top-0 left-0 right-0 flex items-center justify-between px-6 py-6 max-w-6xl mx-auto">
           <div className="flex items-center gap-2">
             <Image
-              src="/brand/logo.svg"
+              src="/brand/logo-dark.svg"
               alt="OpenPay"
               width={280}
               height={70}

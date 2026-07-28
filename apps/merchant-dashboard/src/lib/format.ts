@@ -1,27 +1,45 @@
 import { Currency } from "./types";
 
-const currencySymbols: Record<string, string> = {
-  NGN: "₦",
+export const currencySymbols: Record<string, string> = {
+  EUR: "€",
   USD: "$",
+  GBP: "£",
+  NGN: "₦",
   GHS: "GH₵",
   ZAR: "R",
   KES: "KSh",
+  JPY: "¥",
+  CAD: "C$",
+  AUD: "A$",
+  INR: "₹",
+  BRL: "R$",
+  MXN: "MX$",
 };
 
 export function formatCurrency(
   amountInSmallestUnit: number,
-  currency: Currency | string = "NGN"
+  currency: Currency | string = "USD",
+  fractionDigits: number = 2
 ): string {
-  const symbol = currencySymbols[currency] || currency + " ";
   const major = amountInSmallestUnit / 100;
-  return `${symbol}${major.toLocaleString("en-NG", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      minimumFractionDigits: fractionDigits,
+      maximumFractionDigits: fractionDigits,
+    }).format(major);
+  } catch {
+    const symbol = currencySymbols[currency] || currency + " ";
+    return `${symbol}${major.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  }
 }
 
 export function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("en-NG", {
+  return new Date(dateStr).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",

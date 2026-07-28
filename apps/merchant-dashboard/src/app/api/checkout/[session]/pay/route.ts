@@ -17,7 +17,7 @@ export async function POST(
       ...(API_KEY ? { "api-key": API_KEY } : {}),
     };
 
-    const res = await fetch(`${BASE_URL}/payments/${session}/confirm`, {
+    const res = await fetch(`${BASE_URL}/payments/${session}`, {
       method: "POST",
       headers,
       body: JSON.stringify({

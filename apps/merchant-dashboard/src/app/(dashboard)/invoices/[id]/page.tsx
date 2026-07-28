@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Send, Download, FileText } from "lucide-react";
 import { getInvoice, sendInvoice } from "@/lib/hyperswitch";
+import { formatCurrency } from "@/lib/format";
+import { useSandboxMode } from "@/lib/sandbox-mode";
 import type { Invoice } from "@/lib/types";
 
 const statusColors: Record<string, string> = {
@@ -17,6 +19,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function InvoiceDetailPage() {
+  const { isSandbox } = useSandboxMode();
   const params = useParams();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [loading, setLoading] = useState(true);
@@ -27,13 +30,6 @@ export default function InvoiceDetailPage() {
       setLoading(false);
     });
   }, [params.id]);
-
-  const formatAmount = (amount: number, currency: string) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-      minimumFractionDigits: 0,
-    }).format(amount / 100);
 
   const handleSend = async () => {
     if (!invoice) return;
@@ -85,6 +81,13 @@ export default function InvoiceDetailPage() {
             </h1>
             <span className={`px-3 py-1 rounded-lg text-xs font-medium ${statusColors[invoice.status]}`}>
               {invoice.status}
+            </span>
+            <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
+              isSandbox
+                ? "bg-amber-50 border-amber-300 text-amber-700"
+                : "bg-emerald-50 border-emerald-300 text-emerald-700"
+            }`}>
+              {isSandbox ? "Sandbox" : "Production"}
             </span>
           </div>
           <p className="text-sm text-text-muted">
@@ -142,7 +145,7 @@ export default function InvoiceDetailPage() {
                       {item.quantity}
                     </td>
                     <td className="px-4 py-3 text-right font-medium text-text-primary">
-                      {formatAmount(item.amount * item.quantity, invoice.currency)}
+                      {formatCurrency(item.amount * item.quantity, invoice.currency, 0)}
                     </td>
                   </tr>
                 ))}
@@ -152,21 +155,21 @@ export default function InvoiceDetailPage() {
               <div className="flex justify-between text-sm">
                 <span className="text-text-secondary">Subtotal</span>
                 <span className="text-text-primary">
-                  {formatAmount(subtotal, invoice.currency)}
+                  {formatCurrency(subtotal, invoice.currency, 0)}
                 </span>
               </div>
               {tax > 0 && (
                 <div className="flex justify-between text-sm">
                   <span className="text-text-secondary">Tax</span>
                   <span className="text-text-primary">
-                    {formatAmount(tax, invoice.currency)}
+                    {formatCurrency(tax, invoice.currency, 0)}
                   </span>
                 </div>
               )}
               <div className="flex justify-between text-sm font-semibold pt-2 border-t border-border">
                 <span className="text-text-primary">Total</span>
                 <span className="text-text-primary">
-                  {formatAmount(invoice.amount, invoice.currency)}
+                  {formatCurrency(invoice.amount, invoice.currency, 0)}
                 </span>
               </div>
             </div>

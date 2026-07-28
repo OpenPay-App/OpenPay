@@ -19,6 +19,8 @@ import {
   resumeSubscription,
   cancelSubscription,
 } from "@/lib/hyperswitch";
+import { formatCurrency } from "@/lib/format";
+import { useSandboxMode } from "@/lib/sandbox-mode";
 import type { Subscription } from "@/lib/types";
 
 const statusColors: Record<string, string> = {
@@ -31,6 +33,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function SubscriptionDetailPage() {
+  const { isSandbox } = useSandboxMode();
   const params = useParams();
   const router = useRouter();
   const [sub, setSub] = useState<Subscription | null>(null);
@@ -73,13 +76,6 @@ export default function SubscriptionDetailPage() {
       setShowConfirm(null);
     }
   };
-
-  const formatAmount = (amount: number, currency: string) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-      minimumFractionDigits: 0,
-    }).format(amount / 100);
 
   if (loading) {
     return (
@@ -145,6 +141,13 @@ export default function SubscriptionDetailPage() {
             </h1>
             <span className={`px-3 py-1 rounded-lg text-xs font-medium ${statusColors[sub.status]}`}>
               {sub.status}
+            </span>
+            <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
+              isSandbox
+                ? "bg-amber-50 border-amber-300 text-amber-700"
+                : "bg-emerald-50 border-emerald-300 text-emerald-700"
+            }`}>
+              {isSandbox ? "Sandbox" : "Production"}
             </span>
           </div>
           <p className="text-sm text-text-muted">{sub.subscription_id}</p>
@@ -243,7 +246,7 @@ export default function SubscriptionDetailPage() {
             <div className="flex justify-between">
               <span className="text-text-secondary">Amount</span>
               <span className="font-medium text-text-primary">
-                {formatAmount(sub.amount, sub.currency)}
+                {formatCurrency(sub.amount, sub.currency, 0)}
               </span>
             </div>
             <div className="flex justify-between">

@@ -23,12 +23,17 @@ import {
   Bar,
 } from "recharts";
 import { getRevenueMetrics, getTopCustomers } from "@/lib/hyperswitch";
+import { useBusinessProfile } from "@/lib/business-profile-context";
+import { useSandboxMode } from "@/lib/sandbox-mode";
+import { formatCurrency as fmt } from "@/lib/format";
 import type { RevenueMetric, TopCustomer } from "@/lib/types";
 
 export default function AnalyticsPage() {
   const [revenue, setRevenue] = useState<RevenueMetric[]>([]);
   const [topCustomers, setTopCustomers] = useState<TopCustomer[]>([]);
   const [days, setDays] = useState(30);
+  const { currency } = useBusinessProfile();
+  const { isSandbox } = useSandboxMode();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,19 +55,23 @@ export default function AnalyticsPage() {
   const totalRefunds = revenue.reduce((sum, r) => sum + r.refunds, 0);
   const netRevenue = revenue.reduce((sum, r) => sum + r.net, 0);
 
-  const formatCurrency = (amount: number) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "NGN",
-      minimumFractionDigits: 0,
-    }).format(amount / 100);
+  const formatCurrency = (amount: number) => fmt(amount, currency, 0);
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <p className="text-sm text-text-secondary">
-          Revenue and payment analytics across your business.
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="text-sm text-text-secondary">
+            Revenue and payment analytics across your business.
+          </p>
+          <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
+            isSandbox
+              ? "bg-amber-50 border-amber-300 text-amber-700"
+              : "bg-emerald-50 border-emerald-300 text-emerald-700"
+          }`}>
+            {isSandbox ? "Sandbox" : "Production"}
+          </span>
+        </div>
         <select
           value={days}
           onChange={(e) => setDays(Number(e.target.value))}
@@ -132,7 +141,7 @@ export default function AnalyticsPage() {
             <div className="h-64 bg-bg-alt rounded-lg animate-pulse" />
           ) : revenue.length === 0 ? (
             <div className="h-64 flex items-center justify-center text-text-muted text-sm">
-              No revenue data yet
+              {isSandbox ? "No test revenue data yet" : "No revenue data yet"}
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={256}>
@@ -174,7 +183,7 @@ export default function AnalyticsPage() {
             </div>
           ) : topCustomers.length === 0 ? (
             <div className="h-64 flex items-center justify-center text-text-muted text-sm">
-              No customer data yet
+              {isSandbox ? "No test customer data yet" : "No customer data yet"}
             </div>
           ) : (
             <div className="space-y-3">

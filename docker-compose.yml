@@ -96,17 +96,56 @@ services:
       timeout: 5s
       retries: 3
 
+  # Hyperswitch Database Migration
+  hyperswitch-migration:
+    image: rust:slim-bookworm
+    container_name: core-hyperswitch-migration
+    environment:
+      DATABASE_URL: "postgresql://coreplatform:R3d!sS3cur3%232026@core-postgres:5432/hyperswitch"
+    working_dir: /app
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        set -e
+        echo "=== Installing dependencies ==="
+        apt-get update && apt-get install -y --no-install-recommends git libpq-dev pkg-config ca-certificates && rm -rf /var/lib/apt/lists/*
+        echo "=== Installing diesel_cli (postgres only) ==="
+        cargo install diesel_cli --no-default-features --features postgres
+        export PATH="$${HOME}/.cargo/bin:$${PATH}"
+        echo "=== Cloning hyperswitch v1.124.0 ==="
+        git clone --depth 1 --branch v1.124.0 https://github.com/juspay/hyperswitch.git /tmp/hyperswitch
+        cd /tmp/hyperswitch
+        echo "=== Running migrations ==="
+        diesel migration run
+        echo "=== Migrations completed successfully ==="
+    networks:
+      - core-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   # Hyperswitch Payment Orchestration
   hyperswitch:
-    image: juspaydotin/hyperswitch-router:v1.124.0
+    image: juspaydotin/hyperswitch-router:standalone
     container_name: core-hyperswitch
     restart: unless-stopped
+    command: "/local/bin/router -f /local/config/docker_compose.toml"
     ports:
       - "8081:8080"
     env_file:
       - ./payment-system/hyperswitch/.env
     environment:
       RUN_ENV: docker_compose
+      ROUTER__MASTER_DATABASE__HOST: "core-postgres"
+      ROUTER__MASTER_DATABASE__PORT: 5432
+      ROUTER__MASTER_DATABASE__DBNAME: "hyperswitch"
+      ROUTER__MASTER_DATABASE__USERNAME: "coreplatform"
+      ROUTER__MASTER_DATABASE__PASSWORD: "R3d!sS3cur3#2026"
+      ROUTER__SECRETS__JWT_SECRET: "secret"
+      ROUTER__SECRETS__ADMIN_API_KEY: "test_admin"
+      ROUTER__SECRETS__MASTER_ENC_KEY: "73ad7bbbbc640c845a150f67d058b279849370cd2c1f3c67c4dd6c869213e13a"
+      ROUTER__REDIS__HOST: "core-redis"
+      ROUTER__REDIS__PORT: 6379
       ROUTER__SUPERPOSITION__ENABLED: "false"
       ROUTER__SUPERPOSITION__ENDPOINT: "http://mock-superposition:9999"
       ROUTER__SUPERPOSITION__TOKEN: "local_token"
@@ -116,6 +155,8 @@ services:
     volumes:
       - ./payment-system/hyperswitch/config:/local/config:ro
     depends_on:
+      hyperswitch-migration:
+        condition: service_completed_successfully
       mock-superposition:
         condition: service_healthy
       postgres:
@@ -242,7 +283,7 @@ services:
     container_name: core-tazama-rule-studio
     restart: unless-stopped
     ports:
-      - "3000:8080"
+      - "3002:8080"
     env_file:
       - ./monitoring-and-rules/tazama-rule-studio/.env
     depends_on:

@@ -19,6 +19,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { getCustomerMetrics, getTopCustomers } from "@/lib/hyperswitch";
+import { useBusinessProfile } from "@/lib/business-profile-context";
+import { useSandboxMode } from "@/lib/sandbox-mode";
+import { formatCurrency as fmt } from "@/lib/format";
 import type { CustomerMetric, TopCustomer } from "@/lib/types";
 
 export default function CustomerAnalyticsPage() {
@@ -29,13 +32,17 @@ export default function CustomerAnalyticsPage() {
 
   useEffect(() => {
     setLoading(true);
-    Promise.all([getCustomerMetrics(days), getTopCustomers(20)]).then(
-      ([m, c]) => {
+    Promise.all([getCustomerMetrics(days), getTopCustomers(20)])
+      .then(([m, c]) => {
         setMetrics(m.data);
         setTopCustomers(c.data);
+      })
+      .catch(() => {
+        // Hyperswitch may be down
+      })
+      .finally(() => {
         setLoading(false);
-      }
-    );
+      });
   }, [days]);
 
   const totalNew = metrics.reduce((sum, m) => sum + m.new_customers, 0);
@@ -49,12 +56,10 @@ export default function CustomerAnalyticsPage() {
       ? metrics.reduce((sum, m) => sum + m.churn_rate, 0) / metrics.length
       : 0;
 
-  const formatCurrency = (v: number) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "NGN",
-      minimumFractionDigits: 0,
-    }).format(v / 100);
+  const { currency } = useBusinessProfile();
+  const { isSandbox } = useSandboxMode();
+
+  const formatCurrency = (v: number) => fmt(v, currency, 0);
 
   return (
     <div>
@@ -67,7 +72,16 @@ export default function CustomerAnalyticsPage() {
       </Link>
 
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-text-primary">Customer Metrics</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-semibold text-text-primary">Customer Metrics</h1>
+          <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
+            isSandbox
+              ? "bg-amber-50 border-amber-300 text-amber-700"
+              : "bg-emerald-50 border-emerald-300 text-emerald-700"
+          }`}>
+            {isSandbox ? "Sandbox" : "Production"}
+          </span>
+        </div>
         <select
           value={days}
           onChange={(e) => setDays(Number(e.target.value))}
@@ -138,8 +152,7 @@ export default function CustomerAnalyticsPage() {
         {loading ? (
           <div className="h-64 bg-bg-alt rounded-lg animate-pulse" />
         ) : metrics.length === 0 ? (
-          <div className="h-64 flex items-center justify-center text-text-muted text-sm">
-            No customer data yet
+          <div className="h-64 flex items-center justify-center text-text-muted text-sm">              {isSandbox ? "No test customer data yet" : "No customer data yet"}
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={256}>
@@ -214,7 +227,7 @@ export default function CustomerAnalyticsPage() {
             ) : topCustomers.length === 0 ? (
               <tr>
                 <td colSpan={4} className="px-4 py-8 text-center text-text-muted">
-                  No customer data
+                  {isSandbox ? "No test customer data" : "No customer data"}
                 </td>
               </tr>
             ) : (

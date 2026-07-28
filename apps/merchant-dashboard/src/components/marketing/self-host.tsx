@@ -28,7 +28,7 @@ const comparisons = [
 
 export function SelfHost() {
   return (
-    <section className="py-24 bg-bg-alt">
+    <section className="py-24 bg-bg-alt" id="self-host">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">

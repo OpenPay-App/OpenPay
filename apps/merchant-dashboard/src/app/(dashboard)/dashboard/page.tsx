@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import {
   DollarSign,
   CreditCard,
@@ -6,71 +9,17 @@ import {
 } from "lucide-react";
 import { listPayments } from "@/lib/hyperswitch";
 import { formatCurrency } from "@/lib/format";
+import { useBusinessProfile } from "@/lib/business-profile-context";
+import { useSandboxMode } from "@/lib/sandbox-mode";
 import { DashboardChart } from "@/components/dashboard-chart";
 
-async function getStats() {
-  try {
-    const res = await listPayments({ limit: 100 });
-    const payments = res.data || [];
-
-    const totalRevenue = payments
-      .filter((p) => p.status === "succeeded")
-      .reduce((sum, p) => sum + p.amount, 0);
-
-    const successful = payments.filter((p) => p.status === "succeeded").length;
-    const failed = payments.filter((p) => p.status === "failed").length;
-    const uniqueCustomers = new Set(
-      payments.filter((p) => p.customer_id).map((p) => p.customer_id)
-    ).size;
-
-    return {
-      totalRevenue,
-      successful,
-      failed,
-      activeCustomers: uniqueCustomers,
-      recentPayments: payments.slice(0, 10),
-    };
-  } catch {
-    return {
-      totalRevenue: 0,
-      successful: 0,
-      failed: 0,
-      activeCustomers: 0,
-      recentPayments: [],
-    };
-  }
+interface Stats {
+  totalRevenue: number;
+  successful: number;
+  failed: number;
+  activeCustomers: number;
+  recentPayments: any[];
 }
-
-const stats = (s: Awaited<ReturnType<typeof getStats>>) => [
-  {
-    label: "Total Revenue",
-    value: formatCurrency(s.totalRevenue, "NGN"),
-    icon: DollarSign,
-    color: "text-emerald-600",
-    bg: "bg-emerald-50",
-  },
-  {
-    label: "Successful Payments",
-    value: String(s.successful),
-    icon: CreditCard,
-    color: "text-secondary",
-    bg: "bg-secondary-light",
-  },
-  {
-    label: "Failed Payments",
-    value: String(s.failed),
-    icon: AlertTriangle,
-    color: "text-error",
-    bg: "bg-red-50",
-  },
-  {
-    label: "Active Customers",
-    value: String(s.activeCustomers),
-    icon: Users,
-    color: "text-secondary",
-    bg: "bg-secondary-light",
-  },
-];
 
 function statusBadge(status: string) {
   const styles: Record<string, string> = {
@@ -90,17 +39,92 @@ function statusBadge(status: string) {
   );
 }
 
-export default async function DashboardPage() {
-  const data = await getStats();
-  const kpis = stats(data);
+export default function DashboardPage() {
+  const { currency } = useBusinessProfile();
+  const { mode, isSandbox } = useSandboxMode();
+  const [data, setData] = useState<Stats>({
+    totalRevenue: 0,
+    successful: 0,
+    failed: 0,
+    activeCustomers: 0,
+    recentPayments: [],
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await listPayments({ limit: 100 });
+        const payments = res.data || [];
+        setData({
+          totalRevenue: payments
+            .filter((p) => p.status === "succeeded")
+            .reduce((sum, p) => sum + p.amount, 0),
+          successful: payments.filter((p) => p.status === "succeeded").length,
+          failed: payments.filter((p) => p.status === "failed").length,
+          activeCustomers: new Set(
+            payments.filter((p) => p.customer_id).map((p) => p.customer_id)
+          ).size,
+          recentPayments: payments.slice(0, 10),
+        });
+      } catch {
+        // Hyperswitch may be down
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
+
+  const kpis = [
+    {
+      label: "Total Revenue",
+      value: formatCurrency(data.totalRevenue, currency),
+      icon: DollarSign,
+      color: "text-emerald-600",
+      bg: "bg-emerald-50",
+    },
+    {
+      label: "Successful Payments",
+      value: String(data.successful),
+      icon: CreditCard,
+      color: "text-secondary",
+      bg: "bg-secondary-light",
+    },
+    {
+      label: "Failed Payments",
+      value: String(data.failed),
+      icon: AlertTriangle,
+      color: "text-error",
+      bg: "bg-red-50",
+    },
+    {
+      label: "Active Customers",
+      value: String(data.activeCustomers),
+      icon: Users,
+      color: "text-secondary",
+      bg: "bg-secondary-light",
+    },
+  ];
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-text-primary">Dashboard</h1>
-        <p className="text-text-secondary mt-1">
-          Overview of your payment activity
-        </p>
+      <div className="mb-8 flex items-center gap-3">
+        <div>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-semibold text-text-primary">Dashboard</h1>
+            <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
+              isSandbox
+                ? "bg-amber-50 border-amber-300 text-amber-700"
+                : "bg-emerald-50 border-emerald-300 text-emerald-700"
+            }`}>
+              {isSandbox ? "Sandbox" : "Production"}
+            </span>
+          </div>
+          <p className="text-text-secondary mt-1">
+            {isSandbox ? "Test payment activity — no real charges" : "Live payment activity across your business"}
+          </p>
+        </div>
       </div>
 
       {/* KPI Cards */}
@@ -143,9 +167,11 @@ export default async function DashboardPage() {
           <div className="p-6">
             <div className="text-center py-12 text-text-muted">
               <CreditCard className="w-12 h-12 mx-auto mb-3 opacity-50" />
-              <p>No transactions yet</p>
+              <p>{isSandbox ? "No test transactions yet" : "No transactions yet"}</p>
               <p className="text-sm mt-1">
-                Payments will appear here once you start accepting them
+                {isSandbox
+                  ? "Test payments will appear here once you start processing them"
+                  : "Live payments will appear here once you start accepting them"}
               </p>
             </div>
           </div>
