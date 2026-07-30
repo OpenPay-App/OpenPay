@@ -67,7 +67,7 @@ export default function QuickstartPage() {
         <p className="text-text-secondary mb-4">
           Open your terminal and clone the OpenPay repository:
         </p>
-        <CodeBlock title="terminal">{`git clone https://github.com/OpenPay-App/OpenPay.git
+        <CodeBlock title="terminal">{`git clone https://github.com/OpenPay-App/openpay.git
 cd OpenPay`}</CodeBlock>
       </section>
 

@@ -430,7 +430,7 @@ export function PricingComparison() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-gradient-to-r from-secondary/10 via-accent/10 to-secondary/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
           <Link
-            href="https://github.com/OpenPay-App/OpenPay"
+            href="https://github.com/OpenPay-App/openpay"
             target="_blank"
             className="group/btn relative inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-secondary to-accent text-white font-semibold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-600/25 active:scale-100"
           >

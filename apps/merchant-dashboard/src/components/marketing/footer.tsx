@@ -15,9 +15,9 @@ const footerLinks = {
     { label: "Status", href: "/status" },
   ],
   Community: [
-    { label: "GitHub", href: "https://github.com/OpenPay-App/OpenPay" },
-    { label: "Discussions", href: "https://github.com/OpenPay-App/OpenPay/discussions" },
-    { label: "Contributing", href: "https://github.com/OpenPay-App/OpenPay/blob/main/CONTRIBUTING.md" },
+    { label: "GitHub", href: "https://github.com/OpenPay-App/openpay" },
+    { label: "Discussions", href: "https://github.com/OpenPay-App/openpay/discussions" },
+    { label: "Contributing", href: "https://github.com/OpenPay-App/openpay/blob/main/CONTRIBUTING.md" },
   ],
   Legal: [
     { label: "License", href: "/license" },

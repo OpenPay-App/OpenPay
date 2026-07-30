@@ -44,7 +44,7 @@ export default function ContributingPage() {
         {[
           {
             title: "View on GitHub",
-            url: "https://github.com/OpenPay-App/OpenPay",
+            url: "https://github.com/OpenPay-App/openpay",
             description: "Star the repo, browse the code, fork your own copy",
             icon: Star,
             iconBg: "bg-amber-500/10",
@@ -52,7 +52,7 @@ export default function ContributingPage() {
           },
           {
             title: "Read the Full CONTRIBUTING.md",
-            url: "https://github.com/OpenPay-App/OpenPay/blob/main/CONTRIBUTING.md",
+            url: "https://github.com/OpenPay-App/openpay/blob/main/CONTRIBUTING.md",
             description: "Complete guidelines including commit messages, PR process, and code style",
             icon: BookOpen,
             iconBg: "bg-blue-500/10",
@@ -60,7 +60,7 @@ export default function ContributingPage() {
           },
           {
             title: "GitHub Discussions",
-            url: "https://github.com/OpenPay-App/OpenPay/discussions",
+            url: "https://github.com/OpenPay-App/openpay/discussions",
             description: "Ask questions, share ideas, get help from the community",
             icon: MessageCircle,
             iconBg: "bg-green-500/10",
@@ -68,7 +68,7 @@ export default function ContributingPage() {
           },
           {
             title: "Browse Issues",
-            url: "https://github.com/OpenPay-App/OpenPay/issues",
+            url: "https://github.com/OpenPay-App/openpay/issues",
             description: "Find something to work on — look for 'good first issue' labels",
             icon: GitPullRequest,
             iconBg: "bg-purple-500/10",
@@ -111,7 +111,7 @@ export default function ContributingPage() {
               description:
                 "Start by browsing existing issues on GitHub. Look for labels like <code className='font-mono text-xs'>good first issue</code> or <code className='font-mono text-xs'>help wanted</code>. If you're adding something new, create an issue first to discuss the approach with maintainers.",
               action: "Browse 'good first issue' label",
-              url: "https://github.com/OpenPay-App/OpenPay/labels/good%20first%20issue",
+              url: "https://github.com/OpenPay-App/openpay/labels/good%20first%20issue",
             },
             {
               step: 2,
@@ -287,7 +287,7 @@ export default function ContributingPage() {
           that your contributions will be licensed under the same license.
         </p>
         <a
-          href="https://github.com/OpenPay-App/OpenPay/blob/main/LICENSE"
+          href="https://github.com/OpenPay-App/openpay/blob/main/LICENSE"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors"

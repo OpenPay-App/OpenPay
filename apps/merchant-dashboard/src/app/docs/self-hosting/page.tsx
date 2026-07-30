@@ -79,7 +79,7 @@ export default function SelfHostingPage() {
           Quick Start
         </h2>
         <CodeBlock title="setup">{`# Clone the repo
-git clone https://github.com/OpenPay-App/OpenPay.git
+git clone https://github.com/OpenPay-App/openpay.git
 cd OpenPay
 
 # Copy environment files

@@ -61,7 +61,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">Contact</h2>
-            <p>For questions about these terms, open an issue on <Link href="https://github.com/OpenPay-App/OpenPay" className="text-secondary hover:underline">GitHub</Link>.</p>
+            <p>For questions about these terms, open an issue on <Link href="https://github.com/OpenPay-App/openpay" className="text-secondary hover:underline">GitHub</Link>.</p>
           </section>
         </div>
       </main>

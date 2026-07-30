@@ -38,7 +38,7 @@ const tools = [
   {
     name: "OpenPay Dashboard",
     description: "Merchant dashboard and admin interface",
-    url: "https://github.com/OpenPay-App/OpenPay",
+    url: "https://github.com/OpenPay-App/openpay",
     language: "TypeScript",
   },
 ];
@@ -119,7 +119,7 @@ export function OpenSource() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link
-              href="https://github.com/OpenPay-App/OpenPay"
+              href="https://github.com/OpenPay-App/openpay"
               target="_blank"
               className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-secondary to-accent text-white font-semibold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-600/25 active:scale-100"
             >
@@ -130,7 +130,7 @@ export function OpenSource() {
               </span>
             </Link>
             <Link
-              href="https://github.com/OpenPay-App/OpenPay/discussions"
+              href="https://github.com/OpenPay-App/openpay/discussions"
               target="_blank"
               className="group inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-white/10 text-white/60 font-medium hover:bg-white/5 hover:text-white hover:border-white/20 transition-all duration-300"
             >

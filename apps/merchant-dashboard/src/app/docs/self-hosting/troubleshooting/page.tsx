@@ -299,7 +299,7 @@ export default function TroubleshootingPage() {
           with step-by-step solutions. If you don't find your issue here, check
           our{" "}
           <a
-            href="https://github.com/OpenPay-App/OpenPay/discussions"
+            href="https://github.com/OpenPay-App/openpay/discussions"
             target="_blank"
             rel="noopener noreferrer"
             className="text-secondary hover:underline"
@@ -411,12 +411,12 @@ export default function TroubleshootingPage() {
           {[
             {
               title: "GitHub Discussions",
-              url: "https://github.com/OpenPay-App/OpenPay/discussions",
+              url: "https://github.com/OpenPay-App/openpay/discussions",
               description: "Ask the community — search existing threads or start a new discussion",
             },
             {
               title: "GitHub Issues",
-              url: "https://github.com/OpenPay-App/OpenPay/issues",
+              url: "https://github.com/OpenPay-App/openpay/issues",
               description: "Report bugs or request features with detailed reproduction steps",
             },
             {

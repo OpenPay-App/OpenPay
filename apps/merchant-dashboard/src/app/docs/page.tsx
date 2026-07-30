@@ -333,7 +333,7 @@ export default function DocsIntroPage() {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
-            href="https://github.com/OpenPay-App/OpenPay"
+            href="https://github.com/OpenPay-App/openpay"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-gradient-to-r from-secondary to-accent text-white font-medium text-sm hover:shadow-lg hover:shadow-secondary/20 transition-all"
@@ -342,7 +342,7 @@ export default function DocsIntroPage() {
             Star on GitHub
           </a>
           <a
-            href="https://github.com/OpenPay-App/OpenPay/discussions"
+            href="https://github.com/OpenPay-App/openpay/discussions"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border border-white/10 text-text-secondary hover:text-white hover:bg-white/5 text-sm font-medium transition-all"

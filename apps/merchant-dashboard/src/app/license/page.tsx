@@ -25,7 +25,7 @@ export default function LicensePage() {
               Docs
             </Link>
             <Link
-              href="https://github.com/OpenPay-App/OpenPay"
+              href="https://github.com/OpenPay-App/openpay"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-text-secondary hover:text-white transition-colors"
@@ -122,7 +122,7 @@ export default function LicensePage() {
         {/* GitHub Link */}
         <div className="text-center">
           <a
-            href="https://github.com/OpenPay-App/OpenPay"
+            href="https://github.com/OpenPay-App/openpay"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-secondary to-accent text-white font-medium text-sm hover:shadow-lg hover:shadow-secondary/20 transition-all"

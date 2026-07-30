@@ -7,7 +7,7 @@ const steps = [
   {
     step: "1",
     title: "Clone the repo",
-    code: "git clone https://github.com/OpenPay-App/OpenPay",
+    code: "git clone https://github.com/OpenPay-App/openpay",
     description: "Get the complete platform source code",
   },
   {

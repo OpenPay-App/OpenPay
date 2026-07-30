@@ -47,7 +47,7 @@ export default function DocsLayout({
               Status
             </Link>
             <a
-              href="https://github.com/OpenPay-App/OpenPay"
+              href="https://github.com/OpenPay-App/openpay"
               target="_blank"
               className="text-sm text-text-secondary hover:text-white transition-colors"
             >

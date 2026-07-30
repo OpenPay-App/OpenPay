@@ -74,7 +74,7 @@ export function Hero() {
               Docs
             </Link>
             <Link
-              href="https://github.com/OpenPay-App/OpenPay"
+              href="https://github.com/OpenPay-App/openpay"
               target="_blank"
               className="text-white/60 hover:text-white transition-colors"
             >
@@ -145,7 +145,7 @@ export function Hero() {
               </span>
             </RegisterLink>
             <Link
-              href="https://github.com/OpenPay-App/OpenPay"
+              href="https://github.com/OpenPay-App/openpay"
               target="_blank"
               className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-white/10 text-white/60 font-medium text-base hover:bg-white/5 hover:text-white hover:border-white/20 transition-all duration-300"
             >
@@ -183,7 +183,7 @@ export function Hero() {
                   <code>
                     <span className="text-white/30">$</span>{" "}
                     <span className="text-orange-400">git</span>{" "}
-                    clone https://github.com/OpenPay-App/OpenPay
+                    clone https://github.com/OpenPay-App/openpay
                     {"\n"}
                     <span className="text-white/30">$</span>{" "}
                     <span className="text-orange-400">cd</span> openpay
