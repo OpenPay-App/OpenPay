@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import { ArrowRight, Github, Star } from "lucide-react";
+import { ArrowRight, Github, Star, Terminal } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 function AnimatedOrb({ className, size = "w-[600px] h-[600px]" }: { className?: string; size?: string }) {
@@ -74,15 +73,18 @@ export function Hero() {
               Docs
             </Link>
             <Link
+              href="/docs/quickstart"
+              className="text-sm text-white/60 hover:text-white transition-colors"
+            >
+              Quickstart
+            </Link>
+            <Link
               href="https://github.com/OpenPay-App/openpay"
               target="_blank"
               className="text-white/60 hover:text-white transition-colors"
             >
               <Github className="w-5 h-5" />
             </Link>
-            <LoginLink className="text-sm text-white/60 hover:text-white transition-colors">
-              Sign in
-            </LoginLink>
           </div>
         </nav>
 
@@ -137,13 +139,17 @@ export function Hero() {
               ctaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <RegisterLink className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-secondary to-accent text-white font-semibold text-base overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-600/30 active:scale-100">
+            <Link
+              href="/docs/quickstart"
+              className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-secondary to-accent text-white font-semibold text-base overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-600/30 active:scale-100"
+            >
               <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
               <span className="relative flex items-center gap-2">
-                Get started — it&apos;s free
+                <Terminal className="w-5 h-5" />
+                Self-host in 5 minutes
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
-            </RegisterLink>
+            </Link>
             <Link
               href="https://github.com/OpenPay-App/openpay"
               target="_blank"
@@ -157,6 +163,11 @@ export function Hero() {
               </span>
             </Link>
           </div>
+
+          {/* Auth note */}
+          <p className="mt-4 text-xs text-white/20">
+            No account needed. Authentication is optional and only required if you enable it.
+          </p>
 
           {/* Code preview */}
           <div
