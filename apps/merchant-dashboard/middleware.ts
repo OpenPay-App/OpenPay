@@ -25,7 +25,7 @@ export default async function middleware(request: NextRequest) {
         "/api/auth/*",
         "/api/health",
       ],
-    });
+    }) as (request: NextRequest) => Promise<NextResponse>;
     return handler(request);
   } catch {
     // Kinde middleware failed to load — pass through all requests
