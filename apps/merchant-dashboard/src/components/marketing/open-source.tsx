@@ -44,7 +44,7 @@ const tools = [
 ];
 
 function ToolCard({ tool, index }: { tool: typeof tools[number]; index: number }) {
-  const { ref, isVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref, isVisible } = useScrollReveal<HTMLAnchorElement>({ threshold: 0.1 });
 
   return (
     <Link
