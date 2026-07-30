@@ -1,12 +1,12 @@
 services:
   # Edge Reverse Proxy & TLS Routing
   proxy:
-    profiles:
-      - core
-      - full
     image: traefik:v2.10
     container_name: core-proxy
     restart: unless-stopped
+    profiles:
+      - core
+      - full
     ports:
       - "80:80"
       - "443:443"
@@ -25,12 +25,12 @@ services:
 
   # PostgreSQL Database
   postgres:
-    profiles:
-      - core
-      - full
     image: postgres:15-alpine
     container_name: core-postgres
     restart: unless-stopped
+    profiles:
+      - core
+      - full
     environment:
       POSTGRES_USER: coreplatform
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-localdev123}
@@ -49,12 +49,12 @@ services:
 
   # Redis Cache
   redis:
-    profiles:
-      - core
-      - full
     image: redis:7-alpine
     container_name: core-redis
     restart: unless-stopped
+    profiles:
+      - core
+      - full
     command: redis-server --appendonly yes
     ports:
       - "6379:6379"
@@ -70,12 +70,12 @@ services:
 
   # NATS JetStream Event Bus
   nats:
-    profiles:
-      - core
-      - full
     image: nats:2.9-alpine
     container_name: core-nats
     restart: unless-stopped
+    profiles:
+      - core
+      - full
     ports:
       - "4222:4222"
       - "8222:8222"
@@ -93,14 +93,14 @@ services:
 
   # Mock Superposition (Local Dev)
   mock-superposition:
-    profiles:
-      - core
-      - full
     build:
       context: ./payment-system/hyperswitch/mock-superposition
       dockerfile: Dockerfile
     container_name: core-mock-superposition
     restart: unless-stopped
+    profiles:
+      - core
+      - full
     ports:
       - "9999:9999"
     networks:
@@ -113,12 +113,12 @@ services:
 
   # Hyperswitch Payment Orchestration
   hyperswitch:
-    profiles:
-      - core
-      - full
     image: juspaydotin/hyperswitch-router:standalone
     container_name: core-hyperswitch
     restart: unless-stopped
+    profiles:
+      - core
+      - full
     command: "/local/bin/router -f /local/config/docker_compose.toml"
     ports:
       - "8081:8080"
@@ -162,12 +162,12 @@ services:
 
   # Hyperswitch Control Center (Dashboard UI)
   hyperswitch-control-center:
-    profiles:
-      - core
-      - full
     image: juspaydotin/hyperswitch-control-center:latest
     container_name: core-hyperswitch-dashboard
     restart: unless-stopped
+    profiles:
+      - core
+      - full
     ports:
       - "9000:9000"
     environment:
@@ -184,12 +184,12 @@ services:
 
   # Kill Bill Subscription & Billing
   killbill:
-    profiles:
-      - core
-      - full
     image: killbill/killbill:0.24.11
     container_name: core-killbill
     restart: unless-stopped
+    profiles:
+      - core
+      - full
     ports:
       - "8082:8080"
     env_file:
@@ -214,14 +214,14 @@ services:
 
   # NATS-KB Bridge (Reconciliation)
   nats-kb-bridge:
-    profiles:
-      - core
-      - full
     build:
       context: ./payment-system/nats-kb-bridge
       dockerfile: Dockerfile
     container_name: core-nats-kb-bridge
     restart: unless-stopped
+    profiles:
+      - core
+      - full
     env_file:
       - ./payment-system/nats-kb-bridge/.env
     depends_on:
@@ -239,14 +239,14 @@ services:
 
   # Tazama Auth Service
   tazama-auth:
-    profiles:
-      - tazama
-      - full
     build:
       context: ./monitoring-and-rules/tazama-auth
       dockerfile: Dockerfile
     container_name: core-tazama-auth
     restart: unless-stopped
+    profiles:
+      - tazama
+      - full
     ports:
       - "8083:8080"
     env_file:
@@ -266,14 +266,14 @@ services:
 
   # Tazama Rule Execution Engine
   tazama-rule-exec:
-    profiles:
-      - tazama
-      - full
     build:
       context: ./monitoring-and-rules/tazama-rule-exec
       dockerfile: Dockerfile
     container_name: core-tazama-rule-exec
     restart: unless-stopped
+    profiles:
+      - tazama
+      - full
     ports:
       - "8084:8080"
     env_file:
@@ -299,14 +299,14 @@ services:
 
   # Tazama Rule Studio UI
   tazama-rule-studio:
-    profiles:
-      - tazama
-      - full
     build:
       context: ./monitoring-and-rules/tazama-rule-studio
       dockerfile: Dockerfile
     container_name: core-tazama-rule-studio
     restart: unless-stopped
+    profiles:
+      - tazama
+      - full
     ports:
       - "3002:8080"
     env_file:
@@ -319,14 +319,14 @@ services:
 
   # Case Management Dashboard
   case-management:
-    profiles:
-      - tazama
-      - full
     build:
       context: ./monitoring-and-rules/case-management
       dockerfile: Dockerfile
     container_name: core-case-management
     restart: unless-stopped
+    profiles:
+      - tazama
+      - full
     ports:
       - "3001:8080"
     env_file:

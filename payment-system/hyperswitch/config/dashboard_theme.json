@@ -1,0 +1,22 @@
+{
+  "name": "OpenPay",
+  "colors": {
+    "primary": "#FF6B00",
+    "primary_hover": "#E65A00",
+    "secondary": "#FF8C33",
+    "accent": "#FFC60A",
+    "background": "#FFFFFF",
+    "surface": "#F8F9FA",
+    "text_primary": "#1A1A2E",
+    "text_secondary": "#6B7280",
+    "border": "#E5E7EB",
+    "success": "#10B981",
+    "warning": "#F59E0B",
+    "error": "#EF4444"
+  },
+  "logo": {
+    "url": "",
+    "alt_text": "OpenPay"
+  },
+  "font_family": "Inter, system-ui, -apple-system, sans-serif"
+}

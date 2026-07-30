@@ -1,0 +1,19 @@
+[config]
+api_url = "http://localhost:8081"
+sdk_url = "http://localhost:8081"
+ 
+[features]
+recon = false
+payout = false
+frm = false
+audit_trail = false
+surcharge = false
+generate_report = false
+mixpanel = false
+feedback = false
+sample_data = false
+test_processors = true
+test_live_toggle = true
+is_live_mode = false
+email = false
+branding = true
