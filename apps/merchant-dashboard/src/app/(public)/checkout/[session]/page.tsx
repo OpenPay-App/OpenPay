@@ -277,12 +277,6 @@ export default function CheckoutPage() {
               id="hyperswitch-payment-element"
               className="min-h-[44px] rounded-lg border border-border p-3 focus-within:ring-2 focus-within:ring-secondary/20 focus-within:border-secondary transition-colors"
             />
-            {status === "loading" && (
-              <div className="flex items-center gap-2 mt-2 text-xs text-text-muted">
-                <Loader2 className="w-3 h-3 animate-spin" />
-                Loading secure payment form...
-              </div>
-            )}
             <p className="mt-1 text-xs text-text-muted">
               Card data is securely tokenized by Hyperswitch. Raw card details
               never leave the encrypted iframe.
