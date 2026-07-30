@@ -1,10 +1,29 @@
 .PHONY: help up down logs test-flow test-payment clean build
 
+# ────────────────────────────────────────────────────────────
+# Setup & Init
+# ────────────────────────────────────────────────────────────
+
 # Default target
 help: ## Show this help message
 	@echo "Core Financial Platform - Development Shortcuts"
 	@echo "================================================"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+init: ## Copy all .env.example templates to .env (run once after clone)
+	@echo "=== Initializing environment files ==="
+	@copy /Y ".env.example" ".env" >nul 2>&1 || cp .env.example .env 2>/dev/null; echo "  ✓ Root .env"
+	@copy /Y "payment-system\hyperswitch\.env.example" "payment-system\hyperswitch\.env" >nul 2>&1 || cp payment-system/hyperswitch/.env.example payment-system/hyperswitch/.env 2>/dev/null; echo "  ✓ Hyperswitch .env"
+	@copy /Y "payment-system\killbill\.env.example" "payment-system\killbill\.env" >nul 2>&1 || cp payment-system/killbill/.env.example payment-system/killbill/.env 2>/dev/null; echo "  ✓ Kill Bill .env"
+	@copy /Y "event-bus\.env.example" "event-bus\.env" >nul 2>&1 || cp event-bus/.env.example event-bus/.env 2>/dev/null; echo "  ✓ Event Bus .env"
+	@copy /Y "monitoring-and-rules\.env.example" "monitoring-and-rules\.env" >nul 2>&1 || cp monitoring-and-rules/.env.example monitoring-and-rules/.env 2>/dev/null; echo "  ✓ Monitoring & Rules .env"
+	@copy /Y "monitoring-and-rules\tazama-auth\.env.example" "monitoring-and-rules\tazama-auth\.env" >nul 2>&1 || cp monitoring-and-rules/tazama-auth/.env.example monitoring-and-rules/tazama-auth/.env 2>/dev/null; echo "  ✓ Tazama Auth .env"
+	@copy /Y "monitoring-and-rules\tazama-rule-exec\.env.example" "monitoring-and-rules\tazama-rule-exec\.env" >nul 2>&1 || cp monitoring-and-rules/tazama-rule-exec/.env.example monitoring-and-rules/tazama-rule-exec/.env 2>/dev/null; echo "  ✓ Tazama Rule Exec .env"
+	@copy /Y "monitoring-and-rules\tazama-rule-studio\.env.example" "monitoring-and-rules\tazama-rule-studio\.env" >nul 2>&1 || cp monitoring-and-rules/tazama-rule-studio/.env.example monitoring-and-rules/tazama-rule-studio/.env 2>/dev/null; echo "  ✓ Tazama Rule Studio .env"
+	@copy /Y "monitoring-and-rules\case-management\.env.example" "monitoring-and-rules\case-management\.env" >nul 2>&1 || cp monitoring-and-rules/case-management/.env.example monitoring-and-rules/case-management/.env 2>/dev/null; echo "  ✓ Case Management .env"
+	@copy /Y "apps\merchant-dashboard\.env.local.example" "apps\merchant-dashboard\.env.local" >nul 2>&1 || cp apps/merchant-dashboard/.env.local.example apps/merchant-dashboard/.env.local 2>/dev/null; echo "  ✓ Merchant Dashboard .env.local"
+	@echo ""
+	@echo "✅ All environment files initialized! Edit each .env with your values."
 
 up: ## Start all services in background
 	docker compose up -d

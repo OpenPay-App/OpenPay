@@ -1,6 +1,9 @@
 services:
   # Edge Reverse Proxy & TLS Routing
   proxy:
+    profiles:
+      - core
+      - full
     image: traefik:v2.10
     container_name: core-proxy
     restart: unless-stopped
@@ -22,6 +25,9 @@ services:
 
   # PostgreSQL Database
   postgres:
+    profiles:
+      - core
+      - full
     image: postgres:15-alpine
     container_name: core-postgres
     restart: unless-stopped
@@ -43,6 +49,9 @@ services:
 
   # Redis Cache
   redis:
+    profiles:
+      - core
+      - full
     image: redis:7-alpine
     container_name: core-redis
     restart: unless-stopped
@@ -61,6 +70,9 @@ services:
 
   # NATS JetStream Event Bus
   nats:
+    profiles:
+      - core
+      - full
     image: nats:2.9-alpine
     container_name: core-nats
     restart: unless-stopped
@@ -81,6 +93,9 @@ services:
 
   # Mock Superposition (Local Dev)
   mock-superposition:
+    profiles:
+      - core
+      - full
     build:
       context: ./payment-system/hyperswitch/mock-superposition
       dockerfile: Dockerfile
@@ -98,6 +113,9 @@ services:
 
   # Hyperswitch Payment Orchestration
   hyperswitch:
+    profiles:
+      - core
+      - full
     image: juspaydotin/hyperswitch-router:standalone
     container_name: core-hyperswitch
     restart: unless-stopped
@@ -144,6 +162,9 @@ services:
 
   # Hyperswitch Control Center (Dashboard UI)
   hyperswitch-control-center:
+    profiles:
+      - core
+      - full
     image: juspaydotin/hyperswitch-control-center:latest
     container_name: core-hyperswitch-dashboard
     restart: unless-stopped
@@ -163,6 +184,9 @@ services:
 
   # Kill Bill Subscription & Billing
   killbill:
+    profiles:
+      - core
+      - full
     image: killbill/killbill:0.24.11
     container_name: core-killbill
     restart: unless-stopped
@@ -190,6 +214,9 @@ services:
 
   # NATS-KB Bridge (Reconciliation)
   nats-kb-bridge:
+    profiles:
+      - core
+      - full
     build:
       context: ./payment-system/nats-kb-bridge
       dockerfile: Dockerfile
@@ -212,6 +239,9 @@ services:
 
   # Tazama Auth Service
   tazama-auth:
+    profiles:
+      - tazama
+      - full
     build:
       context: ./monitoring-and-rules/tazama-auth
       dockerfile: Dockerfile
@@ -236,6 +266,9 @@ services:
 
   # Tazama Rule Execution Engine
   tazama-rule-exec:
+    profiles:
+      - tazama
+      - full
     build:
       context: ./monitoring-and-rules/tazama-rule-exec
       dockerfile: Dockerfile
@@ -266,6 +299,9 @@ services:
 
   # Tazama Rule Studio UI
   tazama-rule-studio:
+    profiles:
+      - tazama
+      - full
     build:
       context: ./monitoring-and-rules/tazama-rule-studio
       dockerfile: Dockerfile
@@ -283,6 +319,9 @@ services:
 
   # Case Management Dashboard
   case-management:
+    profiles:
+      - tazama
+      - full
     build:
       context: ./monitoring-and-rules/case-management
       dockerfile: Dockerfile
