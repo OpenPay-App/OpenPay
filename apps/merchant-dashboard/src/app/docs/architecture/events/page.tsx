@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 
 export default function EventsPage() {
   return (
@@ -26,8 +27,7 @@ export default function EventsPage() {
         <h2 className="text-2xl font-bold text-text-primary mb-4">
           JetStream Configuration
         </h2>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`# Stream: payments
+        <CodeBlock title="nats CLI">{`# Stream: payments
 # Subjects: payments.>
 # Retention: limits (max messages or max age)
 # Storage: file (persisted to disk)
@@ -43,8 +43,7 @@ nats stream add payments \\
   --max-bytes 1GB \\
   --storage file \\
   --replicas 1 \\
-  --defaults`}</pre>
-        </div>
+  --defaults`}</CodeBlock>
       </section>
 
       {/* Event Types */}
@@ -198,8 +197,7 @@ nats stream add payments \\
         <p className="text-text-secondary mb-4">
           All events follow a consistent envelope format:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`{
+        <CodeBlock title="JSON">{`{
   "event_id": "evt_abc123",
   "event_type": "payments.payment_intent.succeeded",
   "timestamp": "2026-07-26T10:30:00Z",
@@ -218,8 +216,7 @@ nats stream add payments \\
     "service": "hyperswitch",
     "version": "1.0.0"
   }
-}`}</pre>
-        </div>
+}`}</CodeBlock>
       </section>
 
       {/* Webhook Integration */}

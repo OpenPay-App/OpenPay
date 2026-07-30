@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 
 export default function ApiPaymentsPage() {
   return (
@@ -25,9 +26,7 @@ export default function ApiPaymentsPage() {
         <h2 className="text-2xl font-bold text-text-primary mb-4">
           Base URL
         </h2>
-        <div className="rounded-xl bg-[#0d1117] p-4 font-mono text-sm text-white/80">
-          <pre>http://localhost:8081</pre>
-        </div>
+        <CodeBlock title="base URL">{`http://localhost:8081`}</CodeBlock>
         <p className="text-text-secondary text-sm mt-3">
           All endpoints require an API key passed via the{" "}
           <code className="bg-bg-alt px-1.5 py-0.5 rounded text-xs font-mono">
@@ -54,8 +53,7 @@ export default function ApiPaymentsPage() {
         <h3 className="text-lg font-semibold text-text-primary mb-3">
           Request Body
         </h3>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto mb-6">
-          <pre>{`{
+        <CodeBlock title="request body">{`{
   "amount": 100000,
   "currency": "NGN",
   "confirm": true,
@@ -77,14 +75,12 @@ export default function ApiPaymentsPage() {
       "country": "NG"
     }
   }
-}`}</pre>
-        </div>
+}`}</CodeBlock>
 
         <h3 className="text-lg font-semibold text-text-primary mb-3">
           Response
         </h3>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`{
+        <CodeBlock title="response">{`{
   "payment_id": "pay_xyz789",
   "status": "Succeeded",
   "amount": 100000,
@@ -98,8 +94,7 @@ export default function ApiPaymentsPage() {
   "metadata": {
     "order_id": "12345"
   }
-}`}</pre>
-        </div>
+}`}</CodeBlock>
       </section>
 
       {/* Retrieve Payment */}
@@ -119,16 +114,13 @@ export default function ApiPaymentsPage() {
         <h3 className="text-lg font-semibold text-text-primary mb-3">
           Example
         </h3>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto mb-4">
-          <pre>{`curl -X GET http://localhost:8081/payments/pay_xyz789 \\
-  -H "api-key: test_api_key_xxxx"`}</pre>
-        </div>
+        <CodeBlock title="curl">{`curl -X GET http://localhost:8081/payments/pay_xyz789 \\
+  -H "api-key: test_api_key_xxxx"`}</CodeBlock>
 
         <h3 className="text-lg font-semibold text-text-primary mb-3">
           Response
         </h3>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`{
+        <CodeBlock title="response">{`{
   "payment_id": "pay_xyz789",
   "status": "Succeeded",
   "amount": 100000,
@@ -136,8 +128,7 @@ export default function ApiPaymentsPage() {
   "connector": "paystack",
   "connector_transaction_id": "txn_abc123",
   "created_at": "2026-07-26T10:30:00Z"
-}`}</pre>
-        </div>
+}`}</CodeBlock>
       </section>
 
       {/* List Payments */}
@@ -192,10 +183,8 @@ export default function ApiPaymentsPage() {
         <h3 className="text-lg font-semibold text-text-primary mb-3">
           Example
         </h3>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`curl -X GET "http://localhost:8081/payments?limit=10&status=Succeeded" \\
-  -H "api-key: test_api_key_xxxx"`}</pre>
-        </div>
+        <CodeBlock title="curl">{`curl -X GET "http://localhost:8081/payments?limit=10&status=Succeeded" \\
+  -H "api-key: test_api_key_xxxx"`}</CodeBlock>
       </section>
 
       {/* Confirm Payment */}
@@ -218,8 +207,7 @@ export default function ApiPaymentsPage() {
           </code>
           . This triggers the actual payment processing through the connector.
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`{
+        <CodeBlock title="request body">{`{
   "payment_method": "card",
   "payment_method_data": {
     "card": {
@@ -229,8 +217,7 @@ export default function ApiPaymentsPage() {
       "card_cvc": "123"
     }
   }
-}`}</pre>
-        </div>
+}`}</CodeBlock>
       </section>
 
       {/* Cancel Payment */}
@@ -257,11 +244,9 @@ export default function ApiPaymentsPage() {
           </code>{" "}
           status.
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`{
+        <CodeBlock title="request body">{`{
   "cancellation_reason": "Customer requested cancellation"
-}`}</pre>
-        </div>
+}`}</CodeBlock>
       </section>
 
       {/* Payment Statuses */}

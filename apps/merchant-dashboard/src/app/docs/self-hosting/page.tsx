@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 
 export default function SelfHostingPage() {
   return (
@@ -77,8 +78,7 @@ export default function SelfHostingPage() {
         <h2 className="text-2xl font-bold text-text-primary mb-4">
           Quick Start
         </h2>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`# Clone the repo
+        <CodeBlock title="setup">{`# Clone the repo
 git clone https://github.com/OpenPay-App/OpenPay.git
 cd OpenPay
 
@@ -98,8 +98,7 @@ make up
 ./event-bus/nats/scripts/init-streams.sh
 
 # Watch logs
-make logs`}</pre>
-        </div>
+make logs`}</CodeBlock>
       </section>
 
       {/* Ports */}

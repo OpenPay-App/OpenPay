@@ -96,34 +96,6 @@ services:
       timeout: 5s
       retries: 3
 
-  # Hyperswitch Database Migration
-  hyperswitch-migration:
-    image: rust:slim-bookworm
-    container_name: core-hyperswitch-migration
-    environment:
-      DATABASE_URL: "postgresql://coreplatform:R3d!sS3cur3%232026@core-postgres:5432/hyperswitch"
-    working_dir: /app
-    entrypoint: ["/bin/bash", "-c"]
-    command:
-      - |
-        set -e
-        echo "=== Installing dependencies ==="
-        apt-get update && apt-get install -y --no-install-recommends git libpq-dev pkg-config ca-certificates && rm -rf /var/lib/apt/lists/*
-        echo "=== Installing diesel_cli (postgres only) ==="
-        cargo install diesel_cli --no-default-features --features postgres
-        export PATH="$${HOME}/.cargo/bin:$${PATH}"
-        echo "=== Cloning hyperswitch v1.124.0 ==="
-        git clone --depth 1 --branch v1.124.0 https://github.com/juspay/hyperswitch.git /tmp/hyperswitch
-        cd /tmp/hyperswitch
-        echo "=== Running migrations ==="
-        diesel migration run
-        echo "=== Migrations completed successfully ==="
-    networks:
-      - core-net
-    depends_on:
-      postgres:
-        condition: service_healthy
-
   # Hyperswitch Payment Orchestration
   hyperswitch:
     image: juspaydotin/hyperswitch-router:standalone
@@ -155,8 +127,6 @@ services:
     volumes:
       - ./payment-system/hyperswitch/config:/local/config:ro
     depends_on:
-      hyperswitch-migration:
-        condition: service_completed_successfully
       mock-superposition:
         condition: service_healthy
       postgres:
@@ -171,6 +141,25 @@ services:
       timeout: 10s
       retries: 5
       start_period: 40s
+
+  # Hyperswitch Control Center (Dashboard UI)
+  hyperswitch-control-center:
+    image: juspaydotin/hyperswitch-control-center:latest
+    container_name: core-hyperswitch-dashboard
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      - configPath=/tmp/dashboard-config.toml
+      - themeConfigPath=/tmp/dashboard-theme.json
+    volumes:
+      - ./payment-system/hyperswitch/config/dashboard.toml:/tmp/dashboard-config.toml:ro
+      - ./payment-system/hyperswitch/config/dashboard_theme.json:/tmp/dashboard-theme.json:ro
+    depends_on:
+      hyperswitch:
+        condition: service_healthy
+    networks:
+      - core-net
 
   # Kill Bill Subscription & Billing
   killbill:
@@ -310,10 +299,14 @@ services:
       - core-net
 
   # --- FREE MONITORING SERVICES FOR TESTING ---
+  # These only start with: docker compose --profile monitoring up -d
   prometheus:
     image: prom/prometheus:latest
     container_name: core-prometheus
     restart: unless-stopped
+    profiles:
+      - monitoring
+      - full
     ports:
       - "9090:9090"
     volumes:
@@ -337,6 +330,9 @@ services:
     image: grafana/grafana:latest
     container_name: core-grafana
     restart: unless-stopped
+    profiles:
+      - monitoring
+      - full
     ports:
       - "3000:3000"
     environment:
@@ -357,6 +353,9 @@ services:
     image: grafana/loki:latest
     container_name: core-loki
     restart: unless-stopped
+    profiles:
+      - monitoring
+      - full
     ports:
       - "3100:3100"
     volumes:
@@ -375,6 +374,9 @@ services:
     image: grafana/promtail:latest
     container_name: core-promtail
     restart: unless-stopped
+    profiles:
+      - monitoring
+      - full
     volumes:
       - ./monitoring/promtail:/etc/promtail
       - /var/log:/var/log:ro

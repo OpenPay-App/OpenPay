@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+import { hyperswitchFetch } from "@/lib/hyperswitch";
 
-const BASE_URL = process.env.HYPERSWITCH_URL || "http://localhost:8081";
-const API_KEY = process.env.HYPERSWITCH_API_KEY || "";
-
+/**
+ * POST /api/checkout/[session]/pay
+ *
+ * PCI-compliant payment confirmation route.
+ * Accepts a tokenized payment_method_id from the Hyperswitch SDK.
+ * Raw card data (number, CVC, expiry) should NEVER reach this endpoint.
+ *
+ * Body: { payment_method_id: string, email?: string }
+ */
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ session: string }> }
@@ -10,40 +17,33 @@ export async function POST(
   const { session } = await params;
   const body = await request.json();
 
-  try {
-    // Confirm the payment with Hyperswitch
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      ...(API_KEY ? { "api-key": API_KEY } : {}),
-    };
+  // PCI Compliance: Reject any request containing raw card data
+  if (body.card_number || body.card_cvc || body.exp_month || body.exp_year) {
+    console.error("[PCI VIOLATION] Raw card data rejected in pay route");
+    return NextResponse.json(
+      { status: "failed", error: "Raw card data is not accepted. Use tokenized payment_method_id." },
+      { status: 400 }
+    );
+  }
 
-    const res = await fetch(`${BASE_URL}/payments/${session}`, {
+  if (!body.payment_method_id) {
+    return NextResponse.json(
+      { status: "failed", error: "payment_method_id is required" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    // Confirm the payment with Hyperswitch using the tokenized payment method
+    const data = await hyperswitchFetch<any>(`/payments/${session}`, {
       method: "POST",
-      headers,
       body: JSON.stringify({
+        confirm: true,
         payment_method: "card",
-        payment_method_data: {
-          card: {
-            card_number: body.card_number,
-            card_exp_month: body.exp_month,
-            card_exp_year: body.exp_year,
-            card_cvc: body.cvv,
-          },
-        },
-        billing: {
-          email: body.email,
-        },
+        payment_method_id: body.payment_method_id,
+        ...(body.email ? { billing: { email: body.email } } : {}),
       }),
     });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      return NextResponse.json(
-        { status: "failed", error: data.error?.message || "Payment failed" },
-        { status: 400 }
-      );
-    }
 
     return NextResponse.json({
       status: data.status || data.payment_status || "succeeded",

@@ -21,6 +21,8 @@ temp_*
 *.tmp
 *.plan.md
 *.internal.md
+**/DOCKER_TROUBLESHOOTING.md
+**/TROUBLESHOOTING.md
 
 # misc
 *.tsbuildinfo

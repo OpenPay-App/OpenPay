@@ -25,7 +25,7 @@ const steps = [
 ];
 
 const comparisons = [
-  { feature: "Transaction fees", openPay: "Zero — you pay only Paystack", stripe: "2.9% + 30¢ per txn" },
+  { feature: "Transaction fees", openPay: "Zero — you pay only your payment processor", stripe: "2.9% + 30¢ per txn" },
   { feature: "Data ownership", openPay: "Fully self-hosted, your servers", stripe: "Stripe stores everything" },
   { feature: "Customization", openPay: "Full source code access", stripe: "Limited to API/config" },
   { feature: "Vendor lock-in", openPay: "None — swap processors anytime", stripe: "Heavy lock-in" },

@@ -21,7 +21,7 @@ const features = [
     ),
     title: "Payment Processing",
     description:
-      "Accept card payments, bank transfers, and local payment methods worldwide. Connect to Paystack, Stripe, Adyen, or any processor — no routing fees, no markup.",
+      "Accept card payments, bank transfers, and local payment methods worldwide. Connect to Stripe, Adyen, or any major processor — no routing fees, no markup.",
     badge: "Stripe charges 2.9% + 30¢",
   },
   {

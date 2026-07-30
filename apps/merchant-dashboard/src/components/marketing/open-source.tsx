@@ -20,7 +20,7 @@ const tools = [
   {
     name: "Tazama",
     description: "Real-time fraud detection and rule evaluation",
-    url: "https://github.com/tazama-labs/tazama",
+    url: "https://github.com/tazama-lf/tazama",
     language: "Go",
   },
   {

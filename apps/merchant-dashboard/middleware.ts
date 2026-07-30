@@ -1,7 +1,7 @@
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
 export default withAuth({
-  publicPaths: ["/", "/checkout/*", "/api/auth/*"],
+  publicPaths: ["/", "/checkout/*", "/api/checkout/*", "/api/auth/*", "/api/health"],
 });
 
 export const config = {

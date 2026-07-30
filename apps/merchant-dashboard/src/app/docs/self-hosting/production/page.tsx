@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 
 export default function ProductionPage() {
   return (
@@ -30,8 +31,7 @@ export default function ProductionPage() {
           Add the following to your <code className="bg-bg-alt px-1.5 py-0.5 rounded text-xs font-mono">docker-compose.yml</code> under the
           Traefik service:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`# In docker-compose.yml → traefik service
+        <CodeBlock title="docker-compose.yml">{`# In docker-compose.yml → traefik service
 command:
   - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
   - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=https"
@@ -40,8 +40,7 @@ command:
 labels:
   - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
   - "traefik.http.routers.dashboard.tls.domains[0].main=your-domain.com"
-  - "traefik.http.routers.dashboard.tls.domains[0].sans=*.your-domain.com"`}</pre>
-        </div>
+  - "traefik.http.routers.dashboard.tls.domains[0].sans=*.your-domain.com"`}</CodeBlock>
       </section>
 
       {/* Strong Passwords */}
@@ -53,8 +52,7 @@ labels:
           Never use default or weak passwords in production. Generate secure
           values:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`# Generate a random 32-character password
+        <CodeBlock title="generate secrets">{`# Generate a random 32-character password
 openssl rand -base64 32
 
 # Use these for:
@@ -62,8 +60,7 @@ POSTGRES_PASSWORD=<generated>
 REDIS_PASSWORD=<generated>
 HYPERSWITCH_API_KEY=<generated>
 KILLBILL_API_KEY=<generated>
-KILLBILL_API_SECRET=<generated>`}</pre>
-        </div>
+KILLBILL_API_SECRET=<generated>`}</CodeBlock>
       </section>
 
       {/* Rate Limiting */}
@@ -75,8 +72,7 @@ KILLBILL_API_SECRET=<generated>`}</pre>
           Traefik rate-limit middleware protects against abuse. The default is
           100 requests per second per IP. Adjust for your use case:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`# In traefik.yml (static config)
+        <CodeBlock title="traefik.yml">{`# In traefik.yml (static config)
 entryPoints:
   https:
     address: ":443"
@@ -89,8 +85,7 @@ entryPoints:
 labels:
   - "traefik.http.middlewares.ratelimit.ratelimit.average=100"
   - "traefik.http.middlewares.ratelimit.ratelimit.burst=50"
-  - "traefik.http.middlewares.ratelimit.ratelimit.period=1s"`}</pre>
-        </div>
+  - "traefik.http.middlewares.ratelimit.ratelimit.period=1s"`}</CodeBlock>
       </section>
 
       {/* Webhook Signatures */}
@@ -102,8 +97,7 @@ labels:
           Always verify webhook signatures to ensure events come from
           OpenPay and haven&apos;t been tampered with:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`// Node.js webhook signature verification
+        <CodeBlock title="Node.js">{`// Node.js webhook signature verification
 import crypto from "crypto";
 
 function verifyWebhookSignature(payload, signature, secret) {
@@ -133,8 +127,7 @@ app.post("/webhooks/openpay", (req, res) => {
 
   // Process the event...
   res.status(200).json({ received: true });
-});`}</pre>
-        </div>
+});`}</CodeBlock>
       </section>
 
       {/* Monitoring */}
@@ -193,15 +186,13 @@ app.post("/webhooks/openpay", (req, res) => {
         <p className="text-text-secondary mb-4">
           Schedule regular PostgreSQL backups:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`# Backup script (add to cron: 0 2 * * *)
+        <CodeBlock title="bash">{`# Backup script (add to cron: 0 2 * * *)
 docker exec postgres pg_dump -U postgres hyperswitch > \\
   /backups/hyperswitch-$(date +%Y%m%d).sql
 
 # Restore from backup
 docker exec -i postgres psql -U postgres hyperswitch < \\
-  /backups/hyperswitch-20260726.sql`}</pre>
-        </div>
+  /backups/hyperswitch-20260726.sql`}</CodeBlock>
       </section>
 
       {/* Firewall */}

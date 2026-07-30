@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 
 export default function FirstPaymentPage() {
   return (
@@ -142,8 +143,7 @@ export default function FirstPaymentPage() {
         <p className="text-text-secondary mb-4">
           Send a POST request to create a payment intent:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto mb-4">
-          <pre>{`curl -X POST http://localhost:8081/payments \\
+        <CodeBlock title="curl">{`curl -X POST http://localhost:8081/payments \\
   -H "Content-Type: application/json" \\
   -H "api-key: test_api_key_xxxx" \\
   -d '{
@@ -153,8 +153,7 @@ export default function FirstPaymentPage() {
     "capture_method": "automatic",
     "description": "Test payment from docs",
     "email": "test@example.com"
-  }'`}</pre>
-        </div>
+  }'`}</CodeBlock>
         <p className="text-text-secondary text-sm">
           The response includes a <code className="bg-bg-alt px-1 rounded font-mono">payment_id</code> and the current status.
         </p>

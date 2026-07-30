@@ -1,257 +1,171 @@
-# Core Financial Platform
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/OpenPay-App/OpenPay/main/apps/merchant-dashboard/public/brand/logo-dark.svg">
+    <img alt="OpenPay — Open-Source Payment Infrastructure" src="https://raw.githubusercontent.com/OpenPay-App/OpenPay/main/apps/merchant-dashboard/public/brand/logo.svg" width="400" height="auto">
+  </picture>
+</p>
 
-A self-hosted, production-ready financial platform with environment isolation, build context, shared event contracts, and Traefik edge routing.
+<p align="center">
+  <strong>Self-hosted, open-source payment infrastructure.</strong>
+  <br />
+  Process payments, manage subscriptions, detect fraud — on your own servers, with zero vendor lock-in.
+</p>
 
-## Architecture Overview
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+  <a href="https://github.com/OpenPay-App/OpenPay/releases"><img src="https://img.shields.io/github/v/release/OpenPay-App/OpenPay?color=orange&label=version" alt="Latest Release"></a>
+  <a href="https://github.com/OpenPay-App/OpenPay/stargazers"><img src="https://img.shields.io/github/stars/OpenPay-App/OpenPay?style=flat&color=yellow" alt="GitHub Stars"></a>
+  <a href="https://github.com/OpenPay-App/OpenPay/pulse"><img src="https://img.shields.io/github/commit-activity/m/OpenPay-App/OpenPay?color=green" alt="Commit Activity"></a>
+  <a href="https://github.com/OpenPay-App/OpenPay/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen" alt="Contributions Welcome"></a>
+</p>
 
-This platform follows a microservices architecture with clear domain boundaries:
+<br />
 
-- **Edge Proxy (Traefik)**: Handles public ingress, SSL/TLS termination, and routes incoming webhooks/APIs
-- **Event Bus (NATS JetStream)**: Asynchronous event-driven communication between services
-- **Payment System**: Core payment processing (Hyperswitch) and subscription billing (Kill Bill)
-- **Monitoring & Rules**: Fraud detection, rule evaluation, and case management
+---
 
-## Directory Structure
+<br />
 
-```
-core-financial-platform/
-├── .env.example                    # Master deployment environment template
-├── docker-compose.yml              # Root orchestration file
-├── Makefile                        # Local dev shortcuts
-│
-├── shared/                         # Shared schemas & contract definitions
-│   └── schemas/                    # CloudEvents JSON schemas
-│
-├── proxy/                          # Edge Reverse Proxy & TLS Routing
-│   └── traefik/                    # Traefik configuration
-│
-├── event-bus/                      # NATS JetStream Infrastructure
-│   └── nats/                       # NATS server configuration
-│
-├── payment-system/                 # Core Payment & Subscription Engine
-│   ├── hyperswitch/                # Payment orchestration (Rust)
-│   ├── killbill/                   # Subscription & billing (Java)
-│   └── nats-kb-bridge/            # Reconciliation bridge (Go)
-│
-└── monitoring-and-rules/           # Fraud Detection & Rule Evaluation
-    ├── tazama-auth/                # Authentication service
-    ├── tazama-rule-exec/           # Rule execution engine
-    ├── tazama-rule-studio/         # Rule authoring UI
-    └── case-management/            # Analyst dashboard
-```
+## Files
+
+| File | Description |
+|------|-------------|
+| **[📖 README.md](./README.md)** | This file — project overview, quick start, architecture |
+| **[📜 LICENSE](./LICENSE)** | MIT License — free to use, modify, and distribute |
+| **[🤝 CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)** | Community guidelines for contributors |
+| **[🔒 SECURITY.md](./SECURITY.md)** | Security policy and vulnerability reporting |
+| **[📋 CONTRIBUTING.md](./CONTRIBUTING.md)** | Contribution workflow, code style, PR process |
+| **[⚙️ Makefile](./Makefile)** | Development shortcuts (`make up`, `make logs`, etc.) |
+| **[🐳 docker-compose.yml](./docker-compose.yml)** | Service orchestration for all 10+ microservices |
+| **[📚 docs/](./apps/merchant-dashboard/src/app/docs)** | Full documentation site (Next.js app) |
+
+<br />
+
+---
+
+<br />
+
+## What is OpenPay?
+
+OpenPay is a **self-hosted, open-source payment platform** that gives you everything Stripe offers — payments, subscriptions, invoicing, fraud detection, webhooks — on **your own infrastructure**, at **zero platform fees**.
+
+| Instead of paying Stripe... | You pay with OpenPay |
+|---|---|
+| 2.9% + $0.30 per transaction | $0 — only your processor's fee |
+| $0.40 per invoice | $0 — unlimited invoicing |
+| $0.05 per transaction (Radar) | $0 — built-in fraud detection |
+| 1% currency conversion | $0 — real exchange rate |
+| Vendor lock-in | $0 — swap processors anytime |
+
+<br />
 
 ## Quick Start
 
-### Prerequisites
-
-- Docker and Docker Compose
-- Make (optional, for development shortcuts)
-
-### 1. Clone and Configure
-
 ```bash
-# Copy environment files
-cp .env.example .env
+# 1. Clone the repository
+git clone https://github.com/OpenPay-App/OpenPay.git
+cd OpenPay
 
-# Copy environment files for each service
-cp event-bus/.env.example event-bus/.env
+# 2. Copy environment files
+cp .env.example .env
 cp payment-system/hyperswitch/.env.example payment-system/hyperswitch/.env
 cp payment-system/killbill/.env.example payment-system/killbill/.env
-cp payment-system/nats-kb-bridge/.env.example payment-system/nats-kb-bridge/.env
-cp monitoring-and-rules/.env.example monitoring-and-rules/.env
-cp monitoring-and-rules/tazama-auth/.env.example monitoring-and-rules/tazama-auth/.env
-cp monitoring-and-rules/tazama-rule-exec/.env.example monitoring-and-rules/tazama-rule-exec/.env
-cp monitoring-and-rules/tazama-rule-studio/.env.example monitoring-and-rules/tazama-rule-studio/.env
-cp monitoring-and-rules/case-management/.env.example monitoring-and-rules/case-management/.env
 
-# Edit .env files with your actual configuration values
-```
-
-### 2. Start the Platform
-
-```bash
-# Start all services
+# 3. Start everything (10+ services)
 make up
 
-# Or using Docker Compose directly
-docker compose up -d
-```
-
-### 3. Initialize NATS JetStream
-
-```bash
-# Run the initialization script
+# 4. Initialize event streams
 ./event-bus/nats/scripts/init-streams.sh
+
+# 5. Open the dashboard
+open http://localhost:3000
 ```
 
-### 4. Access Services
+> **Prerequisites:** Docker & Docker Compose (v2.0+), Git, 4GB+ RAM
 
-| Service | URL | Description |
-|---------|-----|-------------|
-| **Traefik Dashboard** | http://localhost:8080 | Reverse proxy & routing |
-| **NATS Monitoring** | http://localhost:8222 | Event bus monitoring |
-| **Tazama Rule Studio** | http://localhost:3000 | Fraud rule authoring UI |
-| **Hyperswitch API** | http://localhost:8081 | Payment orchestration API |
-| **Kill Bill API** | http://localhost:8082 | Subscription & billing API |
-| **Tazama Auth** | http://localhost:8083 | Fraud detection auth |
-| **Tazama Rule Exec** | http://localhost:8084 | Rule execution engine |
-| **Case Management** | http://localhost:3001 | Fraud case dashboard |
+<br />
 
-## Development
+## Architecture
 
-### Using Make Commands
+OpenPay is built on battle-tested open-source components connected via NATS JetStream:
 
-```bash
-# Show all available commands
-make help
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| **Payment Engine** | [Hyperswitch](https://hyperswitch.io) (Rust) | Routes payments to 100+ processors |
+| **Subscription Billing** | [Kill Bill](https://docs.killbill.io) (Java) | Plans, invoicing, dunning |
+| **Event Bus** | NATS JetStream (Go) | Async service communication |
+| **Fraud Detection** | [Tazama](https://github.com/tazama-lf/tazama) (Go/TS) | Rule evaluation, case management |
+| **Reverse Proxy** | Traefik v2.10 | TLS, rate limiting, routing |
+| **Database** | PostgreSQL 15 | Persistent storage |
+| **Cache** | Redis 7 | Sessions, rate limiting |
+| **Dashboard** | Next.js 15 + TypeScript | Merchant UI, docs, landing page |
 
-# Start all services in background
-make up
+<br />
 
-# View logs from all services
-make logs
+## Services
 
-# Test payment flow
-make test-flow
+| Service | Port | Description |
+|---------|------|-------------|
+| Merchant Dashboard | `3000` (dev) / `3002` (avoid conflict) | Merchant UI (Next.js) |
+| Hyperswitch API | `8081` | Payment processing |
+| Kill Bill API | `8082` | Subscription billing |
+| Tazama Rule Exec | `8084` | Fraud rules engine |
+| NATS Monitoring | `8222` | Event bus dashboard |
+| Traefik Dashboard | `8080` | Reverse proxy UI |
+| Tazama Rule Studio | `3000` | Rule authoring |
+| Case Management | `3001` | Alert review |
 
-# Stop all services
-make down
+Internal services (PostgreSQL `5432`, Redis `6379`, NATS `4222`) **must never be exposed to the internet**.
 
-# Clean up (remove containers, volumes, networks)
-make clean
+<br />
 
-# Rebuild all services
-make build
-```
+## Use Cases
 
-### Individual Service Management
+- **SaaS companies** tired of platform fees eating margins
+- **Developers** wanting full control over their payment stack
+- **Businesses** needing multi-provider payment routing
+- **Fintech teams** building on open-source infrastructure
+- **Enterprise** requiring data sovereignty and self-hosting
 
-```bash
-# Start only specific services
-make proxy-up
-make nats-up
-make hyperswitch-up
-make killbill-up
-make tazama-up
-```
+<br />
 
-## Event Schema
+## Documentation
 
-All events follow the CloudEvents specification:
+Full documentation is available at **[/docs](apps/merchant-dashboard/src/app/docs)** or at [https://openpay.dev/docs](https://openpay.dev/docs):
 
-### Payment Events
+| Section | Description |
+|---------|-------------|
+| [Quickstart](apps/merchant-dashboard/src/app/docs/quickstart/page.tsx) | Get running in 10 minutes |
+| [First Payment](apps/merchant-dashboard/src/app/docs/first-payment/page.tsx) | Process your first test transaction |
+| [Architecture](apps/merchant-dashboard/src/app/docs/architecture/page.tsx) | System design, event flow, service matrix |
+| [API Reference](apps/merchant-dashboard/src/app/docs/api/page.tsx) | REST endpoints, request/response formats |
+| [Self-Hosting](apps/merchant-dashboard/src/app/docs/self-hosting/page.tsx) | Docker setup, env vars, production deploy |
+| [Security](apps/merchant-dashboard/src/app/docs/security/page.tsx) | Key management, encryption, PCI compliance |
+| [Troubleshooting](apps/merchant-dashboard/src/app/docs/self-hosting/troubleshooting/page.tsx) | Common issues and solutions |
+| [Webhooks](apps/merchant-dashboard/src/app/docs/guides/webhooks/page.tsx) | Event types, retry policy, signature verification |
+| [Contributing](apps/merchant-dashboard/src/app/docs/contributing/page.tsx) | How to contribute code, docs, or ideas |
 
-```json
-{
-  "specversion": "1.0",
-  "id": "uuid",
-  "source": "urn:core-financial:payment-system",
-  "type": "payments.charge.completed",
-  "time": "2024-01-01T00:00:00Z",
-  "datacontenttype": "application/json",
-  "data": {
-    "paymentId": "uuid",
-    "amount": 1000,
-    "currency": "USD",
-    "status": "completed"
-  }
-}
-```
+<br />
 
-### Dead Letter Events
+## Community
 
-```json
-{
-  "specversion": "1.0",
-  "id": "uuid",
-  "source": "urn:core-financial:event-bus",
-  "type": "dlq.event.failed",
-  "time": "2024-01-01T00:00:00Z",
-  "datacontenttype": "application/json",
-  "data": {
-    "originalEvent": {},
-    "error": {
-      "message": "Processing failed",
-      "code": "PROCESSING_ERROR"
-    },
-    "retryCount": 3
-  }
-}
-```
+- **[GitHub Discussions](https://github.com/OpenPay-App/OpenPay/discussions)** — Ask questions, share ideas, get help
+- **[GitHub Issues](https://github.com/OpenPay-App/OpenPay/issues)** — Report bugs, request features
+- **[Contributing Guide](./CONTRIBUTING.md)** — Learn how to contribute
+- **[Code of Conduct](./CODE_OF_CONDUCT.md)** — Our community standards
 
-## Security Considerations
-
-- Each service has its own environment file to prevent credential bleed
-- Traefik handles SSL/TLS termination and security headers
-- NATS uses authentication for client connections
-- JWT tokens are used for service-to-service communication
-- All sensitive configuration is stored in environment variables
-
-## Production Deployment
-
-### 1. Update Environment Variables
-
-- Set strong passwords for all services
-- Configure proper SSL certificates in Traefik
-- Update NATS authentication credentials
-- Set up proper database connections
-
-### 2. Enable HTTPS
-
-Edit `proxy/traefik/dynamic/tls.yml` to configure your SSL certificates.
-
-### 3. Configure Persistence
-
-Update Docker Compose volumes for production storage requirements.
-
-### 4. Monitoring
-
-- Enable metrics collection in each service
-- Set up log aggregation
-- Configure alerting for critical events
-
-## Troubleshooting
-
-### Service Won't Start
-
-```bash
-# Check service logs
-docker compose logs <service-name>
-
-# Check service status
-docker compose ps
-```
-
-### NATS Connection Issues
-
-```bash
-# Verify NATS is running
-docker compose ps nats
-
-# Check NATS logs
-docker compose logs nats
-
-# Test NATS connection
-nats server info --server nats://localhost:4222
-```
-
-### Database Connection Issues
-
-```bash
-# Check database container
-docker compose ps postgres
-
-# Verify database is accessible
-docker compose exec postgres psql -U postgres -l
-```
-
-## Contributing
-
-1. Follow the existing code structure
-2. Add environment variables to `.env.example` files
-3. Update documentation for any new services
-4. Test changes locally before submitting
+<br />
 
 ## License
 
-See LICENSE file for details.
+[MIT](./LICENSE) — Free to use, modify, and distribute. OpenPay is built for the community, by the community.
+
+<br />
+<br />
+
+---
+
+<p align="center">
+  <sub>Built with ❤️ for the open-source community · MIT Licensed · 100% Free</sub>
+  <br />
+  <sub>OpenPay is not affiliated with Stripe, Paystack, Hyperswitch, or Kill Bill.</sub>
+</p>

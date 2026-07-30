@@ -13,6 +13,9 @@ import {
   Code2,
   Webhook,
   CreditCard,
+  Shield,
+  AlertTriangle,
+  GitFork,
   Puzzle,
   FileText,
 } from "lucide-react";
@@ -29,7 +32,7 @@ const navigation: NavItem[] = [
     label: "Getting Started",
     icon: <Rocket className="w-4 h-4" />,
     children: [
-      { label: "Introduction", href: "/docs" },
+      { label: "About OpenPay", href: "/docs" },
       { label: "Quickstart", href: "/docs/quickstart" },
       { label: "First Payment", href: "/docs/first-payment" },
     ],
@@ -44,12 +47,20 @@ const navigation: NavItem[] = [
     ],
   },
   {
+    label: "Security",
+    icon: <Shield className="w-4 h-4" />,
+    children: [
+      { label: "Overview", href: "/docs/security" },
+    ],
+  },
+  {
     label: "Self-Hosting",
     icon: <Server className="w-4 h-4" />,
     children: [
       { label: "Docker Setup", href: "/docs/self-hosting" },
       { label: "Environment Variables", href: "/docs/self-hosting/env-vars" },
       { label: "Production Deploy", href: "/docs/self-hosting/production" },
+      { label: "Troubleshooting", href: "/docs/self-hosting/troubleshooting" },
     ],
   },
   {
@@ -74,6 +85,11 @@ const navigation: NavItem[] = [
     label: "SDKs & Libraries",
     href: "/docs/sdk",
     icon: <Puzzle className="w-4 h-4" />,
+  },
+  {
+    label: "Contributing",
+    href: "/docs/contributing",
+    icon: <GitFork className="w-4 h-4" />,
   },
   {
     label: "Changelog",

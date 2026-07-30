@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, CheckCircle } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 
 export default function QuickstartPage() {
   return (
@@ -66,10 +67,8 @@ export default function QuickstartPage() {
         <p className="text-text-secondary mb-4">
           Open your terminal and clone the OpenPay repository:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`git clone https://github.com/OpenPay-App/OpenPay.git
-cd OpenPay`}</pre>
-        </div>
+        <CodeBlock title="terminal">{`git clone https://github.com/OpenPay-App/OpenPay.git
+cd OpenPay`}</CodeBlock>
       </section>
 
       {/* Step 2 */}
@@ -81,8 +80,7 @@ cd OpenPay`}</pre>
           Each service has its own environment file. Copy the example files and
           fill in your values:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto mb-4">
-          <pre>{`# Copy the master environment file
+        <CodeBlock title="copy .env files">{`# Copy the master environment file
 cp .env.example .env
 
 # Copy environment files for each service
@@ -90,21 +88,18 @@ cp event-bus/.env.example event-bus/.env
 cp payment-system/hyperswitch/.env.example payment-system/hyperswitch/.env
 cp payment-system/killbill/.env.example payment-system/killbill/.env
 cp payment-system/nats-kb-bridge/.env.example payment-system/nats-kb-bridge/.env
-cp monitoring-and-rules/.env.example monitoring-and-rules/.env`}</pre>
-        </div>
+cp monitoring-and-rules/.env.example monitoring-and-rules/.env`}</CodeBlock>
         <p className="text-text-secondary mb-4">
           Now edit the main <code className="bg-bg-alt px-1.5 py-0.5 rounded text-sm font-mono">.env</code> file and add your Paystack keys:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`# .env (main file)
+        <CodeBlock title=".env">{`# .env (main file)
 POSTGRES_PASSWORD=your-secure-password-here
 REDIS_PASSWORD=your-secure-password-here
 
 # Paystack keys from dashboard.paystack.co
 PAYSTACK_SECRET_KEY=sk_test_xxxxxxxxxxxxxxxx
 PAYSTACK_PUBLIC_KEY=pk_test_xxxxxxxxxxxxxxxx
-PAYSTACK_WEBHOOK_SECRET=your-webhook-secret`}</pre>
-        </div>
+PAYSTACK_WEBHOOK_SECRET=your-webhook-secret`}</CodeBlock>
         <div className="mt-4 p-4 rounded-lg bg-amber-50 border border-amber-200 text-sm">
           <p className="text-amber-800 font-medium">Important</p>
           <p className="text-amber-700 mt-1">
@@ -123,24 +118,20 @@ PAYSTACK_WEBHOOK_SECRET=your-webhook-secret`}</pre>
         <p className="text-text-secondary mb-4">
           Start all services with Docker Compose:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto mb-4">
-          <pre>{`# Using Make (recommended)
+        <CodeBlock title="start services">{`# Using Make (recommended)
 make up
 
 # Or using Docker Compose directly
-docker compose up -d`}</pre>
-        </div>
-        <p className="text-text-secondary mb-4">
+docker compose up -d`}</CodeBlock>
+        <p className="text-text-secondary mb-4 mt-4">
           This starts all 10 services. It may take a few minutes on first run
           as Docker pulls the images. Watch the logs:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`# Watch all logs
+        <CodeBlock title="view logs">{`# Watch all logs
 make logs
 
 # Or watch a specific service
-docker compose logs -f hyperswitch`}</pre>
-        </div>
+docker compose logs -f hyperswitch`}</CodeBlock>
       </section>
 
       {/* Step 4 */}
@@ -151,9 +142,7 @@ docker compose logs -f hyperswitch`}</pre>
         <p className="text-text-secondary mb-4">
           NATS JetStream needs its streams initialized. Run the setup script:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`./event-bus/nats/scripts/init-streams.sh`}</pre>
-        </div>
+        <CodeBlock title="terminal">{`./event-bus/nats/scripts/init-streams.sh`}</CodeBlock>
       </section>
 
       {/* Step 5 */}
@@ -164,8 +153,7 @@ docker compose logs -f hyperswitch`}</pre>
         <p className="text-text-secondary mb-4">
           The merchant dashboard is a Next.js app. Open a new terminal:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto mb-4">
-          <pre>{`cd apps/merchant-dashboard
+        <CodeBlock title="dashboard setup">{`cd apps/merchant-dashboard
 
 # Install dependencies
 npm install
@@ -177,8 +165,7 @@ cp .env.local.example .env.local
 # (See the Authentication guide for details)
 
 # Start the dev server
-npm run dev`}</pre>
-        </div>
+npm run dev`}</CodeBlock>
       </section>
 
       {/* Step 6 */}

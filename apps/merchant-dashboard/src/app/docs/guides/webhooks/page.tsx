@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 
 const events = [
   {
@@ -66,8 +67,7 @@ export default function WebhooksGuidePage() {
         <p className="text-text-secondary mb-4">
           Every event is wrapped in a CloudEvents envelope:
         </p>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`{
+        <CodeBlock title="JSON">{`{
   "specversion": "1.0",
   "id": "evt_abc123",
   "source": "urn:core-financial:payment-system",
@@ -81,8 +81,7 @@ export default function WebhooksGuidePage() {
     "status": "succeeded",
     "reference": "txn_abc123"
   }
-}`}</pre>
-        </div>
+}`}</CodeBlock>
       </section>
 
       {/* Event types */}
@@ -112,8 +111,7 @@ export default function WebhooksGuidePage() {
         <h2 className="text-2xl font-bold text-text-primary mb-6">
           NATS JetStream Subjects
         </h2>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`# Stream: PAYMENT_EVENTS
+        <CodeBlock title="NATS subjects">{`# Stream: PAYMENT_EVENTS
 # Subjects:
 payments.charge.pending
 payments.charge.completed
@@ -124,8 +122,7 @@ payments.refund.completed
 payments.refund.failed
 
 # Stream: DLQ_EVENTS
-dlq.event.failed`}</pre>
-        </div>
+dlq.event.failed`}</CodeBlock>
       </section>
 
       {/* Retry policy */}

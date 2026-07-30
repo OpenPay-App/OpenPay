@@ -26,11 +26,7 @@ import {
 
 // Server-side: use the Docker service name (hyperswitch:8080)
 // Client-side / browser: use the public-facing port (localhost:8081)
-const BASE_URL =
-  process.env.HYPERSWITCH_URL ||
-  (typeof window === "undefined"
-    ? "http://hyperswitch:8080"
-    : "http://localhost:8081");
+const BASE_URL = process.env.HYPERSWITCH_URL || "http://localhost:8081";
 const API_KEY = process.env.HYPERSWITCH_API_KEY || process.env.NEXT_PUBLIC_HYPERSWITCH_API_KEY || "";
 
 export class HyperswitchError extends Error {
