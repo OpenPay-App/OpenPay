@@ -24,6 +24,9 @@ temp_*
 **/DOCKER_TROUBLESHOOTING.md
 **/TROUBLESHOOTING.md
 
+# dashboards & monitoring
+dashboards/
+
 # misc
 *.tsbuildinfo
 *.log

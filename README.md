@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/OpenPay-App/openpay/refs/heads/main/apps/merchant-dashboard/public/brand/logo-dark.svg">
-    <img alt="OpenPay — Open-Source Payment Infrastructure" src="https://raw.githubusercontent.com/OpenPay-App/openpay/refs/heads/main/apps/merchant-dashboard/public/brand/logo.svg" width="400" height="auto">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/OpenPay-App/OpenPay/refs/heads/main/apps/merchant-dashboard/public/brand/logo-dark.svg">
+    <img alt="OpenPay — Open-Source Payment Infrastructure" src="https://raw.githubusercontent.com/OpenPay-App/OpenPay/refs/heads/main/apps/merchant-dashboard/public/brand/logo.svg" width="400" height="auto">
   </picture>
 </p>
 
@@ -13,10 +13,10 @@
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="https://github.com/OpenPay-App/openpay/releases"><img src="https://img.shields.io/github/v/tag/OpenPay-App/openpay?include_prereleases&color=orange&label=version" alt="Version"></a>
-  <a href="https://github.com/OpenPay-App/openpay/stargazers"><img src="https://img.shields.io/github/stars/OpenPay-App/openpay?style=flat&color=yellow" alt="Stars"></a>
-  <a href="https://github.com/OpenPay-App/openpay/pulse"><img src="https://img.shields.io/github/commit-activity/m/OpenPay-App/openpay?color=green" alt="Commit Activity"></a>
-  <a href="https://github.com/OpenPay-App/openpay/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen" alt="Contributions Welcome"></a>
+  <a href="https://github.com/OpenPay-App/OpenPay/releases"><img src="https://img.shields.io/github/v/tag/OpenPay-App/OpenPay?include_prereleases&color=orange&label=version" alt="Version"></a>
+  <a href="https://github.com/OpenPay-App/OpenPay/stargazers"><img src="https://img.shields.io/github/stars/OpenPay-App/OpenPay?style=flat&color=yellow" alt="Stars"></a>
+  <a href="https://github.com/OpenPay-App/OpenPay/pulse"><img src="https://img.shields.io/github/commit-activity/m/OpenPay-App/OpenPay?color=green" alt="Commit Activity"></a>
+  <a href="https://github.com/OpenPay-App/OpenPay/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen" alt="Contributions Welcome"></a>
 </p>
 
 <br />
@@ -62,7 +62,7 @@ OpenPay is a **self-hosted, open-source payment platform** that gives you everyt
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/OpenPay-App/openpay.git
+git clone https://github.com/OpenPay-App/OpenPay.git
 cd OpenPay
 
 # 2. Copy environment files
@@ -148,8 +148,8 @@ Full documentation is available at **[/docs](apps/merchant-dashboard/src/app/doc
 
 ## Community
 
-- **[GitHub Discussions](https://github.com/OpenPay-App/openpay/discussions)** — Ask questions, share ideas, get help
-- **[GitHub Issues](https://github.com/OpenPay-App/openpay/issues)** — Report bugs, request features
+- **[GitHub Discussions](https://github.com/OpenPay-App/OpenPay/discussions)** — Ask questions, share ideas, get help
+- **[GitHub Issues](https://github.com/OpenPay-App/OpenPay/issues)** — Report bugs, request features
 - **[Contributing Guide](./CONTRIBUTING.md)** — Learn how to contribute
 - **[Code of Conduct](./CODE_OF_CONDUCT.md)** — Our community standards
 
