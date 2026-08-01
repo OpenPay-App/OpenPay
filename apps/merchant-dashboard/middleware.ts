@@ -26,7 +26,9 @@ export default async function middleware(request: NextRequest) {
 
   // 3. Otherwise execute Kinde middleware for protected dashboard routes
   try {
-    const { withAuth } = await import("@kinde-oss/kinde-auth-nextjs/middleware");
+    const { withAuth } = await import(
+      "@kinde-oss/kinde-auth-nextjs/middleware"
+    );
     const response = await withAuth(request, {
       isReturnToCurrentPage: true,
     });
