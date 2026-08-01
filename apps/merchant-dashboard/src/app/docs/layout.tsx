@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { DocsSidebar } from "@/components/docs-sidebar";
+import { DocsSearch } from "@/components/docs-search";
+import { CopyPageButton } from "@/components/copy-page-button";
 
 export default function DocsLayout({
   children,
@@ -22,6 +24,8 @@ export default function DocsLayout({
             />
           </Link>
           <div className="flex items-center gap-6">
+            <DocsSearch />
+            <CopyPageButton />
             <Link
               href="/"
               className="text-sm text-text-secondary hover:text-white transition-colors"

@@ -1,0 +1,27 @@
+# Prometheus scrape configuration for the OpenPay stack.
+# Mounted into the prometheus container at /etc/prometheus/prometheus.yml.
+# See docs: /docs/self-hosting/monitoring
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Hyperswitch router: the self-hosted standalone image does NOT expose
+  # Prometheus metrics (GET /metrics -> 404), so this job is disabled.
+  # Re-enable if you build the router image with the metrics feature enabled.
+  # - job_name: "hyperswitch"
+  #   metrics_path: /metrics
+  #   static_configs:
+  #     - targets: ["hyperswitch:8080"]
+
+  # Kill Bill: the release image does NOT expose Prometheus metrics
+  # (GET /metrics -> 404), so this job is disabled.
+  # - job_name: "killbill"
+  #   metrics_path: /metrics
+  #   static_configs:
+  #     - targets: ["killbill:8080"]

@@ -1,8 +1,8 @@
-[config]
+[default.endpoints]
 api_url = "http://localhost:8081"
 sdk_url = "http://localhost:8081"
- 
-[features]
+
+[default.features]
 recon = false
 payout = false
 frm = false

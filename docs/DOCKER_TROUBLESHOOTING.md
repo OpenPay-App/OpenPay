@@ -17,6 +17,9 @@
 | 7 | `nats-kb-bridge` | NATS connection refused | Authorization Violation — password mismatch | [→](#7-nats-kb-bridge-nats-authorization-violation) |
 | 8 | `tazama-rule-studio` | nginx won't start | Typo: `gzip_min` instead of `gzip_min_length` | [→](#8-tazama-rule-studio-bad-nginx-directive) |
 | 9 | `case-management` | nginx won't start | Same `gzip_min` typo | [→](#9-case-management-bad-nginx-directive) |
+| 10 | `prometheus` / `loki` / `promtail` | Crash on startup | Monitoring config dirs were empty | [→](#10-monitoring-services-crash-empty-config-directories) |
+| 11 | `hyperswitch` | No email sent for invites/verification | No `[email]` section in router config | [→](#11-hyperswitch-email-not-sent-missing-email-config) |
+| 12 | `hyperswitch-control-center` | Invites fall back to downloading a credentials file | Control Center `email` feature flag off | [→](#12-control-center-invites-use-credentials-file-fallback) |
 
 ---
 
@@ -266,6 +269,129 @@ Identical to [Issue #8](#8-tazama-rule-studio-bad-nginx-directive) — same `gzi
 - gzip_min 1024;
 + gzip_min_length 1024;
 ```
+
+---
+
+## 10. Monitoring Services Crash — Empty Config Directories
+
+**Symptom**
+
+```
+docker compose --profile monitoring up -d
+# → prometheus: Failed to create client: ... could not load configuration
+# → loki: failed parsing config: no config file at /etc/loki/loki.yml
+# → promtail: failed parsing config: no config file at /etc/promtail/config.yml
+```
+
+**Root Cause**
+
+The compose file mounts `./monitoring/prometheus`, `./monitoring/loki`, etc. into the containers, but those directories were created empty — no `prometheus.yml`, `loki.yml`, `promtail/config.yml`, or Grafana provisioning files existed, so each service had no configuration to load.
+
+**Fix — created the missing config files**
+
+```
+monitoring/prometheus/prometheus.yml                    # scrape targets (hyperswitch, killbill, self)
+monitoring/grafana/datasources/prometheus.yml           # registers Prometheus as Grafana's data source
+monitoring/grafana/dashboards/dashboards.yml            # auto-loads dashboards from a folder
+monitoring/grafana/dashboards/dashboards/overview.json  # bundled "OpenPay Overview" dashboard
+monitoring/loki/loki.yml                                # single-binary filesystem storage
+monitoring/promtail/config.yml                          # ships Docker container logs to Loki
+```
+
+Also added the Docker socket mount to the `promtail` service so it can discover container logs:
+
+```diff
+  promtail:
+    volumes:
+      - /var/log:/var/log:ro
++     - /var/run/docker.sock:/var/run/docker.sock:ro
+```
+
+> [!NOTE]
+> Grafana mounts `monitoring/grafana` at `/etc/grafana/provisioning`, so the datasource + dashboard providers are picked up automatically on container start. Add new dashboards by dropping JSON into `monitoring/grafana/dashboards/dashboards/` and restarting Grafana.
+
+---
+
+## 11. Hyperswitch Email Not Sent — Missing `[email]` Config
+
+**Symptom**
+
+Team invites, signup verification, magic links, or password-reset emails never arrive. No `[email]` section exists in `payment-system/hyperswitch/config/docker_compose.toml`, so the router has no email client configured.
+
+**Root Cause**
+
+The router's email client is only initialized when a valid `[email]` block is present. With none, every email operation fails silently server-side — and the Control Center surfaces this as the generic **"Invalid Link or session expired"** page, because the email-link verification token can never be validated.
+
+**Fix — `payment-system/hyperswitch/config/docker_compose.toml`**
+
+Added a dev-default `[email]` block pointing at MailHog; every value is overridable via `ROUTER__EMAIL__*` env vars:
+
+```toml
+[email]
+sender_email = "no-reply@localhost"
+active_email_client = "SMTP"
+
+[email.smtp]
+host = "mailhog"
+port = 1025
+timeout = 10
+username = ""
+password = ""
+connection = "plaintext"
+```
+
+For production, set the env vars (they override the file):
+
+```env
+# Root .env
+EMAIL_SMTP_HOST=smtp.resend.com        # or any provider
+EMAIL_SMTP_PORT=587
+EMAIL_SMTP_CONNECTION=start_tls
+EMAIL_SMTP_USERNAME=re_xxxxxxxx
+EMAIL_SMTP_PASSWORD=re_xxxxxxxx
+EMAIL_SENDER_EMAIL=no-reply@yourdomain.com
+HYPERSWITCH_DASHBOARD_URL=https://dashboard.yourdomain.com
+```
+
+> [!NOTE]
+> **Verify it starts cleanly:** the SMTP client is lazy (it only connects at send time), so pointing at an unreachable `mailhog` host must not stop the router from booting. Confirm with:
+>
+> ```
+> docker compose --profile core up -d hyperswitch && docker logs core-hyperswitch
+> ```
+> You should see a healthy `/health` 200 and **no** "Failed to validate router configuration" error.
+
+> [!WARNING]
+> **`HYPERSWITCH_DASHBOARD_URL` must be the public URL, not `localhost`.** It is baked into every email link. If it stays `localhost`, teammates clicking the link in their inbox land on an unreachable address → the "Invalid Link or session expired" page.
+
+---
+
+## 12. Control Center Invites Use Credentials-File Fallback
+
+**Symptom**
+
+Admin invites a teammate in the Control Center (Settings → Team → Invite New Users) and instead of an email, the UI downloads an `invited-users.txt` file with generated passwords.
+
+**Root Cause**
+
+The `[features]` section of `payment-system/hyperswitch/config/dashboard.toml` has `email = false`. With email disabled, the Control Center uses the credentials-file invite path. (The dashboard also can't email invites until the router `[email]` config from [Issue #11](#11-hyperswitch-email-not-sent-missing-email-config) is present.)
+
+**Fix**
+
+Set `HYPER_EMAIL_ENABLED=true` in the root `.env` — `docker-compose.yml` passes it to the Control Center container as `default__features__email`, so you never need to edit `dashboard.toml` by hand:
+
+```env
+HYPER_EMAIL_ENABLED=true
+```
+
+Then recreate the Control Center container:
+
+```
+docker compose up -d --force-recreate hyperswitch-control-center
+```
+
+> [!NOTE]
+> The credentials-file path is a deliberate fallback, not a bug — it lets you onboard teammates with zero email infrastructure. With `email = true` + a working SMTP provider, invites arrive as real emails with click-to-accept links.
 
 ---
 

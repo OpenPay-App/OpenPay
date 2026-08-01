@@ -95,13 +95,66 @@ export default function EnvVarsPage() {
                 ["NATS_URL", "Yes", "NATS connection URL (default: nats://nats:4222)"],
                 ["PAYSTACK_SECRET_KEY", "Yes", "Paystack secret key"],
                 ["API_KEY", "Yes", "Hyperswitch API key for client auth"],
+                ["EMAIL_ACTIVE_CLIENT", "No", "SMTP or SES (default: SMTP)"],
+                ["EMAIL_SENDER_EMAIL", "No", "From: address for auth emails (must be on the verified domain)"],
+                ["EMAIL_SMTP_HOST", "No", "Provider SMTP host (dev: mailhog / prod: smtp.resend.com, etc.)"],
+                ["EMAIL_SMTP_PORT", "No", "SMTP port (1025 MailHog, 587 start_tls)"],
+                ["EMAIL_SMTP_CONNECTION", "No", "plaintext (dev) or start_tls (prod)"],
+                ["EMAIL_SMTP_TIMEOUT", "No", "Seconds before SMTP timeout (default 10)"],
+                ["EMAIL_SMTP_USERNAME", "No", "Provider SMTP username/API key"],
+                ["EMAIL_SMTP_PASSWORD", "No", "Provider SMTP password/API key"],
+                ["HYPERSWITCH_DASHBOARD_URL", "No", "Public dashboard URL baked into email links"],
+                ["HYPERSWITCH_PUBLIC_API_URL", "No", "Public router URL the Control Center calls"],
+                ["HYPER_EMAIL_ENABLED", "No", "true = email-based team invites in Control Center"],
               ].map(([variable, required, desc]) => (
                 <tr key={variable} className="border-b border-border last:border-0">
                   <td className="px-4 py-3">
                     <code className="font-mono text-xs text-secondary">{variable}</code>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="px-2 py-0.5 rounded bg-red-50 text-red-700 text-xs font-medium">Required</span>
+                    {required === "Yes" ? (
+                      <span className="px-2 py-0.5 rounded bg-red-50 text-red-700 text-xs font-medium">Required</span>
+                    ) : (
+                      <span className="px-2 py-0.5 rounded bg-bg-alt text-text-muted text-xs">Optional</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 text-text-secondary">{desc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* Monitoring */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-text-primary mb-4">
+          Monitoring <code className="text-lg font-mono">.env</code>
+        </h2>
+        <div className="rounded-xl border border-border overflow-hidden">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-bg-alt border-b border-border">
+                <th className="text-left px-4 py-3 font-semibold text-text-primary">Variable</th>
+                <th className="text-left px-4 py-3 font-semibold text-text-primary">Required</th>
+                <th className="text-left px-4 py-3 font-semibold text-text-primary">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ["GRAFANA_ADMIN_USER", "No", "Grafana login (default: admin)"],
+                ["GRAFANA_ADMIN_PASSWORD", "No", "Grafana password (default: admin — change for production)"],
+              ].map(([variable, required, desc]) => (
+                <tr key={variable} className="border-b border-border last:border-0">
+                  <td className="px-4 py-3">
+                    <code className="font-mono text-xs text-secondary">{variable}</code>
+                  </td>
+                  <td className="px-4 py-3">
+                    {required === "Yes" ? (
+                      <span className="px-2 py-0.5 rounded bg-red-50 text-red-700 text-xs font-medium">Required</span>
+                    ) : (
+                      <span className="px-2 py-0.5 rounded bg-bg-alt text-text-muted text-xs">Optional</span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-text-secondary">{desc}</td>
                 </tr>

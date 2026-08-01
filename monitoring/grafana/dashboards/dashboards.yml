@@ -1,0 +1,17 @@
+# Grafana dashboard provisioning — automatically loads every *.json in the
+# ./dashboards folder on container start and every 30s thereafter.
+# Mounted into the grafana container at /etc/grafana/provisioning/dashboards/dashboards.yml
+# See docs: /docs/self-hosting/monitoring
+
+apiVersion: 1
+
+providers:
+  - name: "OpenPay Dashboards"
+    orgId: 1
+    folder: ""
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/dashboards

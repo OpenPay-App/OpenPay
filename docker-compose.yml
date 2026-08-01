@@ -113,7 +113,7 @@ services:
 
   # Hyperswitch Payment Orchestration
   hyperswitch:
-    image: juspaydotin/hyperswitch-router:standalone
+    image: juspaydotin/hyperswitch-router:v1.125.0
     container_name: core-hyperswitch
     restart: unless-stopped
     profiles:
@@ -125,7 +125,10 @@ services:
     env_file:
       - ./payment-system/hyperswitch/.env
     environment:
-      RUN_ENV: docker_compose
+      # Must be a valid router_env::Env value ("development"). "docker_compose" was
+      # being parsed as unknown and falling back to "production", which makes the
+      # /user/connect_account signup flow reject new users with "Incorrect email or password".
+      RUN_ENV: development
       ROUTER__MASTER_DATABASE__HOST: "core-postgres"
       ROUTER__MASTER_DATABASE__PORT: 5432
       ROUTER__MASTER_DATABASE__DBNAME: "hyperswitch"
@@ -142,6 +145,18 @@ services:
       ROUTER__SUPERPOSITION__ORG_ID: "local_org"
       ROUTER__SUPERPOSITION__WORKSPACE_ID: "local_workspace"
       ROUTER__SUPERPOSITION__LOCAL_FILE_PATH: "/local/config/superposition_config.json"
+      # Email delivery (team invites / verification / magic links) — provider-agnostic SMTP
+      # Dev default targets the local MailHog catcher (see mailhog service, profile: dev).
+      # Point at any SMTP provider in production via root .env EMAIL_* vars.
+      ROUTER__USER__BASE_URL: ${HYPERSWITCH_DASHBOARD_URL:-http://localhost:9000}
+      ROUTER__EMAIL__ACTIVE_EMAIL_CLIENT: ${EMAIL_ACTIVE_CLIENT:-SMTP}
+      ROUTER__EMAIL__SENDER_EMAIL: ${EMAIL_SENDER_EMAIL:-no-reply@localhost}
+      ROUTER__EMAIL__SMTP__HOST: ${EMAIL_SMTP_HOST:-mailhog}
+      ROUTER__EMAIL__SMTP__PORT: ${EMAIL_SMTP_PORT:-1025}
+      ROUTER__EMAIL__SMTP__CONNECTION: ${EMAIL_SMTP_CONNECTION:-plaintext}
+      ROUTER__EMAIL__SMTP__TIMEOUT: ${EMAIL_SMTP_TIMEOUT:-10}
+      ROUTER__EMAIL__SMTP__USERNAME: ${EMAIL_SMTP_USERNAME:-mailhog}
+      ROUTER__EMAIL__SMTP__PASSWORD: ${EMAIL_SMTP_PASSWORD:-mailhog}
     volumes:
       - ./payment-system/hyperswitch/config:/local/config:ro
     depends_on:
@@ -161,8 +176,11 @@ services:
       start_period: 40s
 
   # Hyperswitch Control Center (Dashboard UI)
+  # Pinned to the CC build released the same day as the router (v1.125.0, 2026-06-30).
+  # The `latest` tag was 4.5 months older and its login/verify flows fail client-side
+  # against the v1.125.0 router (shows "Invalid Link or session expired").
   hyperswitch-control-center:
-    image: juspaydotin/hyperswitch-control-center:latest
+    image: juspaydotin/hyperswitch-control-center:2026.06.30.0
     container_name: core-hyperswitch-dashboard
     restart: unless-stopped
     profiles:
@@ -173,12 +191,34 @@ services:
     environment:
       - configPath=/tmp/dashboard-config.toml
       - themeConfigPath=/tmp/dashboard-theme.json
+      # Optional Control Center overrides (hyperswitch-control-center README).
+      # HYPER_EMAIL_ENABLED=true switches team invites to email delivery.
+      # HYPERSWITCH_PUBLIC_API_URL is the browser-reachable router URL (must be public in prod).
+      # Keys follow the parser's default.endpoints.* schema (config/feature endpoint).
+      - default__features__email=${HYPER_EMAIL_ENABLED:-false}
+      - default__endpoints__api_url=${HYPERSWITCH_PUBLIC_API_URL:-http://localhost:8081}
+      - default__endpoints__sdk_url=${HYPERSWITCH_PUBLIC_API_URL:-http://localhost:8081}
     volumes:
       - ./payment-system/hyperswitch/config/dashboard.toml:/tmp/dashboard-config.toml:ro
       - ./payment-system/hyperswitch/config/dashboard_theme.json:/tmp/dashboard-theme.json:ro
     depends_on:
       hyperswitch:
         condition: service_healthy
+    networks:
+      - core-net
+
+  # MailHog — local email catcher for development & testing (Web UI: http://localhost:8025)
+  # Start with: docker compose --profile dev up -d mailhog
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: core-mailhog
+    restart: unless-stopped
+    profiles:
+      - dev
+      - full
+    ports:
+      - "8025:8025"
+      - "1025:1025"
     networks:
       - core-net
 
@@ -399,12 +439,12 @@ services:
       - "3100:3100"
     volumes:
       - ./monitoring/loki:/etc/loki
-      - loki-data:/tmp/loki
+      - loki-data:/loki
     networks:
       - core-net
     command: -config.file=/etc/loki/loki.yml
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3100"]
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3100/ready"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -419,6 +459,7 @@ services:
     volumes:
       - ./monitoring/promtail:/etc/promtail
       - /var/log:/var/log:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - promtail-data:/tmp/promtail
     networks:
       - core-net

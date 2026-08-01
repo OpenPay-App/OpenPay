@@ -20,14 +20,14 @@ import {
   FileText,
 } from "lucide-react";
 
-interface NavItem {
+export interface NavItem {
   label: string;
   href?: string;
   icon?: React.ReactNode;
   children?: NavItem[];
 }
 
-const navigation: NavItem[] = [
+export const navigation: NavItem[] = [
   {
     label: "Getting Started",
     icon: <Rocket className="w-4 h-4" />,
@@ -59,6 +59,9 @@ const navigation: NavItem[] = [
     children: [
       { label: "Docker Setup", href: "/docs/self-hosting" },
       { label: "Environment Variables", href: "/docs/self-hosting/env-vars" },
+      { label: "Third-Party Tools", href: "/docs/self-hosting/tools" },
+      { label: "Monitoring & Grafana", href: "/docs/self-hosting/monitoring" },
+      { label: "Email Delivery & Team Invites", href: "/docs/self-hosting/email-delivery" },
       { label: "Production Deploy", href: "/docs/self-hosting/production" },
       { label: "Troubleshooting", href: "/docs/self-hosting/troubleshooting" },
     ],

@@ -147,3 +147,6 @@ paystack-test: ## Run Paystack integration test
 			"currency": "NGN",
 			"reference": "test_ref_$(date +%s)"
 		}' | jq .
+# Database migrations
+migrate-db: ## Apply Hyperswitch DB migrations (required once; empty DB = login 'Invalid Link' errors)
+	./scripts/migrate-hyperswitch-db.sh

@@ -25,7 +25,7 @@ temp_*
 **/TROUBLESHOOTING.md
 
 # dashboards & monitoring
-dashboards/
+/dashboards/
 
 # misc
 *.tsbuildinfo
@@ -45,3 +45,6 @@ mock_server.py
 
 # vercel
 .vercel/
+
+# hyperswitch migration cache (downloaded once, regenerable)
+.cache/

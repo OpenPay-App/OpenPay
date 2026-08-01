@@ -40,8 +40,12 @@ const BusinessProfileContext = createContext<BusinessProfileContextValue>({
 });
 
 export function BusinessProfileProvider({ children }: { children: React.ReactNode }) {
-  // Initialize from cache so currency/timezone are available immediately
-  const [profile, setProfile] = useState<BusinessProfile | null>(() => readCache());
+  // NOTE: initial state must be identical on server and client or React throws a
+  // hydration mismatch. localStorage only exists in the browser, so reading the
+  // cache inside a useState initializer made the server render the default
+  // currency ($0.00) while the client's first paint used the cached one (¥0.00).
+  // The cache is applied in useEffect instead — right after mount on the client.
+  const [profile, setProfile] = useState<BusinessProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -60,6 +64,8 @@ export function BusinessProfileProvider({ children }: { children: React.ReactNod
   }, []);
 
   useEffect(() => {
+    const cached = readCache();
+    if (cached) setProfile(cached);
     fetchProfile();
   }, [fetchProfile]);
 

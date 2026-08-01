@@ -1,0 +1,43 @@
+# Minimal Loki configuration (single-binary, local filesystem storage).
+# Mounted into the loki container at /etc/loki/loki.yml.
+# See docs: /docs/self-hosting/monitoring
+
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+  grpc_listen_port: 9096
+
+common:
+  # /loki (not /tmp/loki) is the Grafana-recommended data dir: the image's /loki is
+  # owned by the container user, so a named volume mounted there is writable.
+  path_prefix: /loki
+  storage:
+    filesystem:
+      chunks_directory: /loki/chunks
+      rules_directory: /loki/rules
+  replication_factor: 1
+  ring:
+    kvstore:
+      store: inmemory
+
+schema_config:
+  configs:
+    - from: 2020-10-24
+      store: tsdb
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
+limits_config:
+  allow_structured_metadata: true
+  reject_old_samples: true
+  reject_old_samples_max_age: 168h
+
+# Loki 3.x: compaction config lives under the `compactor` block,
+# not the old top-level `compaction_config` (which fails to parse in 3.x).
+compactor:
+  working_directory: /loki/compactor
+  compaction_interval: 10m

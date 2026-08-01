@@ -97,6 +97,23 @@ base_url = "http://localhost:9000"
 force_two_factor_auth = false
 force_cookies = false
 
+# Email delivery (team invites / verification / magic links)
+# Defaults point at the local MailHog dev catcher. Every value can be
+# overridden with ROUTER__EMAIL__* env vars (e.g. ROUTER__EMAIL__SMTP__HOST)
+# so production deployers can point at any SMTP provider (Resend, SES, SendGrid,
+# Postmark, Brevo, ...) without editing this file.
+[email]
+sender_email = "no-reply@localhost"
+active_email_client = "SMTP"
+
+[email.smtp]
+host = "mailhog"
+port = 1025
+timeout = 10
+username = "mailhog"
+password = "mailhog"
+connection = "plaintext"
+
 [forex_api]
 api_key = ""
 fallback_api_key = ""
