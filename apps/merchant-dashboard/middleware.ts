@@ -1,42 +1,44 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
-
-const authHandler = withAuth({
-  publicPaths: [
-    "/",
-    "/docs/*",
-    "/changelog",
-    "/status",
-    "/license",
-    "/privacy",
-    "/terms",
-    "/checkout/*",
-    "/api/checkout/*",
-    "/api/auth/*",
-    "/api/health",
-  ],
-}) as (request: NextRequest) => Promise<NextResponse>;
 
 export default async function middleware(request: NextRequest) {
-  // Skip Kinde auth when credentials are missing or unconfigured
+  const pathname = request.nextUrl.pathname;
+
+  // 1. Always allow public pages & API endpoints without requiring Kinde Auth
+  if (
+    pathname === "/" ||
+    pathname.startsWith("/docs") ||
+    pathname.startsWith("/changelog") ||
+    pathname.startsWith("/status") ||
+    pathname.startsWith("/license") ||
+    pathname.startsWith("/privacy") ||
+    pathname.startsWith("/terms") ||
+    pathname.startsWith("/checkout") ||
+    pathname.startsWith("/api/")
+  ) {
+    return NextResponse.next();
+  }
+
+  // 2. If Kinde Auth credentials are not configured on Vercel environment, bypass auth check
   if (!process.env.KINDE_CLIENT_ID || !process.env.KINDE_ISSUER_URL) {
     return NextResponse.next();
   }
 
+  // 3. Otherwise execute Kinde middleware for protected dashboard routes
   try {
-    return await authHandler(request);
-  } catch (err) {
-    console.error("Middleware error:", err);
+    const { withAuth } = await import("@kinde-oss/kinde-auth-nextjs/middleware");
+    const response = await withAuth(request, {
+      isReturnToCurrentPage: true,
+    });
+    return response || NextResponse.next();
+  } catch (error) {
+    console.error("Middleware Kinde Auth error:", error);
     return NextResponse.next();
   }
 }
 
-// Next.js 16 alias compatibility
-export const proxy = middleware;
-
 export const config = {
   matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
