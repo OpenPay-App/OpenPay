@@ -1,7 +1,4 @@
 {
-  "buildCommand": "cd apps/merchant-dashboard && npm run build",
-  "outputDirectory": "apps/merchant-dashboard/.next",
-  "installCommand": "cd apps/merchant-dashboard && npm install",
-  "devCommand": "cd apps/merchant-dashboard && npm run dev",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "rootDirectory": "apps/merchant-dashboard"
 }
