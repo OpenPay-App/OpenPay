@@ -18,6 +18,9 @@ import {
   GitFork,
   Puzzle,
   FileText,
+  Box,
+  Tag,
+  ChevronsUpDown,
 } from "lucide-react";
 
 export interface NavItem {
@@ -164,14 +167,15 @@ function NavSection({ item, depth = 0 }: { item: NavItem; depth?: number }) {
 
 export function DocsSidebar() {
   return (
-    <nav className="w-64 shrink-0 border-r border-border bg-black h-[calc(100vh-4rem)] overflow-y-auto sticky top-16">
-      <div className="p-4">
-        <ul className="space-y-1">
-          {navigation.map((item) => (
-            <NavSection key={item.label} item={item} />
-          ))}
-        </ul>
-      </div>
+    <nav className="w-64 shrink-0 border-r border-border/40 bg-black h-[calc(100vh-4rem)] overflow-y-auto sticky top-14 py-8 pr-4">
+      <ul className="space-y-1">
+        {navigation.map((item) => (
+          <NavSection key={item.label} item={item} />
+        ))}
+      </ul>
     </nav>
   );
 }
+
+
+
