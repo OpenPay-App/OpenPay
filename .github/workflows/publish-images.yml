@@ -61,7 +61,7 @@ jobs:
           DH_USER: ${{ secrets.DOCKERHUB_USERNAME }}
           SHA: ${{ github.sha }}
         run: |
-          owner="${GH_OWNER}"
+          owner="$(echo "${GH_OWNER}" | tr '[:upper:]' '[:lower:]')"
           refs="ghcr.io/${owner}/${IMAGE}"
           dh_refs=""
           if [ -n "${DH_USER}" ]; then dh_refs="docker.io/${DH_USER}/${IMAGE}"; fi
@@ -91,7 +91,7 @@ jobs:
         run: |
           tags="$TAGS"
           if [ "$PUBLISH_LATEST" = "true" ]; then
-            tags="${tags},ghcr.io/${GH_OWNER}/${IMAGE}:latest"
+            tags="${tags},ghcr.io/$(echo "${GH_OWNER}" | tr '[:upper:]' '[:lower:]')/${IMAGE}:latest"
             if [ -n "${DH_USER}" ]; then tags="${tags},docker.io/${DH_USER}/${IMAGE}:latest"; fi
           fi
           echo "tags=${tags}" >> "$GITHUB_OUTPUT"
