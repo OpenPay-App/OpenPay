@@ -53,3 +53,8 @@ jobs:
       - run: pnpm build
         env:
           NEXT_TELEMETRY_DISABLED: '1'
+          NEXT_PUBLIC_HYPERSWITCH_URL: 'http://localhost:8081'
+          NEXT_PUBLIC_HYPERSWITCH_PUBLISHABLE_KEY: 'pk_test_ci_placeholder'
+          KINDE_CLIENT_ID: 'ci_placeholder'
+          KINDE_CLIENT_SECRET: 'ci_placeholder'
+          KINDE_ISSUER_URL: 'https://placeholder.kinde.com'
