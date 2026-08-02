@@ -57,7 +57,7 @@ jobs:
           cache-dependency-path: apps/merchant-dashboard/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec tsc --noEmit
-      - run: pnpm lint --no-cache
+      - run: pnpm lint
 
   unit-tests:
     name: Unit tests (if present)
