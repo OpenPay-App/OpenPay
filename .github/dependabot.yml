@@ -1,0 +1,83 @@
+version: 2
+updates:
+  # ─── JS workspace (dashboard) ─────────────────────────────────────────────
+  - package-ecosystem: "pnpm"
+    directory: "/apps/merchant-dashboard"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+    open-pull-requests-limit: 10
+    labels: ["dependencies", "javascript"]
+    groups:
+      nextjs:
+        patterns: ["next", "@next/*", "eslint-config-next"]
+      react:
+        patterns: ["react", "react-dom", "@types/react", "@types/react-dom"]
+
+  # ─── GitHub Actions ───────────────────────────────────────────────────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "ci"]
+
+  # ─── Docker base images + docker-compose.yml pins ─────────────────────────
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+    labels: ["dependencies", "docker"]
+    groups:
+      infra-images:
+        patterns: ["juspaydotin/*", "traefik/*", "nats/*"]
+
+  - package-ecosystem: "docker"
+    directory: "/apps/merchant-dashboard"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+    labels: ["dependencies", "docker"]
+
+  - package-ecosystem: "docker"
+    directory: "/payment-system/nats-kb-bridge"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+    labels: ["dependencies", "docker"]
+
+  - package-ecosystem: "docker"
+    directory: "/payment-system/hyperswitch"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+    labels: ["dependencies", "docker"]
+
+  - package-ecosystem: "docker"
+    directory: "/monitoring-and-rules/tazama-rule-exec"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+    labels: ["dependencies", "docker"]
+
+  - package-ecosystem: "docker"
+    directory: "/monitoring-and-rules/tazama-auth"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+    labels: ["dependencies", "docker"]
+
+  - package-ecosystem: "docker"
+    directory: "/monitoring-and-rules/tazama-rule-studio"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+    labels: ["dependencies", "docker"]
+
+  - package-ecosystem: "docker"
+    directory: "/monitoring-and-rules/case-management"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+    labels: ["dependencies", "docker"]

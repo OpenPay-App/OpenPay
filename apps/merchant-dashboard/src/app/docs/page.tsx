@@ -25,12 +25,14 @@ export default function DocsIntroPage() {
           <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
             <h3 className="font-semibold text-white mb-3">Our Mission</h3>
             <p className="text-sm leading-relaxed">
-              We believe payment processing should be transparent, affordable,
-              and entirely under your control. Every dollar that Stripe charges
-              as a platform fee — 2.9% + $0.30 per transaction, $0.40 per
-              invoice, $0.05 per fraud check — we believe should stay in your
-              pocket. OpenPay gives you the same capabilities as Stripe, on
-              your own infrastructure, at a fraction of the cost.
+              We believe payment infrastructure should be transparent, affordable,
+              and entirely under your control. OpenPay gives you the payments,
+              billing, fraud, and invoicing features of a commercial platform —
+              self-hosted, so you own the stack and can choose or switch
+              processors whenever you want. OpenPay adds no platform fees on top
+              of your processor's charges; you still pay your processor (Stripe,
+              Adyen, Paystack, etc.) and the cost of running your own
+              infrastructure.
             </p>
           </div>
 
@@ -82,7 +84,7 @@ export default function DocsIntroPage() {
               icon: Zap,
               title: "Zero Platform Fees",
               description:
-                "OpenPay charges nothing. You only pay the fees charged by your payment processor. No per-transaction fees, no percentage cuts.",
+                "OpenPay charges no platform fees — no per-transaction fees, no percentage cuts. You'll still pay your payment processor's processing fees and your own infrastructure and operational costs.",
             },
             {
               icon: Code2,

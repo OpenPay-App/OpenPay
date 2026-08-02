@@ -66,6 +66,7 @@ export const navigation: NavItem[] = [
       { label: "Monitoring & Grafana", href: "/docs/self-hosting/monitoring" },
       { label: "Email Delivery & Team Invites", href: "/docs/self-hosting/email-delivery" },
       { label: "Production Deploy", href: "/docs/self-hosting/production" },
+      { label: "Upgrades & Rollbacks", href: "/docs/self-hosting/upgrades" },
       { label: "Troubleshooting", href: "/docs/self-hosting/troubleshooting" },
     ],
   },

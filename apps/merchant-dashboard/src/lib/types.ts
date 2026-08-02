@@ -84,13 +84,20 @@ export interface BusinessProfile {
   logo_url?: string;
 }
 
+export type ApiKeyRole = "publishable" | "secret";
+
 export interface ApiKey {
   api_key: string;
+  key_id?: string;
   name: string;
   created: string;
   last_used?: string;
   expires?: string;
   enabled: boolean;
+  /** Stripe-like role: publishable (checkout) vs secret (server). */
+  role?: ApiKeyRole;
+  /** Which mode this key belongs to — sandbox or production. */
+  mode?: "sandbox" | "production";
 }
 
 export interface WebhookEndpoint {

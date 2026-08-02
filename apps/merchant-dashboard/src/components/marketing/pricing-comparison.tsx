@@ -29,23 +29,23 @@ const comparisons: ComparisonGroup[] = [
     items: [
       {
         feature: "Platform / routing fees",
-        openPay: "$0 — only processor fees",
+        openPay: "$0: only your processor's fee",
         stripe: "2.9% + 30¢ per txn",
-        savings: "Save 2.9%+ every transaction",
+        savings: "No platform markup",
         icon: CreditCard,
       },
       {
         feature: "Multi-currency conversion",
-        openPay: "$0 — real exchange rate",
+        openPay: "$0 markup: your processor's rate",
         stripe: "1% conversion fee",
-        savings: "Save 1% on every conversion",
+        savings: "No conversion markup",
         icon: Globe,
       },
       {
         feature: "Dispute / chargeback fee",
         openPay: "$0 platform fee",
         stripe: "$3.75 per dispute",
-        savings: "Save $3.75 per dispute",
+        savings: "No platform dispute fee",
         icon: Shield,
       },
     ],
@@ -57,21 +57,21 @@ const comparisons: ComparisonGroup[] = [
     items: [
       {
         feature: "Recurring billing",
-        openPay: "$0 — powered by Kill Bill",
+        openPay: "$0: powered by Kill Bill",
         stripe: "0.5% per recurring txn",
-        savings: "Save 0.5% on recurring revenue",
+        savings: "No recurring platform fee",
         icon: Repeat,
       },
       {
         feature: "Invoice generation",
-        openPay: "$0 — unlimited",
+        openPay: "$0: unlimited",
         stripe: "$0.40 per invoice (after 25 free)",
-        savings: "Save $0.40 per invoice",
+        savings: "Unlimited, no per-invoice fee",
         icon: Receipt,
       },
       {
         feature: "Subscription management",
-        openPay: "$0 — upgrades, downgrades, trials",
+        openPay: "$0: upgrades, downgrades, trials",
         stripe: "Included in Billing fee",
         icon: BarChart3,
       },
@@ -84,21 +84,21 @@ const comparisons: ComparisonGroup[] = [
     items: [
       {
         feature: "Fraud detection rules",
-        openPay: "$0 — customizable with Tazama",
+        openPay: "$0: customizable with Tazama",
         stripe: "$0.05 per transaction (Radar)",
-        savings: "Save $0.05 per transaction",
+        savings: "No per-transaction fraud fee",
         icon: Shield,
       },
       {
         feature: "Fraud prevention",
-        openPay: "$0 — real-time scoring",
+        openPay: "$0: real-time scoring",
         stripe: "Radar for Fraud Teams: $0.07/txn",
-        savings: "Save $0.07 per transaction",
+        savings: "No per-transaction fraud fee",
         icon: Zap,
       },
       {
         feature: "Case management",
-        openPay: "$0 — built-in admin panel",
+        openPay: "$0: built-in admin panel",
         stripe: "Not available",
         icon: BarChart3,
       },
@@ -111,25 +111,25 @@ const comparisons: ComparisonGroup[] = [
     items: [
       {
         feature: "API access",
-        openPay: "$0 — full REST API",
+        openPay: "$0: full REST API",
         stripe: "$0",
         icon: Key,
       },
       {
         feature: "Webhooks",
-        openPay: "$0 — unlimited",
+        openPay: "$0: unlimited",
         stripe: "$0",
         icon: Zap,
       },
       {
         feature: "Sandbox / testing",
-        openPay: "$0 — full sandbox mode",
+        openPay: "$0: full sandbox mode",
         stripe: "$0",
         icon: Server,
       },
       {
         feature: "SDKs",
-        openPay: "$0 — open source",
+        openPay: "$0: open source",
         stripe: "$0",
         icon: Key,
       },
@@ -142,21 +142,21 @@ const comparisons: ComparisonGroup[] = [
     items: [
       {
         feature: "Data storage",
-        openPay: "$0 — your servers, your data",
+        openPay: "$0: your servers, your data",
         stripe: "Stripe stores everything",
         savings: "Full data ownership",
         icon: Server,
       },
       {
         feature: "Vendor lock-in",
-        openPay: "$0 — swap processors anytime",
+        openPay: "$0: swap processors anytime",
         stripe: "Heavy lock-in",
         savings: "Zero lock-in",
         icon: TrendingDown,
       },
       {
         feature: "Source code access",
-        openPay: "100% — MIT licensed",
+        openPay: "100% MIT licensed",
         stripe: "Proprietary",
         icon: Globe,
       },
@@ -186,16 +186,16 @@ function FeatureCard({ item, index }: { item: ComparisonItem; index: number }) {
           : "opacity-0 translate-y-6"
       }`}
       style={{
-        transitionDelay: `${index * 80}ms`,
+        transitionDelay: `${index * 50}ms`,
         transitionProperty: "opacity, transform",
-        transitionDuration: "0.7s",
+        transitionDuration: "0.5s",
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
       {/* Hover glow */}
       <div className="absolute -inset-1 bg-gradient-to-r from-secondary/5 via-accent/5 to-secondary/5 rounded-xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 pointer-events-none" />
 
-      {/* Savings badge — positioned top-right */}
+      {/* Savings badge, positioned top-right */}
       {hasSavings && (
         <div className="absolute top-3 right-3 z-10">
           <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-950/60 border border-emerald-500/20 text-emerald-400 text-[10px] font-semibold opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:translate-y-0 translate-y-1">
@@ -263,13 +263,13 @@ function CategorySection({ group, index }: { group: ComparisonGroup; index: numb
   return (
     <div
       ref={sectionRef}
-      className={`transition-all duration-700 ${
+      className={`transition-all duration-500 ${
         sectionVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-8"
       }`}
       style={{
-        transitionDelay: `${index * 100}ms`,
+        transitionDelay: `${index * 40}ms`,
       }}
     >
       {/* Category header row */}
@@ -286,7 +286,7 @@ function CategorySection({ group, index }: { group: ComparisonGroup; index: numb
       {/* Feature cards grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
         {group.items.map((item, i) => (
-          <FeatureCard key={item.feature} item={item} index={i + (index * 10)} />
+          <FeatureCard key={item.feature} item={item} index={i + (index * 2)} />
         ))}
       </div>
     </div>
@@ -318,9 +318,9 @@ function StatCard({ stat, index }: { stat: StatCard; index: number }) {
           : "opacity-0 translate-y-8"
       }`}
       style={{
-        transitionDelay: `${index * 120}ms`,
+        transitionDelay: `${index * 60}ms`,
         transitionProperty: "opacity, transform",
-        transitionDuration: "0.7s",
+        transitionDuration: "0.5s",
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
@@ -357,7 +357,7 @@ export function PricingComparison() {
       value: "$0",
       valueColor: "from-emerald-400 to-emerald-500",
       title: "OpenPay platform fees",
-      description: "No per-transaction fees, no percentage cuts, no subscription charges. Pay only your payment processor.",
+      description: "No platform, per-transaction, or subscription charges. You still pay your processor's fees and your own infrastructure costs.",
       accent: "from-emerald-500/10 to-transparent",
       accentBorder: "border-emerald-500/30",
       icon: TrendingDown,
@@ -392,23 +392,25 @@ export function PricingComparison() {
         {/* ═══ Header ═══ */}
         <div
           ref={headerRef}
-          className={`text-center mb-16 transition-all duration-700 ${
+          className={`text-center mb-16 transition-all duration-500 ${
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           <div className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full bg-emerald-950/50 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            Save thousands per year
+            Control &middot; Portability &middot; No platform fees
           </div>
           <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-white mb-4">
-            What Stripe charges for —{" "}
+            Own the stack.{" "}
             <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
-              we include free
+              Skip the platform fees.
             </span>
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Every feature below costs extra on Stripe. With OpenPay, you pay
-            zero platform fees — only the payment processor charges apply.
+            OpenPay gives you payments, billing, fraud detection, and invoicing,
+            self-hosted on infrastructure you control, with no platform fees.
+            You pay your processor's fees and your own infrastructure; nothing
+            more, and no lock-in.
           </p>
         </div>
 
@@ -424,6 +426,16 @@ export function PricingComparison() {
           <CategorySection key={group.category} group={group} index={i} />
         ))}
 
+        {/* ═══ Transparency note ═══ */}
+        <p className="mt-8 text-xs text-text-secondary max-w-3xl mx-auto text-center leading-relaxed">
+          OpenPay charges no platform fees. The comparisons above reflect
+          OpenPay's platform fees versus Stripe's standard published pricing for
+          the same features. You will still pay your payment processor (Stripe,
+          Adyen, Paystack, etc.) its processing fees, plus the infrastructure
+          and operational costs of running OpenPay on your own servers.
+          OpenPay is not affiliated with Stripe.
+        </p>
+
         {/* ═══ CTA ═══ */}
         <div className="group relative text-center mt-12">
           {/* Pre-CTA glow */}
@@ -436,7 +448,7 @@ export function PricingComparison() {
           >
             <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
             <span className="relative flex items-center gap-2">
-              Start saving today
+              Own your payment stack
               <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
             </span>
           </Link>

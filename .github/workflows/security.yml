@@ -1,0 +1,147 @@
+name: Security
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 3 * * 1'   # weekly, Monday 03:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  secrets:
+    name: Secret scanning (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+  sast:
+    name: SAST (CodeQL)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: 'javascript-typescript, python, go'
+          queries: security-and-quality
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: /language:javascript-typescript
+
+  dependencies:
+    name: Dependency vulnerability scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: pnpm audit (dashboard)
+        working-directory: apps/merchant-dashboard
+        run: pnpm install --frozen-lockfile && pnpm audit --prod
+      - name: OSV scanner (all ecosystems)
+        uses: google/osv-scanner-action@v2
+        with:
+          scan-args: |-
+            -r
+            --skip-git
+            --recursive
+            .
+
+  containers:
+    name: Container scan (Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build images for scanning
+        run: |
+          docker build -t openpay/dashboard:scan apps/merchant-dashboard
+          docker build -t openpay/nats-kb-bridge:scan payment-system/nats-kb-bridge
+          docker build -t openpay/tazama-rule-exec:scan monitoring-and-rules/tazama-rule-exec
+          docker build -t openpay/tazama-auth:scan monitoring-and-rules/tazama-auth
+      - name: Run Trivy scanner (image + config)
+        uses: aquasecurity/trivy-action@0.30.1
+        with:
+          image-ref: openpay/dashboard:scan
+          format: sarif
+          output: trivy-dashboard.sarif
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+        continue-on-error: true
+      - name: Run Trivy config scan (infra as code)
+        uses: aquasecurity/trivy-action@0.30.1
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          format: sarif
+          output: trivy-config.sarif
+          severity: HIGH,CRITICAL
+        continue-on-error: true
+      - name: Upload SARIF (dashboard image)
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-dashboard.sarif
+          category: trivy-image
+      - name: Upload SARIF (infra as code)
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-config.sarif
+          category: trivy-config
+
+  licenses:
+    name: License compliance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Assert no copyleft licenses in JS deps
+        working-directory: apps/merchant-dashboard
+        run: |
+          pnpm install --frozen-lockfile
+          # fail on copyleft / source-available licenses
+          pnpm licenses list --filter-prod --json > /tmp/licenses.json || true
+          python3 - <<'PY'
+          import json
+          forbidden = ("GPL", "AGPL", "SSPL", "BUSL", "CC-BY-NC", "CC-BY-SA")
+          data = json.load(open("/tmp/licenses.json"))
+          bad = []
+          for pkg, meta in data.items():
+              lic = str(meta.get("license", "")).upper()
+              if any(f in lic for f in forbidden):
+                  bad.append((pkg, lic))
+          if bad:
+              print("Forbidden licenses found:")
+              for p, l in bad: print(f"  {p}: {l}")
+              raise SystemExit(1)
+          print(f"license check passed ({len(data)} prod packages)")
+          PY

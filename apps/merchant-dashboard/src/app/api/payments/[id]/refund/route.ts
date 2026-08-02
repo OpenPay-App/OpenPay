@@ -1,25 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { refundPayment, HyperswitchError } from "@/lib/hyperswitch";
+import { refundPayment } from "@/lib/hyperswitch";
+import { getMode } from "@/lib/mode";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  const mode = getMode(request);
   try {
     const body = await request.json().catch(() => ({}));
-    const result = await refundPayment(id, body.amount);
-    return NextResponse.json(result);
-  } catch (error) {
-    if (error instanceof HyperswitchError) {
-      return NextResponse.json(
-        { error: "Hyperswitch unavailable — cannot process refund" },
-        { status: 503 }
-      );
-    }
+    const result = await refundPayment(id, body.amount, mode);
+    return NextResponse.json(result, { headers: { "X-OpenPay-Mode": mode } });
+  } catch {
     return NextResponse.json(
-      { error: "Internal error" },
-      { status: 500 }
+      { error: "Hyperswitch unavailable — cannot process refund" },
+      { status: 503 }
     );
   }
 }

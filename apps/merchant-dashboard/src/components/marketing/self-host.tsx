@@ -25,10 +25,10 @@ const steps = [
 ];
 
 const comparisons = [
-  { feature: "Transaction fees", openPay: "Zero — you pay only your payment processor", stripe: "2.9% + 30¢ per txn" },
+  { feature: "Transaction fees", openPay: "Zero: you pay only your payment processor", stripe: "2.9% + 30¢ per txn" },
   { feature: "Data ownership", openPay: "Fully self-hosted, your servers", stripe: "Stripe stores everything" },
   { feature: "Customization", openPay: "Full source code access", stripe: "Limited to API/config" },
-  { feature: "Vendor lock-in", openPay: "None — swap processors anytime", stripe: "Heavy lock-in" },
+  { feature: "Vendor lock-in", openPay: "None: swap processors anytime", stripe: "Heavy lock-in" },
   { feature: "Fraud detection", openPay: "Built-in, customizable rules", stripe: "Radar (additional cost)" },
 ];
 
@@ -145,6 +145,13 @@ export function SelfHost() {
             </div>
           ))}
         </div>
+
+        <p className="mt-5 text-xs text-text-secondary max-w-3xl mx-auto text-center leading-relaxed">
+          Self-hosting means you take on your own infrastructure and operational
+          costs, including servers, monitoring, and maintenance. OpenPay itself
+          charges no platform fee; your only payment-related cost is your
+          processor's fee.
+        </p>
       </div>
     </section>
   );

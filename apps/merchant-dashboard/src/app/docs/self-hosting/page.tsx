@@ -171,7 +171,21 @@ make logs`}</CodeBlock>
       </section>
 
       {/* Next */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Link
+          href="/docs/self-hosting/upgrades"
+          className="flex items-center justify-between p-5 rounded-xl border border-border hover:border-secondary/30 hover:shadow-md transition-all group"
+        >
+          <div>
+            <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
+              Upgrades &amp; Rollbacks
+            </h3>
+            <p className="text-sm text-text-secondary mt-1">
+              Safe version bumps with backup + rollback
+            </p>
+          </div>
+          <ArrowRight className="w-4 h-4 text-text-muted group-hover:text-secondary transition-colors" />
+        </Link>
         <Link
           href="/docs/self-hosting/env-vars"
           className="flex items-center justify-between p-5 rounded-xl border border-border hover:border-secondary/30 hover:shadow-md transition-all group"

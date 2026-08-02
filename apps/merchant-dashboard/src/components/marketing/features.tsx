@@ -21,7 +21,7 @@ const features = [
     ),
     title: "Payment Processing",
     description:
-      "Accept card payments, bank transfers, and local payment methods worldwide. Connect to Stripe, Adyen, or any major processor — no routing fees, no markup.",
+      "Accept card payments, bank transfers, and local payment methods worldwide. Connect to Stripe, Adyen, or any major processor with no routing fees and no markup.",
     badge: "Stripe charges 2.9% + 30¢",
   },
   {
@@ -41,7 +41,7 @@ const features = [
     ),
     title: "Subscription Billing",
     description:
-      "Recurring payments, plan management, invoicing, and dunning — powered by Kill Bill. Handle upgrades, downgrades, trials, and usage-based billing.",
+      "Recurring payments, plan management, invoicing, and dunning, powered by Kill Bill. Handle upgrades, downgrades, trials, and usage-based billing.",
     badge: "Stripe charges 0.5% recurring",
   },
   {
@@ -59,7 +59,7 @@ const features = [
     ),
     title: "Fraud Detection",
     description:
-      "Real-time rule evaluation, risk scoring, and case management. Build custom fraud rules with Tazama — no per-transaction fees.",
+      "Real-time rule evaluation, risk scoring, and case management. Build custom fraud rules with Tazama. No per-transaction fees.",
     badge: "Stripe charges $0.05/txn",
   },
   {
@@ -98,7 +98,7 @@ const features = [
     ),
     title: "Multi-Currency & Global",
     description:
-      "Accept payments in 135+ currencies and payment methods. No currency conversion markup — just the real exchange rate from your processor.",
+      "Accept payments in 135+ currencies and payment methods. No currency conversion markup, just the real exchange rate from your processor.",
     badge: "Stripe charges 1% conversion",
   },
   {
@@ -229,18 +229,18 @@ export function Features() {
         >
           <div className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full bg-secondary/10 border border-secondary/20 text-orange-300 text-sm font-medium mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-            Everything Stripe charges extra for — included free
+            Own the stack &middot; Choose your processor &middot; No platform fees
           </div>
           <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-white mb-4">
             A complete financial stack,{" "}
             <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
-              at zero platform cost
+              under your control
             </span>
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
             Payments, subscriptions, fraud detection, invoicing, analytics,
-            and more — every tool you need, with no per-transaction fees,
-            no percentage cuts, and no hidden charges.
+            and more. Open source, self-hosted, and portable across the
+            processors you already use.
           </p>
         </div>
 
@@ -249,6 +249,19 @@ export function Features() {
           {features.map((feature, index) => (
             <FeatureCard key={feature.title} feature={feature} index={index} />
           ))}
+        </div>
+
+        {/* Honest cost picture */}
+        <div className="mt-10 p-6 rounded-2xl border border-white/[0.06] bg-[#0a0a0a]">
+          <p className="text-sm text-text-secondary leading-relaxed">
+            <span className="font-semibold text-white">The honest cost picture.</span>{" "}
+            OpenPay charges no platform fees, no per-transaction fees, and no
+            hidden charges. You will still pay your payment processor (Stripe,
+            Adyen, Paystack, or whichever you choose) its processing fees, plus
+            the infrastructure and operational costs of running OpenPay on your
+            own servers. In return you keep full control, data ownership, and the
+            freedom to switch processors whenever you want.
+          </p>
         </div>
       </div>
     </section>

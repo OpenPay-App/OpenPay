@@ -281,6 +281,29 @@ select user_id, email, is_verified, totp_status from users where email = 'levarl
 
 ---
 
+## API keys (Phase 3 — real per-mode keys, not localStorage fakes)
+
+The merchant dashboard issues and revokes **real** router API keys per mode. The
+router exposes key management under `/api_keys` and the dashboard proxies it through
+`apps/merchant-dashboard/src/app/api/api-keys/route.ts` so merchant secrets never reach
+the browser.
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /api_keys/list` | List API keys for the merchant (`X-Merchant-Id` header; admin key optional) |
+| `POST /api_keys/{merchant_id}` | Create a key — returns the **plaintext secret exactly once** |
+| `DELETE /api_keys/{key_id}` | Revoke a key |
+
+Secret key format is `{env}_{key_id}-{secret}` where env is `dev_` (`RUN_ENV=development`),
+`snd_` (sandbox) or `prd_`/`prod_` (production). Publishable keys are account-level
+`pk_*` and come from env (`NEXT_PUBLIC_OPENPAY_PUBLISHABLE_KEY_TEST|LIVE`), not the router.
+Mode is decided by `src/lib/mode.ts` (`?mode=` → `X-OpenPay-Mode` header → `openpay_mode`
+cookie → `NEXT_PUBLIC_OPENPAY_MODE` → `sandbox`) and keys are created in the mode active
+at request time — the dashboard rejects creating a live key with only test credentials
+configured (`HyperswitchError`, 503).
+
+---
+
 ## Debugging playbook (how to verify the next time)
 
 1. **Router logs are the ground truth** — every request is logged with `env`, `flow`,

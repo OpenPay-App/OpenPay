@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { hyperswitchFetch } from "@/lib/hyperswitch";
+import { validateMode, type Mode } from "@/lib/mode";
 
 /**
  * POST /api/checkout/[session]/pay
@@ -9,6 +10,10 @@ import { hyperswitchFetch } from "@/lib/hyperswitch";
  * Raw card data (number, CVC, expiry) should NEVER reach this endpoint.
  *
  * Body: { payment_method_id: string, email?: string }
+ *
+ * Phase 3: the mode is resolved from the payment object's metadata (stamped at
+ * creation) — never from the caller's cookie — so a live session is confirmed
+ * with live credentials regardless of the caller's own mode.
  */
 export async function POST(
   request: NextRequest,
@@ -34,9 +39,17 @@ export async function POST(
   }
 
   try {
+    // Resolve the payment's own mode before confirming.
+    const existing = await hyperswitchFetch<any>(`/payments/${session}`, {
+      method: "POST",
+      body: JSON.stringify({}),
+    });
+    const mode: Mode = validateMode(existing?.metadata?.openpay_mode) || "sandbox";
+
     // Confirm the payment with Hyperswitch using the tokenized payment method
     const data = await hyperswitchFetch<any>(`/payments/${session}`, {
       method: "POST",
+      resolveMode: mode,
       body: JSON.stringify({
         confirm: true,
         payment_method: "card",
@@ -45,10 +58,14 @@ export async function POST(
       }),
     });
 
-    return NextResponse.json({
-      status: data.status || data.payment_status || "succeeded",
-      payment_id: data.payment_id || session,
-    });
+    return NextResponse.json(
+      {
+        status: data.status || data.payment_status || "succeeded",
+        payment_id: data.payment_id || session,
+        mode,
+      },
+      { headers: { "X-OpenPay-Mode": mode } }
+    );
   } catch (error) {
     return NextResponse.json(
       { status: "failed", error: (error as Error).message },

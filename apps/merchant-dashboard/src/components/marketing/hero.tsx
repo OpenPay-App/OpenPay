@@ -97,7 +97,7 @@ export function Hero() {
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse shadow-lg shadow-orange-500/50" />
-            Open source &middot; Self-hosted &middot; Free forever
+            Open source &middot; Self-hosted &middot; Zero platform fees
             <span className="ml-1 px-2 py-0.5 rounded bg-orange-500/20 text-orange-400 text-[10px] font-semibold">
               v0.1
             </span>
@@ -128,8 +128,10 @@ export function Hero() {
               titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            Accept payments, manage subscriptions, and detect fraud — all
-            self-hosted, fully open-source, with zero vendor lock-in.
+            OpenPay is the open-source payments platform that lets you own
+            your payment infrastructure, including payments, subscriptions,
+            and fraud detection on your own servers, while staying free to
+            choose or switch your payment processor.
           </p>
 
           {/* CTA Buttons */}
@@ -165,8 +167,12 @@ export function Hero() {
           </div>
 
           {/* Auth note */}
-          <p className="mt-4 text-xs text-white/20">
+          <p className="mt-4 text-xs text-white/60">
             No account needed. Authentication is optional and only required if you enable it.
+          </p>
+          <p className="mt-2 text-xs text-white/60 max-w-xl mx-auto">
+            Zero platform fees. You still pay your payment processor (Stripe,
+            Adyen, Paystack, etc.) and the cost of running your own infrastructure.
           </p>
 
           {/* Code preview */}
@@ -187,7 +193,7 @@ export function Hero() {
                   <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
                   <div className="w-3 h-3 rounded-full bg-[#28c840]" />
                   <span className="ml-3 text-xs text-white/30 font-mono">
-                    terminal — openpay
+                    terminal · openpay
                   </span>
                 </div>
                 <pre className="p-6 text-left text-sm font-mono text-white/60 overflow-x-auto">
@@ -211,7 +217,7 @@ export function Hero() {
             </div>
 
             {/* Trust indicator */}
-            <div className="mt-6 flex items-center justify-center gap-6 text-xs text-white/25">
+            <div className="mt-6 flex items-center justify-center gap-6 text-xs text-white/50">
               <span>No signup required</span>
               <span className="w-1 h-1 rounded-full bg-white/20" />
               <span>MIT licensed</span>

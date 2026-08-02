@@ -1,0 +1,55 @@
+name: Staging Environment
+
+"on":
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Ref to validate (branch/tag/commit SHA)'
+        required: true
+        default: 'main'
+      require-processor:
+        description: 'Fail if live processor (Paystack) flow cannot run'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Staging validation (${{ inputs.ref }})
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Initialize env files
+        run: |
+          cp .env.example .env
+          cp payment-system/hyperswitch/.env.example payment-system/hyperswitch/.env
+          cp payment-system/killbill/.env.example payment-system/killbill/.env
+          cp payment-system/nats-kb-bridge/.env.example payment-system/nats-kb-bridge/.env
+          cp event-bus/.env.example event-bus/.env
+          cp monitoring-and-rules/.env.example monitoring-and-rules/.env
+          cp monitoring-and-rules/tazama-auth/.env.example monitoring-and-rules/tazama-auth/.env
+          cp monitoring-and-rules/tazama-rule-exec/.env.example monitoring-and-rules/tazama-rule-exec/.env
+          cp monitoring-and-rules/tazama-rule-studio/.env.example monitoring-and-rules/tazama-rule-studio/.env
+          cp monitoring-and-rules/case-management/.env.example monitoring-and-rules/case-management/.env
+
+      - name: Install NATS CLI
+        run: |
+          curl -sfL https://binaries.nats.dev/nats-io/natscli/nats@latest | sh
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+
+      - name: Run full environment smoke
+        env:
+          PAYSTACK_SECRET_KEY: ${{ secrets.PAYSTACK_SECRET_KEY }}
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+        run: |
+          FLAGS=""
+          if [ "${{ inputs.require-processor }}" = "true" ]; then FLAGS="--require-processor"; fi
+          bash ./scripts/ci-smoke.sh $FLAGS
+        timeout-minutes: 25

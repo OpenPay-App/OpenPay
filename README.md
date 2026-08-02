@@ -46,14 +46,16 @@
 
 ## What is OpenPay?
 
-OpenPay is a **self-hosted, open-source payment platform** that gives you everything Stripe offers — payments, subscriptions, invoicing, fraud detection, webhooks — on **your own infrastructure**, at **zero platform fees**.
+OpenPay is the **open-source payments platform** that lets you **own your payment infrastructure** while remaining **free to choose or switch payment processors**. It gives you everything a commercial platform offers — payments, subscriptions, invoicing, fraud detection, webhooks — self-hosted on **your own servers**, with **zero platform fees**.
 
-| Instead of paying Stripe... | You pay with OpenPay |
+To be clear about cost: OpenPay charges no platform fees, but payments still cost money. You will always pay your payment processor (Stripe, Adyen, Paystack, etc.) its processing fees, plus the infrastructure and operational costs of running the platform yourself. OpenPay simply never takes a cut and never charges for features.
+
+| Instead of paying the platform layer... | You pay with OpenPay |
 |---|---|
-| 2.9% + $0.30 per transaction | $0 — only your processor's fee |
+| 2.9% + $0.30 per transaction | $0 platform fee — only your processor's fee |
 | $0.40 per invoice | $0 — unlimited invoicing |
 | $0.05 per transaction (Radar) | $0 — built-in fraud detection |
-| 1% currency conversion | $0 — real exchange rate |
+| 1% currency conversion | $0 markup — your processor's exchange rate |
 | Vendor lock-in | $0 — swap processors anytime |
 
 <br />

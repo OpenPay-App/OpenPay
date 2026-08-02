@@ -13,6 +13,9 @@ interface CheckoutSession {
   currency: string;
   status: string;
   client_secret: string;
+  publishable_key?: string;
+  mode?: string;
+  error?: string;
 }
 
 /**
@@ -21,11 +24,17 @@ interface CheckoutSession {
  * Card data is tokenized entirely within the Hyperswitch Elements iframe.
  * Raw card numbers, CVC, and expiry never touch our application code.
  * The SDK returns a payment_method_id token that is sent to our backend.
+ *
+ * Phase 3: the mode and the matching publishable key come from the checkout
+ * API response (resolved from the payment object's stamped metadata), never
+ * from the caller's cookie — so a live payment link always boots the SDK with
+ * the live publishable key.
  */
 
 // Load Hyperswitch SDK from CDN (no npm install required)
 const HYPER_SDK_URL = "https://beta.hyperswitch.io/v1/HyperLoader.js";
 let hyperPromise: Promise<any> | null = null;
+let hyperKeyUsed: string | null = null;
 
 function loadScript(src: string): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -43,12 +52,32 @@ function loadScript(src: string): Promise<void> {
   });
 }
 
-function getHyper() {
+/**
+ * Initialize the Hyper SDK with the publishable key for the resolved mode.
+ * A mode-aware key from the API wins; env fallbacks keep the legacy flow
+ * working. The secret key must never be passed here.
+ *
+ * The SDK is keyed by publishable key — if the key changes (e.g. mode switch),
+ * the old instance is discarded and a fresh one is created.
+ */
+function getHyper(publishableKey?: string) {
+  const key =
+    publishableKey ||
+    process.env.NEXT_PUBLIC_OPENPAY_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_HYPERSWITCH_PUBLISHABLE_KEY ||
+    "";
+  // If the publishable key changed (mode switch), discard the cached instance
+  if (hyperPromise && hyperKeyUsed !== key) {
+    hyperPromise = null;
+    hyperKeyUsed = null;
+  }
   if (!hyperPromise) {
     hyperPromise = loadScript(HYPER_SDK_URL).then(() => {
       const Hyper = (window as any).Hyper;
       if (!Hyper) throw new Error("Hyper SDK loaded but window.Hyper is not defined");
-      return Hyper(process.env.NEXT_PUBLIC_HYPERSWITCH_PUBLISHABLE_KEY || "");
+      if (!key) throw new Error("No publishable key available for this checkout mode");
+      hyperKeyUsed = key;
+      return Hyper(key);
     });
   }
   return hyperPromise;
@@ -70,16 +99,19 @@ export default function CheckoutPage() {
     async function load() {
       try {
         const res = await fetch(`/api/checkout/${session}`);
-        if (!res.ok) throw new Error("Invalid checkout session");
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body.error || "Invalid checkout session");
+        }
         const data: CheckoutSession = await res.json();
 
         if (cancelled) return;
         setSessionData(data);
 
-        // Initialize Hyperswitch SDK
+        // Initialize Hyperswitch SDK with the mode-aware publishable key
         let hyper;
         try {
-          hyper = await getHyper();
+          hyper = await getHyper(data.publishable_key);
         } catch (sdkErr) {
           throw new Error(
             `Failed to load payment SDK: ${(sdkErr as Error).message}. Check your publishable key.`

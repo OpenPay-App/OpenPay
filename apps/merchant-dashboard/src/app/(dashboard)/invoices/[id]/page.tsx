@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Send, Download, FileText } from "lucide-react";
+import { ArrowLeft, Send, Download, FileText, AlertTriangle } from "lucide-react";
 import { getInvoice, sendInvoice } from "@/lib/hyperswitch";
 import { formatCurrency } from "@/lib/format";
 import { useSandboxMode } from "@/lib/sandbox-mode";
+import { ModeBadge } from "@/components/mode-badge";
 import type { Invoice } from "@/lib/types";
 
 const statusColors: Record<string, string> = {
@@ -19,10 +20,11 @@ const statusColors: Record<string, string> = {
 };
 
 export default function InvoiceDetailPage() {
-  const { isSandbox } = useSandboxMode();
+  const { mode } = useSandboxMode();
   const params = useParams();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [loading, setLoading] = useState(true);
+  const [confirmLiveSend, setConfirmLiveSend] = useState(false);
 
   useEffect(() => {
     getInvoice(params.id as string).then((inv) => {
@@ -33,7 +35,13 @@ export default function InvoiceDetailPage() {
 
   const handleSend = async () => {
     if (!invoice) return;
+    // Guardrail: sending a live invoice triggers a real dunning/charge flow.
+    if (mode === "production" && !confirmLiveSend) {
+      setConfirmLiveSend(true);
+      return;
+    }
     await sendInvoice(invoice.invoice_id);
+    setConfirmLiveSend(false);
   };
 
   if (loading) {
@@ -64,6 +72,40 @@ export default function InvoiceDetailPage() {
 
   return (
     <div>
+      {/* Live invoice send confirmation */}
+      {confirmLiveSend && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-[#0a0a0a] rounded-2xl p-6 max-w-md mx-4 shadow-2xl border border-border">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-950 flex items-center justify-center">
+                <AlertTriangle className="w-5 h-5 text-red-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-white">
+                Send a live invoice?
+              </h3>
+            </div>
+            <p className="text-sm text-text-secondary mb-6">
+              This sends a <strong>real bill to your customer</strong> through
+              your live merchant account and may trigger an automatic charge.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setConfirmLiveSend(false)}
+                className="px-4 py-2 border border-border rounded-lg text-sm text-text-secondary hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSend}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
+              >
+                Confirm Send
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Link
         href="/invoices"
         className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary mb-6 transition-colors"
@@ -82,13 +124,7 @@ export default function InvoiceDetailPage() {
             <span className={`px-3 py-1 rounded-lg text-xs font-medium ${statusColors[invoice.status]}`}>
               {invoice.status}
             </span>
-            <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
-              isSandbox
-                ? "bg-amber-50 border-amber-300 text-amber-700"
-                : "bg-emerald-50 border-emerald-300 text-emerald-700"
-            }`}>
-              {isSandbox ? "Sandbox" : "Production"}
-            </span>
+            <ModeBadge />
           </div>
           <p className="text-sm text-text-muted">
             Created {new Date(invoice.created).toLocaleDateString()}

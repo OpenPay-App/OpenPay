@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Users, Search, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Customer } from "@/lib/types";
 import { formatDate } from "@/lib/format";
+import { ModeBadge } from "@/components/mode-badge";
 
 export default function CustomersPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -71,9 +72,12 @@ export default function CustomersPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-text-primary">
-            Customers
-          </h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-semibold text-text-primary">
+              Customers
+            </h1>
+            <ModeBadge />
+          </div>
           <p className="text-text-secondary mt-1">
             People who have paid you
           </p>

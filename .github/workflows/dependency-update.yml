@@ -1,0 +1,49 @@
+name: Dependency Upkeep
+
+"on":
+  schedule:
+    - cron: '0 4 * * 2'   # weekly, Tuesday 04:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  staleness:
+    name: Report dependency staleness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Outdated dashboard dependencies
+        working-directory: apps/merchant-dashboard
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm outdated --format=table || true
+      - name: Outdated Python / Go / Rust deps (best effort)
+        run: |
+          echo "Python requirements.txt files:"
+          find . -name 'requirements*.txt' -not -path '*/node_modules/*' | head -20
+          echo "Go modules:"
+          find . -name 'go.mod' -not -path '*/node_modules/*' | head -20
+          echo "Cargo.toml files:"
+          find . -name 'Cargo.toml' -not -path '*/node_modules/*' | head -20
+
+  dependabot-alerts:
+    name: Dependabot alert summary (GH API)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Query dependabot alerts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          count="$(gh api repos/${{ github.repository }}/dependabot/alerts \
+            -H 'Accept: application/vnd.github+json' \
+            --paginate | python3 -c 'import json,sys; print(sum(1 for a in json.load(sys.stdin) if a["state"]=="open"))' 2>/dev/null || echo '?')"
+          echo "open dependabot alerts: $count"

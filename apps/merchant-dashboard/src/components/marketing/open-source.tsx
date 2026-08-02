@@ -113,7 +113,7 @@ export function OpenSource() {
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto mb-12">
             Every component in the OpenPay stack is open source. No black
-            boxes, no proprietary logic — just transparent, auditable code
+            boxes, no proprietary logic, just transparent, auditable code
             that the community can trust and improve.
           </p>
 

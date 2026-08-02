@@ -48,3 +48,10 @@ mock_server.py
 
 # hyperswitch migration cache (downloaded once, regenerable)
 .cache/
+
+# self-hosted lifecycle state & backups
+.backups/
+.openpay-state/
+
+# local release bundles
+.releases/

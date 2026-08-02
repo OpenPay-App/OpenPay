@@ -1,0 +1,13 @@
+# Default code owners — require review on everything
+* @OpenPay-App/platform-core
+
+# Release-critical paths: any change here is a potential breaking change
+/scripts/ @OpenPay-App/platform-core
+/docker-compose.yml @OpenPay-App/platform-core
+/.github/workflows/ @OpenPay-App/platform-core
+/apps/merchant-dashboard/src/app/docs/ @OpenPay-App/platform-docs
+
+# Payment & fraud services
+/payment-system/ @OpenPay-App/platform-core
+/monitoring-and-rules/ @OpenPay-App/platform-core
+/event-bus/ @OpenPay-App/platform-core

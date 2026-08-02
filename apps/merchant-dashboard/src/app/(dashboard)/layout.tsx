@@ -5,6 +5,7 @@ import { Topbar } from "@/components/topbar";
 import { SandboxModeProvider } from "@/lib/sandbox-mode";
 import { BusinessProfileProvider } from "@/lib/business-profile-context";
 import { ProfileErrorBanner } from "@/components/profile-error-banner";
+import { ModeConfigBanner } from "@/components/mode-config-banner";
 
 export default async function DashboardLayout({
   children,
@@ -31,6 +32,7 @@ export default async function DashboardLayout({
           <div className="ml-64">
             <Topbar />
             <ProfileErrorBanner />
+            <ModeConfigBanner />
             <main className="p-8">{children}</main>
           </div>
         </div>

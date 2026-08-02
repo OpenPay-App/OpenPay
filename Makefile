@@ -1,4 +1,4 @@
-.PHONY: help up down logs test-flow test-payment clean build
+.PHONY: help up down logs test-flow test-payment clean build backup health-check upgrade rollback
 
 # ────────────────────────────────────────────────────────────
 # Setup & Init
@@ -150,3 +150,19 @@ paystack-test: ## Run Paystack integration test
 # Database migrations
 migrate-db: ## Apply Hyperswitch DB migrations (required once; empty DB = login 'Invalid Link' errors)
 	./scripts/migrate-hyperswitch-db.sh
+
+# ────────────────────────────────────────────────────────────
+# Self-hosted lifecycle (semi-automated upgrades)
+# ────────────────────────────────────────────────────────────
+
+health-check: ## Verify all core services are healthy
+	./scripts/health-check.sh
+
+backup: ## Snapshot PostgreSQL, Redis & NATS data (do this before upgrading)
+	./scripts/backup.sh
+
+upgrade: ## Upgrade to the latest release (or: make upgrade TARGET=v0.2.0)
+	./scripts/upgrade.sh $(TARGET)
+
+rollback: ## Restore the previous release + data snapshot
+	./scripts/rollback.sh

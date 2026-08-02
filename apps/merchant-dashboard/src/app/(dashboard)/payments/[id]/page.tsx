@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { Payment } from "@/lib/types";
 import { formatCurrency, formatDate, statusColor } from "@/lib/format";
+import { useSandboxMode } from "@/lib/sandbox-mode";
+import { ModeBadge } from "@/components/mode-badge";
 
 function TimelineEvent({
   label,
@@ -47,11 +49,13 @@ function TimelineEvent({
 
 export default function PaymentDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const { mode } = useSandboxMode();
   const [payment, setPayment] = useState<Payment | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refunding, setRefunding] = useState(false);
   const [refundResult, setRefundResult] = useState<string | null>(null);
+  const [confirmLiveRefund, setConfirmLiveRefund] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -70,6 +74,11 @@ export default function PaymentDetailPage() {
 
   const handleRefund = async () => {
     if (!payment) return;
+    // Guardrail: refunding a live payment is a destructive real-money action.
+    if (mode === "production" && !confirmLiveRefund) {
+      setConfirmLiveRefund(true);
+      return;
+    }
     setRefunding(true);
     setRefundResult(null);
     try {
@@ -88,6 +97,7 @@ export default function PaymentDetailPage() {
       setRefundResult("Network error — could not process refund");
     } finally {
       setRefunding(false);
+      setConfirmLiveRefund(false);
     }
   };
 
@@ -143,6 +153,41 @@ export default function PaymentDetailPage() {
 
   return (
     <div>
+      {/* Live refund confirmation */}
+      {confirmLiveRefund && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-[#0a0a0a] rounded-2xl p-6 max-w-md mx-4 shadow-2xl border border-border">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-950 flex items-center justify-center">
+                <AlertTriangle className="w-5 h-5 text-red-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-white">
+                Refund a live payment?
+              </h3>
+            </div>
+            <p className="text-sm text-text-secondary mb-6">
+              This will <strong>refund real money</strong> back to the customer
+              on your live merchant account. This action cannot be undone.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setConfirmLiveRefund(false)}
+                className="px-4 py-2 border border-border rounded-lg text-sm text-text-secondary hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleRefund}
+                disabled={refunding}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 disabled:opacity-50 transition-colors"
+              >
+                {refunding ? "Refunding..." : "Confirm Refund"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Link
         href="/payments"
         className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary mb-6 transition-colors"
@@ -160,11 +205,14 @@ export default function PaymentDetailPage() {
             {payment.payment_id}
           </p>
         </div>
-        <span
-          className={`inline-flex px-3 py-1 rounded-full text-sm font-medium border ${statusColor(payment.status)}`}
-        >
-          {payment.status}
-        </span>
+        <div className="flex items-center gap-3">
+          <ModeBadge />
+          <span
+            className={`inline-flex px-3 py-1 rounded-full text-sm font-medium border ${statusColor(payment.status)}`}
+          >
+            {payment.status}
+          </span>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

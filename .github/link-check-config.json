@@ -1,0 +1,15 @@
+{
+  "ignorePatterns": [
+    { "pattern": "^http://localhost" },
+    { "pattern": "^https?://yourdomain\\.com" },
+    { "pattern": "^https?://.*\\.yourdomain\\.com" },
+    { "pattern": "^https?://api\\.paystack\\.co" },
+    { "pattern": "^https?://github\\.com/([^/]+)/([^/]+)" },
+    { "pattern": "^mailto:" },
+    { "pattern": "\\$\\{" },
+    { "pattern": "^/docs/" },
+    { "pattern": "^#.*$" }
+  ],
+  "replacementPatterns": [],
+  "aliveStatusCodes": [200, 206, 301, 302, 303, 307, 308]
+}

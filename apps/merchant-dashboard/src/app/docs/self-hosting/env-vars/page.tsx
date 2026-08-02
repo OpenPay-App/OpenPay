@@ -210,6 +210,12 @@ export default function EnvVarsPage() {
         <h2 className="text-2xl font-bold text-text-primary mb-4">
           Merchant Dashboard <code className="text-lg font-mono">.env.local</code>
         </h2>
+        <p className="text-text-secondary mb-4">
+          Phase 3: the dashboard is sandbox/production mode-aware. Credentials
+          are resolved per mode from the <code className="font-mono text-xs">openpay_mode</code>{" "}
+          cookie (see <code className="font-mono text-xs">src/lib/mode.ts</code>). Per-mode
+          pairs win; the legacy single-mode vars remain as a fallback.
+        </p>
         <div className="rounded-xl border border-border overflow-hidden">
           <table className="w-full text-sm">
             <thead>
@@ -226,15 +232,29 @@ export default function EnvVarsPage() {
                 ["KINDE_ISSUER_URL", "Yes", "Kinde domain URL (e.g., https://your.kinde.com)"],
                 ["KINDE_POST_LOGIN_REDIRECT_URL", "Yes", "Redirect after login (default: http://localhost:3000/dashboard)"],
                 ["KINDE_POST_LOGOUT_REDIRECT_URL", "Yes", "Redirect after logout (default: http://localhost:3000)"],
-                ["HYPERSWITCH_API_URL", "Yes", "Hyperswitch API URL (default: http://localhost:8081)"],
-                ["HYPERSWITCH_API_KEY", "Yes", "Hyperswitch API key"],
+                ["HYPERSWITCH_URL_TEST", "Yes", "Sandbox router URL (default: http://localhost:8081)"],
+                ["HYPERSWITCH_API_KEY_TEST", "Yes", "Sandbox secret API key (e.g. snd_<key_id>-<secret>)"],
+                ["NEXT_PUBLIC_OPENPAY_PUBLISHABLE_KEY_TEST", "No", "Sandbox publishable key used by the checkout page"],
+                ["HYPERSWITCH_URL_LIVE", "No", "Live router URL (required only for production mode)"],
+                ["HYPERSWITCH_API_KEY_LIVE", "No", "Live secret API key (e.g. prd_<key_id>-<secret>)"],
+                ["NEXT_PUBLIC_OPENPAY_PUBLISHABLE_KEY_LIVE", "No", "Live publishable key used by the checkout page"],
+                ["HYPERSWITCH_MERCHANT_ID_TEST", "No", "Sandbox merchant account id (default: default)"],
+                ["HYPERSWITCH_MERCHANT_ID_LIVE", "No", "Live merchant account id (default: default)"],
+                ["HYPERSWITCH_ADMIN_API_KEY", "No", "Router admin key (used to issue/revoke merchant API keys)"],
+                ["NEXT_PUBLIC_OPENPAY_MODE", "No", "Fallback mode when no cookie/query: sandbox or production"],
+                ["HYPERSWITCH_URL", "No", "Legacy fallback router URL (single-mode installs)"],
+                ["HYPERSWITCH_API_KEY", "No", "Legacy fallback secret API key"],
               ].map(([variable, required, desc]) => (
                 <tr key={variable} className="border-b border-border last:border-0">
                   <td className="px-4 py-3">
                     <code className="font-mono text-xs text-secondary">{variable}</code>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="px-2 py-0.5 rounded bg-red-50 text-red-700 text-xs font-medium">Required</span>
+                    {required === "Yes" ? (
+                      <span className="px-2 py-0.5 rounded bg-red-50 text-red-700 text-xs font-medium">Required</span>
+                    ) : (
+                      <span className="px-2 py-0.5 rounded bg-bg-alt text-text-muted text-xs">Optional</span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-text-secondary">{desc}</td>
                 </tr>
@@ -242,6 +262,13 @@ export default function EnvVarsPage() {
             </tbody>
           </table>
         </div>
+        <p className="text-text-secondary mt-4 text-sm">
+          A production-mode request with no live credential configured fails
+          fast (<code className="font-mono text-xs">HyperswitchError</code>, HTTP 503) rather
+          than silently reusing the sandbox key. Deployed Vercel environments
+          should map Production → <code className="font-mono text-xs">_LIVE</code> vars and
+          Preview → <code className="font-mono text-xs">_TEST</code> vars.
+        </p>
       </section>
     </div>
   );

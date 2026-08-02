@@ -164,7 +164,7 @@ After `docker compose up -d` (all healthy):
 ## 📝 Remaining To-Dos
 
 - [ ] Update Next.js: `pnpm add next@latest` (security patch)
-- [ ] Phase 3: Sandbox/Production dual-mode alignment
+- [ ] Phase 3: Sandbox/Production dual-mode alignment → full task breakdown in [`docs/PHASE_3_TODO.md`](./PHASE_3_TODO.md)
 - [ ] Phase 4: Multi-provider routing verification
 - [ ] Phase 5: Growth & Polish (branding, positioning)
 - [ ] Phase 6: Repository migration (GitHub org update)
@@ -219,4 +219,75 @@ docker compose --profile core up -d --force-recreate hyperswitch
 - MailHog bodies are quoted-printable; strip `=\r?\n` and decode `=3D` before regexing
   the `token=...` out. In this version the link lives in the **"Welcome to the
   community!"** email.
+
+---
+
+## 🚢 Vercel 404 NOT_FOUND — Fixed (Phase 0 follow-up)
+
+> **Date:** August 2, 2026
+> **Result:** Production site serves correctly; `/` and all 53 routes return 200.
+
+### Problem 1 — `MIDDLEWARE_INVOCATION_FAILED`
+
+`apps/merchant-dashboard/middleware.ts` did `await import("@kinde-oss/kinde-auth-nextjs/middleware")`.
+The Kinde SDK pulls in Node-only modules (`next/headers`), but Vercel middleware runs on the
+**Edge** worker. The worker crashed at bundle load — before the function body or any
+try/catch could run. Five commits (`2e6d517` → `ed1955c`) tried to "fix the middleware
+invocation error" with defensive wrappers; all failed because it was a wrong-runtime
+problem, not a code path problem.
+
+**Fix:** deleted `middleware.ts`. Auth now enforced in the Node runtime from
+`src/app/(dashboard)/layout.tsx` via `getKindeServerSession().isAuthenticated()` (gated on
+`KINDE_CLIENT_ID && KINDE_ISSUER_URL`), redirecting unauthenticated users to
+`/api/auth/login?post_login_redirect_url=/dashboard`.
+
+### Problem 2 — Build green, but 404 NOT_FOUND on every URL
+
+After the auth fix deployed, the build succeeded (53/53 routes, `/` static) but **every**
+path — including the deployment's own preview URL — returned Vercel's 404 page
+(`Code: NOT_FOUND`). A correct Next.js deploy cannot do this, so the deploy wiring was broken.
+
+### What We Tried (and why each failed)
+
+| Attempt | Commit | Why it didn't work |
+|---------|--------|--------------------|
+| Repo-root `vercel.json` with `buildCommand` + `outputDirectory: apps/merchant-dashboard/.next` | `a28bf65` | `outputDirectory` pointing at `.next` is the known-broken pattern; repo-root file was also ignored (Vercel reads `vercel.json` from the configured Root Directory, not the repo root) |
+| Repo-root `vercel.json` with `"rootDirectory": "apps/merchant-dashboard"` | `59b0470` | `rootDirectory` is **not** a valid `vercel.json` property — the official schema (`openapi.vercel.sh/vercel.json`) is `additionalProperties: false` and omits it; a deploy would be rejected. Root Directory is a *dashboard* setting |
+| Deleting the repo-root `vercel.json` entirely | `2bbde55` | Back to known-good build state, but the deploy **still** 404'd → the breakage lived in the Vercel project settings, not the repo |
+
+### Root Cause
+
+The Vercel project's **Framework Preset was `Other`**, not Next.js. With `Other`:
+
+- Build Command ran `next build` → output went to `.next/`
+- Output Directory defaulted to **"`public` if it exists, or `.`"** → Vercel deployed the
+  **raw `apps/merchant-dashboard` source folder** as static files
+- No `index.html` at the top level (Next compiles into `.next/`, which is never served)
+  → 404 on every route, including the deployment's own URL
+
+The `next build` "succeeded" (all routes emitted), so build logs looked green — but the
+deployment was never wired as a Next.js app. Diagnostic signal: the build log did **not**
+contain the line `Using Next.js 15.5.22 (uses Vercel's next builder)`.
+
+### Fix
+
+`apps/merchant-dashboard/vercel.json` — placed **inside the app folder** (where Vercel reads
+it, given Root Directory = `apps/merchant-dashboard`), setting the valid `framework` property:
+
+```json
+{
+  "framework": "nextjs"
+}
+```
+
+Commit `ff88e20`. This overrides the Framework Preset to Next.js, so the Next.js builder
+emits a proper `/vercel/output` (static files + serverless functions). Optional dashboard
+insurance: **Settings → Build and Deployment → Framework Settings → Framework Preset → Next.js**.
+
+### Verified
+
+- New build log shows `Using Next.js 15.5.22 (uses Vercel's next builder)`.
+- `/`, docs, and dashboard routes all serve; auth redirect still works.
+- Reminder for future project re-creation: **Root Directory** = `apps/merchant-dashboard`,
+  **Framework Preset** = `Next.js`, and keep `vercel.json` inside the app folder.
 

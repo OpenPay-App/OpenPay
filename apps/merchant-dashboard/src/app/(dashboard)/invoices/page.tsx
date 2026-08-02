@@ -6,6 +6,7 @@ import { Search, FileText, Send, Plus } from "lucide-react";
 import { listInvoices, sendInvoice } from "@/lib/hyperswitch";
 import { formatCurrency } from "@/lib/format";
 import { useSandboxMode } from "@/lib/sandbox-mode";
+import { ModeBadge } from "@/components/mode-badge";
 import type { Invoice, InvoiceStatus } from "@/lib/types";
 
 const statusColors: Record<InvoiceStatus, string> = {
@@ -62,13 +63,7 @@ export default function InvoicesPage() {
           <p className="text-sm text-text-secondary">
             Generated invoices for subscriptions and one-time charges.
           </p>
-          <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
-            isSandbox
-              ? "bg-amber-50 border-amber-300 text-amber-700"
-              : "bg-emerald-50 border-emerald-300 text-emerald-700"
-          }`}>
-            {isSandbox ? "Sandbox" : "Production"}
-          </span>
+          <ModeBadge />
         </div>
         <button
           onClick={() => {

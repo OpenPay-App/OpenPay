@@ -1,18 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPayment, HyperswitchError } from "@/lib/hyperswitch";
+import { getPayment } from "@/lib/hyperswitch";
+import { getMode } from "@/lib/mode";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  const mode = getMode(request);
   try {
-    const payment = await getPayment(id);
-    return NextResponse.json(payment);
-  } catch (error) {
-    if (error instanceof HyperswitchError) {
-      return NextResponse.json(null, { status: 404 });
-    }
-    return NextResponse.json(null, { status: 500 });
+    const payment = await getPayment(id, mode);
+    return NextResponse.json(payment, { headers: { "X-OpenPay-Mode": mode } });
+  } catch {
+    return NextResponse.json(null, { status: 404 });
   }
 }

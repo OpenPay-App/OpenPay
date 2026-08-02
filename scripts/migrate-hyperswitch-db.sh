@@ -17,6 +17,13 @@ set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
+# Auto-detect the router image version pinned in docker-compose.yml so the
+# migration set always matches the image that will run. Override explicitly
+# with HYPERSWITCH_VERSION if you're migrating a different router version.
+if [ -z "${HYPERSWITCH_VERSION:-}" ]; then
+  HYPERSWITCH_VERSION="$(grep -oE 'juspaydotin/hyperswitch-router:[^[:space:]"]+' docker-compose.yml \
+    | head -n1 | cut -d: -f2 || true)"
+fi
 HYPERSWITCH_VERSION="${HYPERSWITCH_VERSION:-v1.125.0}"
 MIG_DIR="$PROJECT_ROOT/.cache/hyperswitch-migrations"
 TARBALL="$MIG_DIR/hyperswitch-$HYPERSWITCH_VERSION.tar.gz"

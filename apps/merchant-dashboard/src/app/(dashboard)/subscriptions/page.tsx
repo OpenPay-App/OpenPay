@@ -6,6 +6,7 @@ import { RefreshCw, Search, Filter, AlertTriangle, Plus } from "lucide-react";
 import { listSubscriptions } from "@/lib/hyperswitch";
 import { formatCurrency } from "@/lib/format";
 import { useSandboxMode } from "@/lib/sandbox-mode";
+import { ModeBadge } from "@/components/mode-badge";
 import type { Subscription, SubscriptionStatus } from "@/lib/types";
 
 const statusColors: Record<SubscriptionStatus, string> = {
@@ -57,13 +58,7 @@ export default function SubscriptionsPage() {
             All customer subscriptions. Manage billing cycles, plan changes, and
             cancellations.
           </p>
-          <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
-            isSandbox
-              ? "bg-amber-950 border-amber-500/30 text-amber-400"
-              : "bg-emerald-950 border-emerald-500/30 text-emerald-400"
-          }`}>
-            {isSandbox ? "Sandbox" : "Production"}
-          </span>
+          <ModeBadge />
         </div>
         <button
           onClick={() => {

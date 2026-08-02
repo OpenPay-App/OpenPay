@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { CreditCard, Search, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Payment, PaymentListResponse } from "@/lib/types";
 import { formatCurrency, formatDate, statusColor } from "@/lib/format";
+import { ModeBadge } from "@/components/mode-badge";
 
 export default function PaymentsPage() {
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -72,7 +73,10 @@ export default function PaymentsPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-text-primary">Payments</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-semibold text-text-primary">Payments</h1>
+            <ModeBadge />
+          </div>
           <p className="text-text-secondary mt-1">
             All transactions across your account
           </p>
