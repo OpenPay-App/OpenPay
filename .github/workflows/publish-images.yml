@@ -135,7 +135,7 @@ jobs:
 
       - name: Sign image (cosign keyless)
         env:
-          OWNER: ${{ toLower(github.repository_owner) }}
+          OWNER: ${{ github.repository_owner }}
         run: |
           GHCR_IMAGE="ghcr.io/${OWNER}/${{ inputs.image }}@${{ steps.build.outputs.digest }}"
           echo "Signing $GHCR_IMAGE"
@@ -143,7 +143,7 @@ jobs:
 
       - name: Verify signature
         env:
-          GHCR_IMAGE: ghcr.io/${{ toLower(github.repository_owner) }}/${{ inputs.image }}@${{ steps.build.outputs.digest }}
+          GHCR_IMAGE: ghcr.io/${{ github.repository_owner }}/${{ inputs.image }}@${{ steps.build.outputs.digest }}
           GH_REPO: ${{ github.repository }}
         run: |
           cosign verify "$GHCR_IMAGE" --insecure-ignore-tlog \
@@ -154,13 +154,13 @@ jobs:
         uses: anchore/sbom-action@v0.24.0
         if: ${{ steps.build.outputs.digest != '' }}
         with:
-          image: ghcr.io/${{ toLower(github.repository_owner) }}/${{ inputs.image }}@${{ steps.build.outputs.digest }}
+          image: ghcr.io/${{ github.repository_owner }}/${{ inputs.image }}@${{ steps.build.outputs.digest }}
           artifact-name: sbom-${{ inputs.image }}
           dependency-snapshot: true
 
       - name: Upload build attestation (provenance)
         uses: actions/attest-build-provenance@v1
         with:
-          subject-name: ghcr.io/${{ toLower(github.repository_owner) }}/${{ inputs.image }}
+          subject-name: ghcr.io/${{ github.repository_owner }}/${{ inputs.image }}
           subject-digest: ${{ steps.build.outputs.digest }}
           push-to-registry: true
