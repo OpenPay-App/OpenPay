@@ -147,7 +147,7 @@ jobs:
             --certificate-oidc-issuer https://token.actions.githubusercontent.com
 
       - name: Generate SBOM (syft) for GHCR image
-        uses: anchore/sbom-action@v0.19.2
+        uses: anchore/sbom-action@v0.24.0
         if: ${{ steps.build.outputs.digest != '' }}
         with:
           image: ghcr.io/${{ github.repository_owner }}/${{ inputs.image }}@${{ steps.build.outputs.digest }}
