@@ -51,7 +51,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 11.17.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -70,7 +70,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 11.17.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -111,7 +111,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 11.17.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -147,10 +147,13 @@ jobs:
           cp monitoring-and-rules/tazama-rule-exec/.env.example monitoring-and-rules/tazama-rule-exec/.env
           cp monitoring-and-rules/tazama-rule-studio/.env.example monitoring-and-rules/tazama-rule-studio/.env
           cp monitoring-and-rules/case-management/.env.example monitoring-and-rules/case-management/.env
-      - name: Install NATS CLI (stream init)
+      - name: Install NATS CLI (stream init, best-effort)
         run: |
-          curl -sfL https://binaries.nats.dev/nats-io/natscli/nats@latest | sh
-          echo "$HOME/bin" >> "$GITHUB_PATH"
+          if curl -sfL https://binaries.nats.dev/nats-io/natscli/nats@latest | sh; then
+            echo "$HOME/bin" >> "$GITHUB_PATH"
+          else
+            echo "::warning::NATS CLI install failed — ci-smoke.sh will skip stream init"
+          fi
       - name: Run environment smoke
         run: bash ./scripts/ci-smoke.sh
         timeout-minutes: 20

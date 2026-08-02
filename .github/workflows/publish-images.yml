@@ -44,7 +44,7 @@ jobs:
       - uses: pnpm/action-setup@v4
         if: ${{ contains(inputs.image, 'dashboard') }}
         with:
-          version: 10
+          version: 11.17.0
       - uses: actions/setup-node@v4
         if: ${{ contains(inputs.image, 'dashboard') }}
         with:
