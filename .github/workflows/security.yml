@@ -78,7 +78,7 @@ jobs:
         working-directory: apps/merchant-dashboard
         run: pnpm install --frozen-lockfile && pnpm audit --prod
       - name: OSV scanner (all ecosystems)
-        uses: google/osv-scanner-action@v2.3.8
+        uses: google/osv-scanner-action@v2
         with:
           scan-args: |-
             -r
