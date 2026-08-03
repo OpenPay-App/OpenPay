@@ -17,6 +17,10 @@
     "react-dom": "^19.0.0",
     "recharts": "^2.15.0"
   },
+  "overrides": {
+    "sharp": "^0.35.0",
+    "postcss": "^8.5.23"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.6",
     "@tailwindcss/postcss": "^4.0.0",
