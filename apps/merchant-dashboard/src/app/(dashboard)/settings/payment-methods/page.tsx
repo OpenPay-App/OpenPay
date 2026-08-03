@@ -7,7 +7,6 @@ import {
   CreditCard,
   Settings,
   ExternalLink,
-  AlertTriangle,
 } from "lucide-react";
 import { listConnectors, toggleConnector } from "@/lib/hyperswitch";
 import type { Connector } from "@/lib/types";
@@ -29,20 +28,15 @@ const connectorColors: Record<string, string> = {
 export default function PaymentMethodsPage() {
   const [connectors, setConnectors] = useState<Connector[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     loadConnectors();
   }, []);
 
   const loadConnectors = async () => {
     setLoading(true);
-    setError(null);
     try {
       const res = await listConnectors();
       setConnectors(res.data);
-    } catch (err) {
-      setError((err as Error).message);
     } finally {
       setLoading(false);
     }

@@ -296,7 +296,7 @@ export default function TroubleshootingPage() {
         </div>
         <p className="text-lg text-text-secondary max-w-3xl leading-relaxed">
           Common issues you might encounter when setting up or running OpenPay,
-          with step-by-step solutions. If you don't find your issue here, check
+          with step-by-step solutions. If you don&apos;t find your issue here, check
           our{" "}
           <a
             href="https://github.com/OpenPay-App/openpay/discussions"

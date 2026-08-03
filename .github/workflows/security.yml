@@ -34,19 +34,34 @@ jobs:
     name: SAST (CodeQL)
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # javascript-typescript and java are extracted without a build
+          # (build-mode: none is supported for both). java's pom.xml lives
+          # 3 levels deep under payment-system/, which CodeQL autobuild's
+          # root/direct-subdirectory search can't reach — extraction is the
+          # reliable way to scan the Kill Bill plugin. go keeps autobuild
+          # (build-mode: none is not yet supported for Go).
+          - language: javascript-typescript
+            build-mode: none
+          - language: go
+            build-mode: autobuild
+          - language: java
+            build-mode: none
     steps:
       - uses: actions/checkout@v4
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: 'javascript-typescript, python, go'
+          languages: ${{ matrix.language }}
           queries: security-and-quality
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+          build-mode: ${{ matrix.build-mode }}
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: /language:javascript-typescript
+          category: /language:${{ matrix.language }}
 
   dependencies:
     name: Dependency vulnerability scan

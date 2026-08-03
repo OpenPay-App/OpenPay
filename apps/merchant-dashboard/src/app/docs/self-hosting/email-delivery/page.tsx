@@ -184,7 +184,7 @@ HYPER_EMAIL_ENABLED=true`}</CodeBlock>
           <strong className="text-text-primary">Case-sensitive:</strong>{" "}
           <code className="font-mono text-xs">EMAIL_SMTP_CONNECTION</code> must be the literal{" "}
           <code className="font-mono text-xs">plaintext</code> (dev/MailHog) or{" "}
-          <code className="font-mono text-xs">start_tls</code> (production) — not "starttls".
+          <code className="font-mono text-xs">start_tls</code> (production) — not &quot;starttls&quot;.
         </p>
         <p className="mt-3 text-sm text-text-muted">
           <strong className="text-text-primary">Required:</strong>{" "}

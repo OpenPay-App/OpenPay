@@ -3,7 +3,6 @@ import {
   ArrowLeft,
   GitFork,
   Code2,
-  TestTube,
   GitPullRequest,
   MessageCircle,
   BookOpen,
@@ -33,7 +32,7 @@ export default function ContributingPage() {
           <h1 className="text-4xl font-bold text-white">Contributing to OpenPay</h1>
         </div>
         <p className="text-lg text-text-secondary max-w-3xl leading-relaxed">
-          OpenPay is built by the community, for the community. Whether you're
+          OpenPay is built by the community, for the community. Whether you&apos;re
           fixing a bug, adding a feature, improving documentation, or just
           asking a question — every contribution matters.
         </p>

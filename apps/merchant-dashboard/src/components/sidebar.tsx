@@ -2,72 +2,70 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  CreditCard,
-  Users,
-  Package,
-  RefreshCw,
-  FileText,
-  BarChart3,
-  Shield,
-  Settings,
-  LogOut,
-} from "lucide-react";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { useState } from "react";
 import Image from "next/image";
 
 const primaryNav = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/payments", label: "Payments", icon: CreditCard },
-  { href: "/customers", label: "Customers", icon: Users },
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/payments", label: "Payments" },
+  { href: "/customers", label: "Customers" },
 ];
 
 const productNav = [
-  { href: "/products", label: "Products", icon: Package },
-  { href: "/subscriptions", label: "Subscriptions", icon: RefreshCw },
-  { href: "/invoices", label: "Invoices", icon: FileText },
+  { href: "/products", label: "Products" },
+  { href: "/subscriptions", label: "Subscriptions" },
+  { href: "/invoices", label: "Invoices" },
 ];
 
 const secondaryNav = [
-  { href: "/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/admin", label: "Admin", icon: Shield },
-  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/analytics", label: "Analytics" },
+  { href: "/admin", label: "Admin" },
+  { href: "/settings", label: "Settings" },
 ];
 
 function NavSection({ items, pathname, label }: { items: typeof primaryNav; pathname: string; label?: string }) {
+  const [open, setOpen] = useState(true);
+
   return (
     <div>
       {label && (
-        <p className="px-3 pt-4 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/30">
-          {label}
-        </p>
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-full flex items-center justify-between px-3 pt-4 pb-1.5 text-left"
+        >
+          <h5 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-400">
+            {label}
+          </h5>
+          <svg
+            className={`w-3.5 h-3.5 opacity-30 transition-transform duration-200 ${open ? "rotate-90" : ""}`}
+            viewBox="0 0 15 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M5.5 3L10 7.5L5.5 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       )}
-      <div className="space-y-0.5">
-        {items.map((item) => {
-          const isActive =
-            pathname === item.href ||
-            (item.href !== "/dashboard" && pathname.startsWith(item.href));
-
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`group relative flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
-                isActive
-                  ? "bg-[#F56600]/[0.08] text-white"
-                  : "text-white/55 hover:text-white hover:bg-white/[0.06]"
-              }`}
-            >
-              {isActive && (
-                <span className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-[#F56600]" />
-              )}
-              <item.icon className={`w-[18px] h-[18px] ${isActive ? "text-[#F56600]" : "text-white/40 group-hover:text-white/70"}`} />
-              {item.label}
-            </Link>
-          );
-        })}
-      </div>
+      {open && (
+        <div className="space-y-0.5">
+          {items.map((item) => {
+            const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`block px-3 py-1.5 text-sm rounded-md transition-colors duration-150 ${
+                  isActive
+                    ? "bg-[rgba(85,108,214,0.05)] text-[#556cd6]"
+                    : "text-gray-600 hover:text-[#141f41] hover:bg-white/50"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -76,33 +74,24 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-64 bg-black text-white flex flex-col z-50">
+    <aside className="sticky top-0 h-screen w-[220px] flex-shrink-0 bg-white border-r border-[#e2e2e2] overflow-y-auto">
       {/* Logo */}
-      <div className="px-5 py-5 border-b border-white/[0.08]">
+      <div className="px-4 py-4 border-b border-[#e2e2e2]">
         <Image
-          src="/brand/logo-dark.svg"
-          alt="OpenPay"
-          width={200}
-          height={48}
-          className="h-10 w-auto"
+          src="/brand/logo.svg"
+          alt="AVA"
+          width={120}
+          height={32}
+          className="h-8 w-auto"
         />
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto px-3 py-2 space-y-1">
+      <nav className="px-3 py-3 space-y-1">
         <NavSection items={primaryNav} pathname={pathname} />
         <NavSection items={productNav} pathname={pathname} label="Product" />
         <NavSection items={secondaryNav} pathname={pathname} label="Platform" />
       </nav>
-
-      {/* Logout */}
-      <div className="mx-4 border-t border-white/[0.08]" />
-      <div className="px-3 py-3">
-        <LogoutLink className="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-white/45 hover:text-white hover:bg-white/[0.06] transition-all duration-150 w-full">
-          <LogOut className="w-[18px] h-[18px] text-white/35 group-hover:text-white/60" />
-          Sign out
-        </LogoutLink>
-      </div>
     </aside>
   );
 }

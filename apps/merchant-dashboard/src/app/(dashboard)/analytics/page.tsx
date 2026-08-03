@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   BarChart3,
   TrendingUp,
   TrendingDown,
   DollarSign,
-  Users,
-  CreditCard,
   ArrowRight,
 } from "lucide-react";
 import {
@@ -19,8 +17,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
 } from "recharts";
 import { getRevenueMetrics, getTopCustomers } from "@/lib/hyperswitch";
 import { useBusinessProfile } from "@/lib/business-profile-context";
@@ -36,11 +32,7 @@ export default function AnalyticsPage() {
   const { isSandbox } = useSandboxMode();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadData();
-  }, [days]);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     const [rev, cust] = await Promise.all([
       getRevenueMetrics(days),
@@ -49,7 +41,11 @@ export default function AnalyticsPage() {
     setRevenue(rev.data);
     setTopCustomers(cust.data);
     setLoading(false);
-  };
+  }, [days]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const totalRevenue = revenue.reduce((sum, r) => sum + r.revenue, 0);
   const totalRefunds = revenue.reduce((sum, r) => sum + r.refunds, 0);

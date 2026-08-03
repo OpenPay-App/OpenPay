@@ -5,8 +5,6 @@ import {
   Plus,
   Trash2,
   ExternalLink,
-  CheckCircle,
-  XCircle,
   Webhook,
   RotateCw,
   AlertTriangle,

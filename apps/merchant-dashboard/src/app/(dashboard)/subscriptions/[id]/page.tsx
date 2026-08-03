@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
   AlertTriangle,
@@ -35,14 +35,13 @@ const statusColors: Record<string, string> = {
 export default function SubscriptionDetailPage() {
   const { isSandbox } = useSandboxMode();
   const params = useParams();
-  const router = useRouter();
   const [sub, setSub] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState<string | null>(null);
 
-  const fetchSubscription = async () => {
+  const fetchSubscription = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -53,11 +52,11 @@ export default function SubscriptionDetailPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.id]);
 
   useEffect(() => {
     fetchSubscription();
-  }, [params.id]);
+  }, [fetchSubscription]);
 
   const handleAction = async (action: "pause" | "resume" | "cancel") => {
     if (!sub) return;

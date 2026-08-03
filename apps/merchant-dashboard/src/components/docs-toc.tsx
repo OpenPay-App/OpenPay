@@ -82,8 +82,8 @@ export function DocsTOC() {
   if (headings.length === 0) return null;
 
   return (
-    <aside className="w-64 shrink-0 hidden xl:block sticky top-14 self-start max-h-[calc(100vh-4rem)] overflow-y-auto pl-4 border-l border-border/40 text-sm py-8">
-      <p className="font-semibold text-white mb-3 text-sm">On this page</p>
+    <aside className="w-64 shrink-0 hidden xl:block sticky top-14 self-start max-h-[calc(100vh-4rem)] overflow-y-auto pl-4 border-l border-[#e2e2e2] text-sm py-8">
+      <p className="font-semibold text-gray-900 mb-3 text-sm">On this page</p>
       <ul className="space-y-2">
 
         {headings.map((item) => (
@@ -95,8 +95,8 @@ export function DocsTOC() {
               onClick={() => scrollToHeading(item.id)}
               className={`text-left block w-full truncate transition-all text-xs leading-relaxed ${
                 activeId === item.id
-                  ? "text-sky-400 font-semibold pl-1"
-                  : "text-text-secondary hover:text-white"
+                  ? "text-[#3898EC] font-semibold pl-1"
+                  : "text-gray-500 hover:text-gray-900"
               }`}
             >
               {item.text}
@@ -105,19 +105,19 @@ export function DocsTOC() {
         ))}
       </ul>
 
-      <div className="mt-6 pt-4 border-t border-border/40 space-y-2.5 text-xs text-text-secondary">
+      <div className="mt-6 pt-4 border-t border-[#e2e2e2]/40 space-y-2.5 text-xs text-gray-500">
         <a
           href="https://github.com/OpenPay-App/openpay"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-white transition-colors"
+          className="flex items-center gap-1.5 hover:text-[#3898EC] transition-colors"
         >
           <span>Edit this page on GitHub</span>
           <ExternalLink className="w-3.5 h-3.5" />
         </a>
         <button
           onClick={scrollToTop}
-          className="flex items-center gap-1.5 hover:text-white transition-colors text-left"
+          className="flex items-center gap-1.5 hover:text-gray-900 transition-colors text-left"
         >
           <span>Scroll to top</span>
           <ArrowUp className="w-3.5 h-3.5" />

@@ -19,11 +19,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&family=Inconsolata:wght@400;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="bg-surface text-text-primary">
+      <body className="bg-white text-gray-800">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

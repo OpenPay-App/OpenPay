@@ -47,8 +47,8 @@ export function DashboardChart({ payments }: { payments: Payment[] }) {
   const data = aggregateByDay(payments);
 
   return (
-    <div className="bg-[#0a0a0a] rounded-xl border border-border p-6">
-      <h2 className="font-semibold text-white mb-4">
+    <div className="bg-white border border-[#e2e2e2] p-6">
+      <h2 className="font-semibold text-gray-900 mb-4">
         Revenue — Last 30 Days
       </h2>
       <div className="h-72">
@@ -56,19 +56,19 @@ export function DashboardChart({ payments }: { payments: Payment[] }) {
           <AreaChart data={data}>
             <defs>
               <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#F56600" stopOpacity={0.15} />
-                <stop offset="95%" stopColor="#F56600" stopOpacity={0} />
+                <stop offset="5%" stopColor="#3898EC" stopOpacity={0.15} />
+                <stop offset="95%" stopColor="#3898EC" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1f1f1f" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e2e2e2" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 12, fill: "#666666" }}
+              tick={{ fontSize: 12, fill: "#999999" }}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              tick={{ fontSize: 12, fill: "#666666" }}
+              tick={{ fontSize: 12, fill: "#999999" }}
               tickLine={false}
               axisLine={false}
               tickFormatter={(v) => `₦${v.toLocaleString()}`}
@@ -76,17 +76,17 @@ export function DashboardChart({ payments }: { payments: Payment[] }) {
             <Tooltip
               formatter={(value: number) => [`₦${value.toLocaleString()}`, "Revenue"]}
               contentStyle={{
-                borderRadius: "8px",
-                border: "1px solid #1f1f1f",
-                background: "#0a0a0a",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.5)",
+                borderRadius: "3px",
+                border: "1px solid #e2e2e2",
+                background: "#ffffff",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
               }}
-              labelStyle={{ color: "#f5f5f5" }}
+              labelStyle={{ color: "#333333" }}
             />
             <Area
               type="monotone"
               dataKey="revenue"
-              stroke="#F56600"
+              stroke="#3898EC"
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#colorRevenue)"

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { RefreshCw, Search, Filter, AlertTriangle, Plus } from "lucide-react";
+import { RefreshCw, Search, AlertTriangle, Plus } from "lucide-react";
 import { listSubscriptions } from "@/lib/hyperswitch";
 import { formatCurrency } from "@/lib/format";
 import { useSandboxMode } from "@/lib/sandbox-mode";
@@ -26,11 +26,7 @@ export default function SubscriptionsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadSubscriptions();
-  }, [statusFilter]);
-
-  const loadSubscriptions = async () => {
+  const loadSubscriptions = useCallback(async () => {
     try {
       setError(null);
       const res = await listSubscriptions({ status: statusFilter || undefined });
@@ -40,7 +36,11 @@ export default function SubscriptionsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [statusFilter]);
+
+  useEffect(() => {
+    loadSubscriptions();
+  }, [loadSubscriptions]);
 
   const filtered = subscriptions.filter(
     (s) =>

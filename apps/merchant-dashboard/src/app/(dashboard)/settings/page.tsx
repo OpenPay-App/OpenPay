@@ -216,7 +216,7 @@ export default function BusinessSettingsPage() {
                 }}
                 className="w-full px-3 py-2 text-left text-sm hover:bg-bg-alt transition-colors text-text-primary"
               >
-                Use "{tzSearch}" as custom timezone
+                Use &quot;{tzSearch}&quot; as custom timezone
               </button>
             </div>
           )}

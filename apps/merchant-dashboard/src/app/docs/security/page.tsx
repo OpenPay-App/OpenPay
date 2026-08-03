@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Shield, Key, Lock, Eye, Server, Wifi, AlertTriangle, CheckCircle, ExternalLink } from "lucide-react";
+import { ArrowLeft, Shield, Key, Lock, Eye, Wifi, CheckCircle, ExternalLink } from "lucide-react";
 
 const sections = [
   {

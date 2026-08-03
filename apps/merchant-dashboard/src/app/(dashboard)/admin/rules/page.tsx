@@ -8,7 +8,6 @@ import {
   ToggleLeft,
   ToggleRight,
   AlertTriangle,
-  ChevronDown,
 } from "lucide-react";
 import { getFraudRules, createFraudRule, updateFraudRule, deleteFraudRule } from "@/lib/hyperswitch";
 import type { FraudRule } from "@/lib/types";

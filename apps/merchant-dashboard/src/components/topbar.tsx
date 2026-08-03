@@ -9,7 +9,7 @@ import { useSandboxMode } from "@/lib/sandbox-mode";
 export function Topbar() {
   const { getUser } = useKindeBrowserClient();
   const user = getUser();
-  const { mode, toggle, isSandbox } = useSandboxMode();
+  const { toggle, isSandbox } = useSandboxMode();
   const [showWarning, setShowWarning] = useState(false);
 
   const handleToggle = () => {

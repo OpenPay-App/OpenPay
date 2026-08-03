@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import Image from "next/image";
 
@@ -123,12 +124,12 @@ export default function CheckoutSuccessPage() {
               <span className="font-mono text-text-primary">{paymentId}</span>
             </div>
           )}
-          <a
+          <Link
             href="/"
             className="inline-block px-4 py-2 rounded-lg bg-bg-dark text-white text-sm font-medium hover:opacity-90 transition-opacity"
           >
             Return to Store
-          </a>
+          </Link>
         </div>
       </div>
     );

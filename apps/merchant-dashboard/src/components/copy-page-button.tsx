@@ -63,16 +63,16 @@ export function CopyPageButton() {
 
   return (
     <div className="relative inline-flex items-center" ref={dropdownRef}>
-      <div className="inline-flex items-center rounded-md border border-white/10 bg-[#0a0a0a] text-xs font-medium overflow-hidden divide-x divide-white/10 hover:border-white/20 transition-colors">
+      <div className="inline-flex items-center rounded-md border border-[#e2e2e2] bg-white text-xs font-medium overflow-hidden divide-x divide-[#e2e2e2] hover:border-gray-300 transition-colors">
         <button
           onClick={handleCopy}
           title="Copy this page as text"
-          className="flex items-center gap-1.5 px-3 py-1.5 text-text-secondary hover:text-white transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-gray-500 hover:text-gray-900 transition-colors"
         >
           {copied ? (
             <>
-              <Check className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-emerald-400">Copied!</span>
+              <Check className="w-3.5 h-3.5 text-[#40d63b]" />
+              <span className="text-[#40d63b]">Copied!</span>
             </>
           ) : (
             <>
@@ -84,55 +84,55 @@ export function CopyPageButton() {
         <button
           onClick={() => setIsOpen(!isOpen)}
           aria-label="More copy options"
-          className="px-1.5 py-1.5 text-text-secondary hover:text-white transition-colors"
+          className="px-1.5 py-1.5 text-gray-500 hover:text-gray-900 transition-colors"
         >
           <ChevronDown className="w-3.5 h-3.5" />
         </button>
       </div>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-64 rounded-xl border border-white/10 bg-[#0a0a0a] shadow-2xl p-1.5 z-50 animate-in fade-in zoom-in-95 duration-100">
+        <div className="absolute right-0 top-full mt-2 w-64 rounded-md border border-[#e2e2e2] bg-white shadow-lg p-1.5 z-50 animate-in fade-in zoom-in-95 duration-100">
           <button
             onClick={() => handleAiAction("markdown")}
-            className="w-full flex items-start gap-2.5 px-3 py-2 rounded-lg text-left hover:bg-white/5 transition-colors group"
+            className="w-full flex items-start gap-2.5 px-3 py-2 rounded-lg text-left hover:bg-gray-50 transition-colors group"
           >
-            <FileCode className="w-4 h-4 text-text-secondary group-hover:text-white mt-0.5" />
+            <FileCode className="w-4 h-4 text-gray-400 group-hover:text-[#3898EC] mt-0.5" />
             <div>
-              <div className="text-xs font-semibold text-white">View as Markdown</div>
-              <div className="text-[11px] text-text-secondary">Open this page in Markdown</div>
+              <div className="text-xs font-semibold text-gray-900">View as Markdown</div>
+              <div className="text-[11px] text-gray-500">Open this page in Markdown</div>
             </div>
           </button>
 
           <button
             onClick={() => handleAiAction("v0")}
-            className="w-full flex items-start gap-2.5 px-3 py-2 rounded-lg text-left hover:bg-white/5 transition-colors group"
+            className="w-full flex items-start gap-2.5 px-3 py-2 rounded-lg text-left hover:bg-gray-50 transition-colors group"
           >
-            <Sparkles className="w-4 h-4 text-text-secondary group-hover:text-white mt-0.5" />
+            <Sparkles className="w-4 h-4 text-gray-400 group-hover:text-[#3898EC] mt-0.5" />
             <div>
-              <div className="text-xs font-semibold text-white">Open in v0</div>
-              <div className="text-[11px] text-text-secondary">Ask questions about this page</div>
+              <div className="text-xs font-semibold text-gray-900">Open in v0</div>
+              <div className="text-[11px] text-gray-500">Ask questions about this page</div>
             </div>
           </button>
 
           <button
             onClick={() => handleAiAction("claude")}
-            className="w-full flex items-start gap-2.5 px-3 py-2 rounded-lg text-left hover:bg-white/5 transition-colors group"
+            className="w-full flex items-start gap-2.5 px-3 py-2 rounded-lg text-left hover:bg-gray-50 transition-colors group"
           >
-            <Bot className="w-4 h-4 text-text-secondary group-hover:text-white mt-0.5" />
+            <Bot className="w-4 h-4 text-gray-400 group-hover:text-[#3898EC] mt-0.5" />
             <div>
-              <div className="text-xs font-semibold text-white">Open in Claude</div>
-              <div className="text-[11px] text-text-secondary">Ask questions about this page</div>
+              <div className="text-xs font-semibold text-gray-900">Open in Claude</div>
+              <div className="text-[11px] text-gray-500">Ask questions about this page</div>
             </div>
           </button>
 
           <button
             onClick={() => handleAiAction("chatgpt")}
-            className="w-full flex items-start gap-2.5 px-3 py-2 rounded-lg text-left hover:bg-white/5 transition-colors group"
+            className="w-full flex items-start gap-2.5 px-3 py-2 rounded-lg text-left hover:bg-gray-50 transition-colors group"
           >
-            <MessageSquare className="w-4 h-4 text-text-secondary group-hover:text-white mt-0.5" />
+            <MessageSquare className="w-4 h-4 text-gray-400 group-hover:text-[#3898EC] mt-0.5" />
             <div>
-              <div className="text-xs font-semibold text-white">Open in ChatGPT</div>
-              <div className="text-[11px] text-text-secondary">Ask questions about this page</div>
+              <div className="text-xs font-semibold text-gray-900">Open in ChatGPT</div>
+              <div className="text-[11px] text-gray-500">Ask questions about this page</div>
             </div>
           </button>
         </div>
@@ -140,4 +140,3 @@ export function CopyPageButton() {
     </div>
   );
 }
-

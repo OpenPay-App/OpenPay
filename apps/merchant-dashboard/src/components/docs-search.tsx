@@ -104,30 +104,30 @@ export function DocsSearch() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Search documentation (Ctrl+K)"
-        className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-white/5 text-text-secondary hover:text-white hover:border-white/25 transition-all"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-[#e2e2e2] bg-white text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all"
       >
         <Search className="w-4 h-4" />
         <span className="hidden md:inline text-sm">Search docs</span>
-        <kbd className="hidden lg:inline-flex items-center px-1.5 py-0.5 rounded bg-white/10 text-[10px] font-mono text-text-muted">
+        <kbd className="hidden lg:inline-flex items-center px-1.5 py-0.5 rounded bg-gray-100 text-[10px] font-mono text-gray-400">
           Ctrl K
         </kbd>
       </button>
 
       {open && (
         <div
-          className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex items-start justify-center pt-[15vh] px-4"
+          className="fixed inset-0 z-[100] bg-black/30 backdrop-blur-sm flex items-start justify-center pt-[15vh] px-4"
           onClick={() => setOpen(false)}
         >
           <div
             role="dialog"
             aria-modal="true"
             aria-label="Search documentation"
-            className="w-full max-w-xl rounded-xl border border-white/10 bg-[#0d0d0d] shadow-2xl overflow-hidden"
+            className="w-full max-w-xl rounded-md border border-[#e2e2e2] bg-white shadow-xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
             onKeyDown={handlePanelKey}
           >
-            <div className="flex items-center gap-3 px-4 border-b border-white/10">
-              <Search className="w-4 h-4 text-text-muted shrink-0" />
+            <div className="flex items-center gap-3 px-4 border-b border-[#e2e2e2]">
+              <Search className="w-4 h-4 text-gray-400 shrink-0" />
               <input
                 ref={inputRef}
                 value={query}
@@ -136,15 +136,15 @@ export function DocsSearch() {
                   setActiveIndex(0);
                 }}
                 placeholder="Search docs…"
-                className="flex-1 bg-transparent py-3.5 text-sm text-white placeholder:text-text-muted focus:outline-none"
+                className="flex-1 bg-transparent py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
               />
-              <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-[10px] font-mono text-text-muted">
+              <kbd className="px-1.5 py-0.5 rounded bg-gray-100 text-[10px] font-mono text-gray-400">
                 ESC
               </kbd>
             </div>
             <ul ref={listRef} className="max-h-[50vh] overflow-y-auto py-2">
               {results.length === 0 && (
-                <li className="px-4 py-3 text-sm text-text-muted">
+                <li className="px-4 py-3 text-sm text-gray-400">
                   No matching pages.
                 </li>
               )}
@@ -152,7 +152,7 @@ export function DocsSearch() {
                 <li
                   key={entry.href}
                   className={`${
-                    i === activeIndex ? "bg-white/5" : ""
+                    i === activeIndex ? "bg-gray-50" : ""
                   } transition-colors`}
                 >
                   <Link
@@ -161,19 +161,19 @@ export function DocsSearch() {
                     onMouseEnter={() => setActiveIndex(i)}
                     className="flex items-center gap-3 px-4 py-2.5 text-sm"
                   >
-                    <FileText className="w-4 h-4 text-text-muted shrink-0" />
+                    <FileText className="w-4 h-4 text-gray-400 shrink-0" />
                     <div className="min-w-0">
                       <div
                         className={
                           i === activeIndex
-                            ? "text-secondary"
-                            : "text-white"
+                            ? "text-[#3898EC]"
+                            : "text-gray-900"
                         }
                       >
                         {entry.label}
                       </div>
                       {entry.section && (
-                        <div className="text-xs text-text-muted">
+                        <div className="text-xs text-gray-400">
                           {entry.section}
                         </div>
                       )}

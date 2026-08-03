@@ -5,83 +5,42 @@ import Image from "next/image";
 import { ArrowRight, Github, Star, Terminal } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
-function AnimatedOrb({ className, size = "w-[600px] h-[600px]" }: { className?: string; size?: string }) {
-  return (
-    <div
-      className={`absolute rounded-full blur-3xl pointer-events-none ${size} ${className || ""}`}
-      style={{
-        background:
-          "radial-gradient(circle at center, rgba(245,102,0,0.12) 0%, rgba(255,198,10,0.04) 40%, transparent 70%)",
-      }}
-    />
-  );
-}
-
 export function Hero() {
   const { ref: titleRef, isVisible: titleVisible } = useScrollReveal();
   const { ref: ctaRef, isVisible: ctaVisible } = useScrollReveal({ threshold: 0.05 });
   const { ref: codeRef, isVisible: codeVisible } = useScrollReveal({ threshold: 0.05 });
 
   return (
-    <section className="relative text-white overflow-hidden bg-black min-h-screen flex items-center">
-      {/* Premium grid pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(245,102,0,0.8) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(245,102,0,0.8) 1px, transparent 1px)
-          `,
-          backgroundSize: "80px 80px",
-        }}
-      />
-
-      {/* Diagonal gradient overlay */}
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(245,102,0,0.08) 0%, transparent 40%, transparent 60%, rgba(255,198,10,0.04) 100%)",
-        }}
-      />
-
-      {/* Floating gradient orbs */}
-      <AnimatedOrb className="top-1/4 -left-48 animate-float-slow" size="w-[500px] h-[500px]" />
-      <AnimatedOrb className="bottom-1/4 -right-48 animate-float" size="w-[400px] h-[400px]" />
-      <AnimatedOrb className="top-1/3 left-1/3 animate-float-slow" size="w-[300px] h-[300px]" />
-
-      {/* Radial center glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[400px] bg-gradient-to-b from-orange-500/5 via-orange-500/2 to-transparent blur-[100px]" />
-
+    <section className="relative text-gray-800 overflow-hidden bg-white min-h-screen flex items-center">
       <div className="relative w-full max-w-6xl mx-auto px-6 py-24 lg:py-32">
         {/* Glass nav */}
         <nav className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-6xl glass rounded-2xl px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image
-              src="/brand/logo-dark.svg"
-              alt="OpenPay"
-              width={200}
-              height={48}
-              className="h-10 w-auto"
+              src="/brand/logo.svg"
+              alt="AVA"
+              width={120}
+              height={32}
+              className="h-8 w-auto"
             />
           </div>
           <div className="flex items-center gap-6">
             <Link
               href="/docs"
-              className="text-sm text-white/60 hover:text-white transition-colors"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
             >
               Docs
             </Link>
             <Link
               href="/docs/quickstart"
-              className="text-sm text-white/60 hover:text-white transition-colors"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
             >
               Quickstart
             </Link>
             <Link
               href="https://github.com/OpenPay-App/openpay"
               target="_blank"
-              className="text-white/60 hover:text-white transition-colors"
+              className="text-gray-500 hover:text-gray-800 transition-colors"
             >
               <Github className="w-5 h-5" />
             </Link>
@@ -92,13 +51,13 @@ export function Hero() {
           {/* Badge */}
           <div
             ref={titleRef}
-            className={`inline-flex items-center gap-2 px-5 py-1.5 rounded-full glass text-orange-300 text-sm font-medium mb-8 transition-all duration-700 ${
+            className={`inline-flex items-center gap-2 px-5 py-1.5 rounded-full bg-[#e8f0fe] border border-[#3898EC]/20 text-[#3898EC] text-sm font-medium mb-8 transition-all duration-700 ${
               titleVisible ? "opacity-100" : "opacity-0 translate-y-4"
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse shadow-lg shadow-orange-500/50" />
+            <span className="w-2 h-2 rounded-full bg-[#3898EC] animate-pulse shadow-lg shadow-[#3898EC]/50" />
             Open source &middot; Self-hosted &middot; Zero platform fees
-            <span className="ml-1 px-2 py-0.5 rounded bg-orange-500/20 text-orange-400 text-[10px] font-semibold">
+            <span className="ml-1 px-2 py-0.5 rounded bg-[#3898EC]/10 text-[#3898EC] text-[10px] font-semibold">
               v0.1
             </span>
           </div>
@@ -111,20 +70,14 @@ export function Hero() {
           >
             The payment infrastructure
             <br />
-            <span
-              className="bg-clip-text text-transparent animate-gradient-shift"
-              style={{
-                backgroundImage: "linear-gradient(135deg, #F56600, #FF8C38, #FFC60A, #F56600, #FF8C38)",
-                backgroundSize: "300% 300%",
-              }}
-            >
+            <span className="bg-clip-text text-transparent">
               you actually own
             </span>
           </h1>
 
           {/* Description */}
           <p
-            className={`text-lg lg:text-xl text-white/50 max-w-2xl mx-auto mb-12 leading-relaxed transition-all duration-700 delay-200 ${
+            className={`text-lg lg:text-xl text-gray-500 max-w-2xl mx-auto mb-12 leading-relaxed transition-all duration-700 delay-200 ${
               titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
@@ -143,9 +96,8 @@ export function Hero() {
           >
             <Link
               href="/docs/quickstart"
-              className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-secondary to-accent text-white font-semibold text-base overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-600/30 active:scale-100"
+              className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-none bg-[#3898EC] text-white font-semibold text-base overflow-hidden transition-all duration-300 hover:bg-[#2c7dd6] hover:shadow-lg hover:shadow-[#3898EC]/25 active:scale-100"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
               <span className="relative flex items-center gap-2">
                 <Terminal className="w-5 h-5" />
                 Self-host in 5 minutes
@@ -155,11 +107,11 @@ export function Hero() {
             <Link
               href="https://github.com/OpenPay-App/openpay"
               target="_blank"
-              className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-white/10 text-white/60 font-medium text-base hover:bg-white/5 hover:text-white hover:border-white/20 transition-all duration-300"
+              className="group inline-flex items-center gap-2 px-8 py-4 rounded-none border border-[#e2e2e2] text-gray-700 font-medium text-base hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300 transition-all duration-300"
             >
               <Github className="w-5 h-5" />
               View on GitHub
-              <span className="flex items-center gap-1 ml-1 px-2 py-0.5 rounded bg-amber-950/50 text-amber-400 text-[10px] font-medium">
+              <span className="flex items-center gap-1 ml-1 px-2 py-0.5 rounded bg-gray-100 text-gray-500 text-[10px] font-medium">
                 <Star className="w-2.5 h-2.5" />
                 Star
               </span>
@@ -167,10 +119,10 @@ export function Hero() {
           </div>
 
           {/* Auth note */}
-          <p className="mt-4 text-xs text-white/60">
+          <p className="mt-4 text-xs text-gray-400">
             No account needed. Authentication is optional and only required if you enable it.
           </p>
-          <p className="mt-2 text-xs text-white/60 max-w-xl mx-auto">
+          <p className="mt-2 text-xs text-gray-400 max-w-xl mx-auto">
             Zero platform fees. You still pay your payment processor (Stripe,
             Adyen, Paystack, etc.) and the cost of running your own infrastructure.
           </p>
@@ -182,33 +134,30 @@ export function Hero() {
               codeVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             }`}
           >
-            <div className="group relative rounded-2xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 overflow-hidden shadow-2xl shadow-black/60 hover:shadow-orange-600/5 transition-shadow duration-500">
-              {/* Glow on hover */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-secondary/10 via-accent/5 to-secondary/10 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 pointer-events-none" />
-
+            <div className="group relative rounded-none border border-[#e2e2e2] bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-500">
               <div className="relative">
                 {/* Traffic lights */}
-                <div className="flex items-center gap-2 px-5 py-3.5 border-b border-white/5">
+                <div className="flex items-center gap-2 px-5 py-3.5 border-b border-[#e2e2e2]">
                   <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
                   <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
                   <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-                  <span className="ml-3 text-xs text-white/30 font-mono">
-                    terminal · openpay
+                  <span className="ml-3 text-xs text-gray-400 font-mono">
+                    terminal &middot; openpay
                   </span>
                 </div>
-                <pre className="p-6 text-left text-sm font-mono text-white/60 overflow-x-auto">
+                <pre className="p-6 text-left text-sm font-mono text-gray-600 overflow-x-auto">
                   <code>
-                    <span className="text-white/30">$</span>{" "}
-                    <span className="text-orange-400">git</span>{" "}
+                    <span className="text-gray-400">$</span>{" "}
+                    <span className="text-[#3898EC]">git</span>{" "}
                     clone https://github.com/OpenPay-App/openpay
                     {"\n"}
-                    <span className="text-white/30">$</span>{" "}
-                    <span className="text-orange-400">cd</span> openpay
+                    <span className="text-gray-400">$</span>{" "}
+                    <span className="text-[#3898EC]">cd</span> openpay
                     {"\n"}
-                    <span className="text-white/30">$</span>{" "}
-                    <span className="text-orange-400">make</span> up
+                    <span className="text-gray-400">$</span>{" "}
+                    <span className="text-[#3898EC]">make</span> up
                     {"\n\n"}
-                    <span className="text-emerald-400">
+                    <span className="text-[#40d63b]">
                       &#10003; Platform running at http://localhost:3000
                     </span>
                   </code>
@@ -217,11 +166,11 @@ export function Hero() {
             </div>
 
             {/* Trust indicator */}
-            <div className="mt-6 flex items-center justify-center gap-6 text-xs text-white/50">
+            <div className="mt-6 flex items-center justify-center gap-6 text-xs text-gray-400">
               <span>No signup required</span>
-              <span className="w-1 h-1 rounded-full bg-white/20" />
+              <span className="w-1 h-1 rounded-full bg-gray-300" />
               <span>MIT licensed</span>
-              <span className="w-1 h-1 rounded-full bg-white/20" />
+              <span className="w-1 h-1 rounded-full bg-gray-300" />
               <span>100% self-hosted</span>
             </div>
           </div>

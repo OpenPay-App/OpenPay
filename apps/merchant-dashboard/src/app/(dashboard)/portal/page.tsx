@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import {
-  User,
   CreditCard,
   FileText,
   RefreshCw,

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   FolderOpen,
-  ArrowLeft,
   ExternalLink,
   AlertTriangle,
 } from "lucide-react";

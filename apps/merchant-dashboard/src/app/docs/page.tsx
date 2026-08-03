@@ -30,26 +30,26 @@ export default function DocsIntroPage() {
               billing, fraud, and invoicing features of a commercial platform —
               self-hosted, so you own the stack and can choose or switch
               processors whenever you want. OpenPay adds no platform fees on top
-              of your processor's charges; you still pay your processor (Stripe,
+              of your processor&apos;s charges; you still pay your processor (Stripe,
               Adyen, Paystack, etc.) and the cost of running your own
               infrastructure.
             </p>
           </div>
 
           <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
-            <h3 className="font-semibold text-white mb-3">What We're Building</h3>
+            <h3 className="font-semibold text-white mb-3">What We&apos;re Building</h3>
             <p className="text-sm leading-relaxed">
               A complete financial platform that includes payment processing
               (via Hyperswitch), subscription billing and invoicing (Kill Bill),
               real-time fraud detection (Tazama), and event-driven architecture
               (NATS JetStream) — all connected through a modern merchant dashboard.
               We connect to Stripe, Paystack, Adyen, and 100+ other processors,
-              so you're never locked into a single provider.
+              so you&apos;re never locked into a single provider.
             </p>
           </div>
 
           <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
-            <h3 className="font-semibold text-white mb-3">Who It's For</h3>
+            <h3 className="font-semibold text-white mb-3">Who It&apos;s For</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
               {[
                 "SaaS companies tired of platform fees eating margins",

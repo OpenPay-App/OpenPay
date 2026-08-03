@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Send, Download, FileText, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Send, Download, AlertTriangle } from "lucide-react";
 import { getInvoice, sendInvoice } from "@/lib/hyperswitch";
 import { formatCurrency } from "@/lib/format";
 import { useSandboxMode } from "@/lib/sandbox-mode";

@@ -4,9 +4,6 @@ import { useState, useEffect } from "react";
 import {
   Activity,
   Server,
-  Database,
-  Wifi,
-  WifiOff,
   RefreshCw,
   CheckCircle,
   XCircle,

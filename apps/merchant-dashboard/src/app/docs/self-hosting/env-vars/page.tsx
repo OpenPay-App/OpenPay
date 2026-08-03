@@ -189,7 +189,7 @@ export default function EnvVarsPage() {
                 ["KILLBILL_DEFAULT_USERNAME", "Yes", "Default admin username (default: admin)"],
                 ["KILLBILL_DEFAULT_PASSWORD", "Yes", "Default admin password"],
                 ["NATS_URL", "Yes", "NATS connection URL"],
-              ].map(([variable, required, desc]) => (
+              ].map(([variable, , desc]) => (
                 <tr key={variable} className="border-b border-border last:border-0">
                   <td className="px-4 py-3">
                     <code className="font-mono text-xs text-secondary">{variable}</code>

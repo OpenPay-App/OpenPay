@@ -6,7 +6,6 @@ import {
   TrendingUp,
   TrendingDown,
   DollarSign,
-  ShoppingCart,
   Calendar,
 } from "lucide-react";
 import {

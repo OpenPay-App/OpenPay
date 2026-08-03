@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Users, Shield, Eye, ExternalLink } from "lucide-react";
+import { Shield, Eye, ExternalLink } from "lucide-react";
 import type { TeamMember } from "@/lib/types";
 
 const mockMembers: TeamMember[] = [
