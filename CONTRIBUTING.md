@@ -449,8 +449,8 @@ We use labels to categorize and prioritize issues. Here's what they mean:
 
 ### Finding Your First Issue
 
-1. **Filter by `good first issue`** — [Browse issues with this label](../../labels/good%20first%20issue) to find tasks scoped for newcomers
-2. **Filter by `help wanted`** — [Browse issues with this label](../../labels/help%20wanted) for tasks where we explicitly need community contributions
+1. **Filter by `good first issue`** — [Browse issues with this label](https://github.com/OpenPay-App/OpenPay/labels/good%20first%20issue) to find tasks scoped for newcomers
+2. **Filter by `help wanted`** — [Browse issues with this label](https://github.com/OpenPay-App/OpenPay/labels/help%20wanted) for tasks where we explicitly need community contributions
 3. **Filter by language/service** — Use the `dashboard`, `hyperswitch`, `killbill`, `tazama`, or `docs` labels to find issues in areas you're comfortable with
 
 ### How to Claim an Issue
@@ -459,7 +459,7 @@ We use labels to categorize and prioritize issues. Here's what they mean:
 2. **Wait for assignment** — A maintainer will assign the issue to you (this prevents duplicate work)
 3. **Start a discussion** — If the issue is complex or has multiple approaches, comment with your proposed approach before coding
 4. **Time expectations** — Once assigned, we expect a PR within **2 weeks**. If you need more time, just let us know — we won't reassign unless there's no communication
-5. **Stuck?** — Comment on the issue or ask in [GitHub Discussions](../../discussions). We'd rather help you finish than have you struggle silently
+5. **Stuck?** — Comment on the issue or ask in [GitHub Discussions](https://github.com/OpenPay-App/OpenPay/discussions). We'd rather help you finish than have you struggle silently
 
 ### What Makes a Good Contribution
 
