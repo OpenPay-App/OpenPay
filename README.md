@@ -1,8 +1,5 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/OpenPay-App/OpenPay/refs/heads/main/apps/merchant-dashboard/public/brand/logo-dark.svg">
-    <img alt="OpenPay — Open-Source Payment Infrastructure" src="https://raw.githubusercontent.com/OpenPay-App/OpenPay/refs/heads/main/apps/merchant-dashboard/public/brand/logo.svg" width="400" height="auto">
-  </picture>
+  <img alt="OpenPay — Open-Source Payment Infrastructure" src="https://raw.githubusercontent.com/OpenPay-App/OpenPay/refs/heads/main/apps/merchant-dashboard/public/brand/logo.svg" width="400" height="auto">
 </p>
 
 <p align="center">
@@ -132,7 +129,7 @@ Internal services (PostgreSQL `5432`, Redis `6379`, NATS `4222`) **must never be
 
 ## Documentation
 
-Full documentation is available at **[/docs](apps/merchant-dashboard/src/app/docs)** or at [https://openpay.dev/docs](https://openpay.dev/docs):
+Full documentation is available at **[/docs](apps/merchant-dashboard/src/app/docs)**:
 
 | Section | Description |
 |---------|-------------|
