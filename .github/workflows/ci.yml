@@ -157,3 +157,5 @@ jobs:
       - name: Run environment smoke
         run: bash ./scripts/ci-smoke.sh
         timeout-minutes: 20
+        env:
+          COMPOSE_PROFILES: core
