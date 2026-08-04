@@ -81,17 +81,10 @@ jobs:
 
   osv-scan:
     name: OSV vulnerability scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run OSV Scanner
-        uses: google/osv-scanner-action@v1
-        with:
-          scan-args: |-
-            -r
-            --skip-git
-            --recursive
-            .
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.3.8"
+    permissions:
+      contents: read
+      security-events: write
 
   containers:
     name: Container scan (Trivy)
