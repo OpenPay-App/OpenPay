@@ -55,7 +55,7 @@ if phase up; then
   if [ "$NO_UP" = "1" ]; then
     log "skipping compose up (--no-up)"
   else
-    docker compose up -d
+    docker compose --profile core up -d
     ok "compose stack started"
   fi
   phase_end "up"
