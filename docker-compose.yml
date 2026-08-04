@@ -150,7 +150,7 @@ services:
       # Point at any SMTP provider in production via root .env EMAIL_* vars.
       ROUTER__USER__BASE_URL: ${HYPERSWITCH_DASHBOARD_URL:-http://localhost:9000}
       ROUTER__EMAIL__ACTIVE_EMAIL_CLIENT: ${EMAIL_ACTIVE_CLIENT:-SMTP}
-      ROUTER__EMAIL__SENDER_EMAIL: ${EMAIL_SENDER_EMAIL:-no-reply@localhost}
+      ROUTER__EMAIL__SENDER_EMAIL: ${EMAIL_SENDER_EMAIL:-no-reply@openpay.dev}
       ROUTER__EMAIL__SMTP__HOST: ${EMAIL_SMTP_HOST:-mailhog}
       ROUTER__EMAIL__SMTP__PORT: ${EMAIL_SMTP_PORT:-1025}
       ROUTER__EMAIL__SMTP__CONNECTION: ${EMAIL_SMTP_CONNECTION:-plaintext}
