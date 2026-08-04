@@ -41,13 +41,13 @@ phase() {
   return 0
 }
 
-phase_end() { ok "phase complete: $name"; }
+phase_end() { ok "phase complete: $1"; }
 
 # Phase: config — env files exist and are complete
 if phase config; then
   ./scripts/validate-config.sh
   docker compose config -q && ok "docker-compose.yml is valid"
-  phase_end config
+  phase_end "config"
 fi
 
 # Phase: up — start the core stack
@@ -58,13 +58,13 @@ if phase up; then
     docker compose up -d
     ok "compose stack started"
   fi
-  phase_end up
+  phase_end "up"
 fi
 
 # Phase: migrate — apply schema migrations (idempotent)
 if phase migrate; then
   ./scripts/migrate-hyperswitch-db.sh
-  phase_end migrate
+  phase_end "migrate"
 fi
 
 # Phase: streams — NATS JetStream init (idempotent)
@@ -78,13 +78,13 @@ if phase streams; then
   else
     warn "nats CLI not found — skipping stream init (install: https://github.com/nats-io/natscli)"
   fi
-  phase_end streams
+  phase_end "streams"
 fi
 
 # Phase: health — core services healthy (gates the pipeline)
 if phase health; then
   ./scripts/health-check.sh --wait
-  phase_end health
+  phase_end "health"
 fi
 
 # Phase: api — HTTP-level probes of the public surfaces
@@ -104,7 +104,7 @@ if phase api; then
   check "killbill /healthcheck"   "http://localhost:8082/1.0/healthcheck" || api_failures=$((api_failures + 1))
   check "nats monitoring /healthz" "http://localhost:8222/healthz" || api_failures=$((api_failures + 1))
   if [ "$api_failures" -gt 0 ]; then die "$api_failures API probe(s) failed"; fi
-  phase_end api
+  phase_end "api"
 fi
 
 # Phase: business — end-to-end flow, best-effort unless --require-processor.
@@ -144,7 +144,7 @@ if phase business; then
       warn "webhook probe failed (proxy may be optional in this profile)"
     fi
   fi
-  phase_end business
+  phase_end "business"
 fi
 
 if [ -n "$PHASE" ]; then

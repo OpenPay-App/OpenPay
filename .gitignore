@@ -55,3 +55,6 @@ mock_server.py
 
 # local release bundles
 .releases/
+
+# reference sites (may contain test API keys)
+stripe_api_replica_2018.webflow.io/
