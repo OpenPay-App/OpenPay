@@ -10,7 +10,7 @@ const sections = [
       {
         title: "Sandbox vs Production Keys",
         description:
-          "OpenPay supports full environment isolation through separate key prefixes. Sandbox keys start with <code className='font-mono text-xs'>sk_test_</code> (or <code className='font-mono text-xs'>op_test_</code>) and never process real payments. Production keys start with <code className='font-mono text-xs'>sk_live_</code> (or <code className='font-mono text-xs'>op_live_</code>) and handle live transactions.",
+          "OpenPay supports full environment isolation through separate key prefixes. Sandbox keys start with <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>sk_test_</code> (or <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>op_test_</code>) and never process real payments. Production keys start with <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>sk_live_</code> (or <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>op_live_</code>) and handle live transactions.",
       },
       {
         title: "Key Rotation Policy",
@@ -20,7 +20,7 @@ const sections = [
       {
         title: "Environment Variables",
         description:
-          "All secrets must be stored in environment variables, never hardcoded. Each service has its own <code className='font-mono text-xs'>.env</code> file that is gitignored. Use <code className='font-mono text-xs'>.env.example</code> templates with placeholder values for documentation.",
+          "All secrets must be stored in environment variables, never hardcoded. Each service has its own <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>.env</code> file that is gitignored. Use <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>.env.example</code> templates with placeholder values for documentation.",
       },
     ],
   },
@@ -37,12 +37,12 @@ const sections = [
       {
         title: "Database Encryption (At Rest)",
         description:
-          "PostgreSQL data is encrypted at rest using the host filesystem encryption (LUKS for Linux, BitLocker for Windows). Hyperswitch additionally encrypts sensitive fields (card BIN, last 4 digits) with AES-256 using the <code className='font-mono text-xs'>MASTER_ENC_KEY</code> configuration.",
+          "PostgreSQL data is encrypted at rest using the host filesystem encryption (LUKS for Linux, BitLocker for Windows). Hyperswitch additionally encrypts sensitive fields (card BIN, last 4 digits) with AES-256 using the <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>MASTER_ENC_KEY</code> configuration.",
       },
       {
         title: "Redis Encryption",
         description:
-          "Redis supports optional TLS encryption for connections. Enable by setting <code className='font-mono text-xs'>REDIS_TLS_ENABLED=true</code> and providing the certificate path. Redis passwords are hashed using SHA-256 before storage.",
+          "Redis supports optional TLS encryption for connections. Enable by setting <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>REDIS_TLS_ENABLED=true</code> and providing the certificate path. Redis passwords are hashed using SHA-256 before storage.",
       },
     ],
   },
@@ -54,17 +54,17 @@ const sections = [
       {
         title: "API Authentication",
         description:
-          "All API requests to Hyperswitch require an <code className='font-mono text-xs'>api-key</code> header. Keys are generated using cryptographically secure random bytes. The dashboard uses Kinde for user authentication with support for OAuth2, OIDC, and social login providers.",
+          "All API requests to Hyperswitch require an <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>api-key</code> header. Keys are generated using cryptographically secure random bytes. The dashboard uses Kinde for user authentication with support for OAuth2, OIDC, and social login providers.",
       },
       {
         title: "Role-Based Access Control (RBAC)",
         description:
-          "The dashboard supports three roles: <strong>Admin</strong> (full access), <strong>Developer</strong> (API keys, payments, webhooks), and <strong>Analyst</strong> (read-only, fraud cases, reports). Roles are enforced server-side through Kinde permissions and middleware guards.",
+          "The dashboard supports three roles: <strong className='font-semibold text-gray-900'>Admin</strong> (full access), <strong className='font-semibold text-gray-900'>Developer</strong> (API keys, payments, webhooks), and <strong className='font-semibold text-gray-900'>Analyst</strong> (read-only, fraud cases, reports). Roles are enforced server-side through Kinde permissions and middleware guards.",
       },
       {
         title: "Service-to-Service Authentication",
         description:
-          "Internal services (NATS, Tazama, NATS-KB Bridge) authenticate using JWT tokens or username/password credentials. Each service has its own credentials stored in its <code className='font-mono text-xs'>.env</code> file. NATS supports token-based authentication for client connections.",
+          "Internal services (NATS, Tazama, NATS-KB Bridge) authenticate using JWT tokens or username/password credentials. Each service has its own credentials stored in its <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>.env</code> file. NATS supports token-based authentication for client connections.",
       },
     ],
   },
@@ -81,7 +81,7 @@ const sections = [
       {
         title: "HTTPS Enforcement",
         description:
-          "Webhook endpoints must use HTTPS. OpenPay will refuse to deliver events to HTTP URLs in production mode. For local testing, use a tool like <a href='https://ngrok.com' target='_blank' rel='noopener noreferrer' className='text-secondary hover:underline inline-flex items-center gap-1'>ngrok<ExternalLink className='w-3 h-3' /></a> to expose your local server with a HTTPS URL.",
+          "Webhook endpoints must use HTTPS. OpenPay will refuse to deliver events to HTTP URLs in production mode. For local testing, use a tool like <a href='https://ngrok.com' target='_blank' rel='noopener noreferrer' className='text-[#3898EC] hover:underline inline-flex items-center gap-1'>ngrok<ExternalLink className='w-3 h-3' /></a> to expose your local server with a HTTPS URL.",
       },
       {
         title: "IP Allowlisting",
@@ -98,7 +98,7 @@ const sections = [
       {
         title: "Docker Network Isolation",
         description:
-          "Services are organized into Docker networks with strict isolation. The <code className='font-mono text-xs'>core-net</code> bridge network connects all services, but sensitive services (PostgreSQL, Redis, NATS) only expose their ports within the Docker network — they are not accessible from the host.",
+          "Services are organized into Docker networks with strict isolation. The <code className='font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200'>core-net</code> bridge network connects all services, but sensitive services (PostgreSQL, Redis, NATS) only expose their ports within the Docker network — they are not accessible from the host.",
       },
       {
         title: "Firewall Rules",
@@ -141,7 +141,7 @@ export default function SecurityPage() {
     <div>
       <Link
         href="/docs"
-        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to docs
@@ -150,12 +150,12 @@ export default function SecurityPage() {
       {/* Hero */}
       <div className="mb-12">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 border border-emerald-500/20 flex items-center justify-center">
-            <Shield className="w-5 h-5 text-emerald-400" />
+          <div className="w-10 h-10 rounded-[3px] bg-[#40d63b]/10 border border-[#40d63b]/20 flex items-center justify-center">
+            <Shield className="w-5 h-5 text-[#40d63b]" />
           </div>
-          <h1 className="text-4xl font-bold text-white">Security Practices</h1>
+          <h1 className="text-4xl font-bold text-gray-900">Security Practices</h1>
         </div>
-        <p className="text-lg text-text-secondary max-w-3xl leading-relaxed">
+        <p className="text-lg text-gray-500 max-w-3xl leading-relaxed">
           OpenPay is built with security as a foundational principle. This guide
           covers key management, encryption, authentication, network security,
           and compliance considerations for running your payment infrastructure
@@ -165,9 +165,9 @@ export default function SecurityPage() {
 
       {/* Quick Security Checklist */}
       <section className="mb-12">
-        <div className="p-6 rounded-xl border border-emerald-500/20 bg-emerald-950/20">
-          <h2 className="text-lg font-semibold text-emerald-400 mb-4 flex items-center gap-2">
-            <CheckCircle className="w-5 h-5" />
+        <div className="p-6 rounded-[8px] border border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-[#40d63b]" />
             Minimum Security Checklist
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
@@ -183,8 +183,8 @@ export default function SecurityPage() {
               "PostgreSQL and Redis not exposed to public internet",
               "NATS authentication enabled for client connections",
             ].map((item) => (
-              <div key={item} className="flex items-start gap-2 text-emerald-300">
-                <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
+              <div key={item} className="flex items-start gap-2 text-gray-900">
+                <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-[#40d63b]" />
                 <span>{item}</span>
               </div>
             ))}
@@ -197,22 +197,22 @@ export default function SecurityPage() {
         {sections.map((section) => (
           <section key={section.id} id={section.id}>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center">
-                <section.icon className="w-4 h-4 text-secondary" />
+              <div className="w-8 h-8 rounded-[3px] bg-gray-100 flex items-center justify-center">
+                <section.icon className="w-4 h-4 text-gray-600" />
               </div>
-              <h2 className="text-2xl font-bold text-white">{section.title}</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{section.title}</h2>
             </div>
             <div className="space-y-4">
               {section.items.map((item) => (
                 <div
                   key={item.title}
-                  className="p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-white/10 transition-colors"
+                  className="p-5 rounded-[8px] border border-gray-200 bg-white hover:border-gray-300 transition-colors shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
                 >
-                  <h3 className="font-semibold text-white mb-2">
+                  <h3 className="font-semibold text-gray-900 mb-2">
                     {item.title}
                   </h3>
                   <p
-                    className="text-sm text-text-secondary leading-relaxed"
+                    className="text-sm text-gray-600 leading-relaxed"
                     dangerouslySetInnerHTML={{ __html: item.description }}
                   />
                 </div>
@@ -223,8 +223,8 @@ export default function SecurityPage() {
       </div>
 
       {/* External Links */}
-      <section className="mt-16 p-6 rounded-xl border border-border bg-[#0a0a0a]">
-        <h2 className="text-lg font-semibold text-white mb-4">
+      <section className="mt-16 p-6 rounded-[8px] border border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">
           External Security Resources
         </h2>
         <div className="space-y-3">
@@ -260,14 +260,14 @@ export default function SecurityPage() {
               href={resource.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-start justify-between p-4 rounded-lg border border-border hover:border-secondary/30 hover:bg-white/5 transition-all group"
+              className="flex items-start justify-between p-4 rounded-[8px] border border-gray-200 hover:border-[#3898EC]/30 hover:bg-gray-50 transition-all group"
             >
               <div>
-                <h3 className="font-medium text-white group-hover:text-secondary transition-colors text-sm flex items-center gap-2">
+                <h3 className="font-medium text-gray-900 group-hover:text-[#3898EC] transition-colors text-sm flex items-center gap-2">
                   {resource.title}
-                  <ExternalLink className="w-3.5 h-3.5 text-text-muted group-hover:text-secondary transition-colors" />
+                  <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#3898EC] transition-colors" />
                 </h3>
-                <p className="text-xs text-text-secondary mt-0.5">
+                <p className="text-xs text-gray-500 mt-0.5">
                   {resource.description}
                 </p>
               </div>
@@ -280,7 +280,7 @@ export default function SecurityPage() {
       <section className="mt-8">
         <Link
           href="/docs/self-hosting/production"
-          className="inline-flex items-center gap-2 text-sm font-medium text-secondary hover:underline"
+          className="inline-flex items-center gap-2 text-sm font-medium text-[#3898EC] hover:underline"
         >
           Production Deployment Guide →
         </Link>

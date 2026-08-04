@@ -4,31 +4,31 @@ import { Shield, Github, Heart } from "lucide-react";
 
 export default function LicensePage() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="border-b border-border bg-black sticky top-0 z-50">
+      <header className="border-b border-[#e2e2e2] bg-white sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <Image
-              src="/brand/logo-dark.svg"
-              alt="OpenPay"
-              width={180}
-              height={45}
-              className="h-9 w-auto brightness-0 invert"
+              src="/brand/logo.svg"
+              alt="AVA"
+              width={120}
+              height={32}
+              className="h-8 w-auto"
             />
           </Link>
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-sm text-text-secondary hover:text-white transition-colors">
+            <Link href="/" className="text-sm text-[#999999] hover:text-[#333333] transition-colors">
               Home
             </Link>
-            <Link href="/docs" className="text-sm text-text-secondary hover:text-white transition-colors">
+            <Link href="/docs" className="text-sm text-[#999999] hover:text-[#333333] transition-colors">
               Docs
             </Link>
             <Link
               href="https://github.com/OpenPay-App/openpay"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-text-secondary hover:text-white transition-colors"
+              className="text-sm text-[#999999] hover:text-[#333333] transition-colors"
             >
               GitHub
             </Link>
@@ -39,21 +39,21 @@ export default function LicensePage() {
       <main className="max-w-3xl mx-auto px-6 py-16">
         {/* Hero */}
         <div className="text-center mb-12">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-secondary/20 to-accent/5 border border-secondary/20 flex items-center justify-center mx-auto mb-6">
-            <Shield className="w-8 h-8 text-secondary" />
+          <div className="w-16 h-16 rounded-[3px] bg-[#e8f0fe] border border-[#3898EC]/20 flex items-center justify-center mx-auto mb-6">
+            <Shield className="w-8 h-8 text-[#3898EC]" />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-2">MIT License</h1>
-          <p className="text-text-secondary text-sm mb-2">
+          <h1 className="text-4xl font-bold text-[#333333] mb-2">MIT License</h1>
+          <p className="text-[#999999] text-sm mb-2">
             Copyright &copy; {new Date().getFullYear()} OpenPay Contributors
           </p>
-          <p className="text-text-muted text-xs max-w-md mx-auto">
+          <p className="text-[#AAADB0] text-xs max-w-md mx-auto">
             OpenPay is 100% open source and free to use, modify, and distribute.
           </p>
         </div>
 
         {/* License Card */}
-        <div className="rounded-2xl border border-border bg-[#0a0a0a] p-8 mb-8">
-          <div className="prose prose-gray max-w-none text-text-secondary space-y-4 text-sm leading-relaxed">
+        <div className="rounded-[3px] border border-[#e2e2e2] bg-white p-8 mb-8 shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
+          <div className="prose prose-gray max-w-none text-[#999999] space-y-4 text-sm leading-relaxed">
             <p>
               Permission is hereby granted, free of charge, to any person
               obtaining a copy of this software and associated documentation
@@ -65,8 +65,8 @@ export default function LicensePage() {
               following conditions:
             </p>
 
-            <div className="p-4 rounded-xl bg-secondary/5 border border-secondary/10">
-              <p className="text-text-primary font-medium">
+            <div className="p-4 rounded-[3px] bg-[#e8f0fe] border border-[#3898EC]/10">
+              <p className="text-[#333333] font-medium">
                 The above copyright notice and this permission notice shall be
                 included in all copies or substantial portions of the Software.
               </p>
@@ -106,15 +106,15 @@ export default function LicensePage() {
           ].map((item) => (
             <div
               key={item.title}
-              className="p-5 rounded-xl border border-border bg-[#0a0a0a] text-center"
+              className="p-5 rounded-[3px] border border-[#e2e2e2] bg-white text-center shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]"
             >
-              <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center mx-auto mb-3">
-                <item.icon className="w-5 h-5 text-secondary" />
+              <div className="w-10 h-10 rounded-[3px] bg-[#e8f0fe] flex items-center justify-center mx-auto mb-3">
+                <item.icon className="w-5 h-5 text-[#3898EC]" />
               </div>
-              <h3 className="font-semibold text-white text-sm mb-1">
+              <h3 className="font-semibold text-[#333333] text-sm mb-1">
                 {item.title}
               </h3>
-              <p className="text-xs text-text-secondary">{item.desc}</p>
+              <p className="text-xs text-[#999999]">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -125,7 +125,7 @@ export default function LicensePage() {
             href="https://github.com/OpenPay-App/openpay"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-secondary to-accent text-white font-medium text-sm hover:shadow-lg hover:shadow-secondary/20 transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-none bg-[#3898EC] text-white font-medium text-sm hover:bg-[#2c7dd6] transition-all"
           >
             <Github className="w-4 h-4" />
             View on GitHub
@@ -134,17 +134,17 @@ export default function LicensePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border mt-24">
+      <footer className="border-t border-[#e2e2e2] mt-24 bg-[#fafafa]">
         <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <Image
-              src="/brand/logo-dark.svg"
-              alt="OpenPay"
+              src="/brand/logo.svg"
+              alt="AVA"
               width={120}
-              height={30}
-              className="h-7 w-auto brightness-0 invert"
+              height={32}
+              className="h-7 w-auto"
             />
-            <p className="text-xs text-white/30">
+            <p className="text-xs text-[#AAADB0]">
               &copy; {new Date().getFullYear()} OpenPay. MIT License.
             </p>
           </div>

@@ -47,7 +47,7 @@ export function DashboardChart({ payments }: { payments: Payment[] }) {
   const data = aggregateByDay(payments);
 
   return (
-    <div className="bg-white border border-[#e2e2e2] p-6">
+    <div className="bg-white border border-[#e2e2e2] p-6 rounded-[3px] shadow-[0_0_0_1px_rgba(0,0,0,0.1),0_1px_3px_rgba(0,0,0,0.1)]">
       <h2 className="font-semibold text-gray-900 mb-4">
         Revenue — Last 30 Days
       </h2>

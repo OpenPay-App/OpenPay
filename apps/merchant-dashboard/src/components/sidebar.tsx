@@ -74,7 +74,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="sticky top-0 h-screen w-[220px] flex-shrink-0 bg-white border-r border-[#e2e2e2] overflow-y-auto">
+    <aside className="sticky top-[10px] h-[calc(100vh-20px)] w-[220px] min-w-[200px] flex-shrink-0 bg-white border-r border-[#e2e2e2] overflow-y-auto rounded-none">
       {/* Logo */}
       <div className="px-4 py-4 border-b border-[#e2e2e2]">
         <Image

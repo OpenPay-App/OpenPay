@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 
 export default function ApiCustomersPage() {
   return (
@@ -25,9 +26,7 @@ export default function ApiCustomersPage() {
         <h2 className="text-2xl font-bold text-text-primary mb-4">
           Base URL
         </h2>
-        <div className="rounded-xl bg-[#0d1117] p-4 font-mono text-sm text-white/80">
-          <pre>http://localhost:8081</pre>
-        </div>
+        <CodeBlock title="Base URL">http://localhost:8081</CodeBlock>
       </section>
 
       {/* Create Customer */}
@@ -45,8 +44,7 @@ export default function ApiCustomersPage() {
         <h3 className="text-lg font-semibold text-text-primary mb-3">
           Request Body
         </h3>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto mb-6">
-          <pre>{`{
+        <CodeBlock title="Request Body">{`{
   "email": "jane@example.com",
   "name": "Jane Doe",
   "phone": "+2348012345678",
@@ -55,14 +53,12 @@ export default function ApiCustomersPage() {
     "company": "Acme Corp",
     "plan": "enterprise"
   }
-}`}</pre>
-        </div>
+}`}</CodeBlock>
 
         <h3 className="text-lg font-semibold text-text-primary mb-3">
           Response
         </h3>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`{
+        <CodeBlock title="Response">{`{
   "customer_id": "cus_def456",
   "email": "jane@example.com",
   "name": "Jane Doe",
@@ -73,8 +69,7 @@ export default function ApiCustomersPage() {
     "company": "Acme Corp",
     "plan": "enterprise"
   }
-}`}</pre>
-        </div>
+}`}</CodeBlock>
       </section>
 
       {/* Retrieve Customer */}
@@ -90,10 +85,8 @@ export default function ApiCustomersPage() {
             /customers/{`{customer_id}`}
           </code>
         </div>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`curl -X GET http://localhost:8081/customers/cus_def456 \\
-  -H "api-key: test_api_key_xxxx"`}</pre>
-        </div>
+        <CodeBlock title="curl">{`curl -X GET http://localhost:8081/customers/cus_def456 \\
+  -H "api-key: test_api_key_xxxx"`}</CodeBlock>
       </section>
 
       {/* List Customers */}
@@ -159,8 +152,7 @@ export default function ApiCustomersPage() {
             /customers/{`{customer_id}`}
           </code>
         </div>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`{
+        <CodeBlock title="Request Body">{`{
   "email": "jane.updated@example.com",
   "name": "Jane M. Doe",
   "metadata": {
@@ -168,8 +160,7 @@ export default function ApiCustomersPage() {
     "plan": "enterprise",
     "tier": "gold"
   }
-}`}</pre>
-        </div>
+}`}</CodeBlock>
       </section>
 
       {/* Delete Customer */}

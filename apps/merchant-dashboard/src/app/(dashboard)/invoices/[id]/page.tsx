@@ -7,7 +7,7 @@ import { ArrowLeft, Send, Download, AlertTriangle } from "lucide-react";
 import { getInvoice, sendInvoice } from "@/lib/hyperswitch";
 import { formatCurrency } from "@/lib/format";
 import { useSandboxMode } from "@/lib/sandbox-mode";
-import { ModeBadge } from "@/components/mode-badge";
+
 import type { Invoice } from "@/lib/types";
 
 const statusColors: Record<string, string> = {
@@ -124,7 +124,7 @@ export default function InvoiceDetailPage() {
             <span className={`px-3 py-1 rounded-lg text-xs font-medium ${statusColors[invoice.status]}`}>
               {invoice.status}
             </span>
-            <ModeBadge />
+
           </div>
           <p className="text-sm text-text-muted">
             Created {new Date(invoice.created).toLocaleDateString()}

@@ -17,17 +17,17 @@ export default function CustomerPortalPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-semibold text-text-primary">
+          <h1 className="text-2xl font-semibold text-gray-900">
             Customer Portal
           </h1>
-          <p className="text-text-secondary mt-1">
+          <p className="text-gray-500 mt-1">
             Self-serve portal for your customers to manage subscriptions,
             payment methods, and invoices. Embed this in your app via iframe.
           </p>
         </div>
         <a
           href="#"
-          className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm text-text-secondary hover:text-text-primary hover:border-secondary/30 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 border border-[#e2e2e2] rounded-[3px] text-sm text-gray-700 hover:text-[#333333] hover:border-[#3898EC]/30 transition-colors"
         >
           <ExternalLink className="w-3.5 h-3.5" />
           Preview Portal
@@ -35,7 +35,7 @@ export default function CustomerPortalPage() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-border mb-6">
+      <div className="border-b border-[#e2e2e2] mb-6">
         <nav className="flex gap-1 -mb-px">
           {[
             { key: "subscriptions" as const, label: "Subscriptions", icon: RefreshCw },
@@ -47,8 +47,8 @@ export default function CustomerPortalPage() {
               onClick={() => setActiveTab(tab.key)}
               className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === tab.key
-                  ? "border-secondary text-secondary"
-                  : "border-transparent text-text-secondary hover:text-text-primary hover:border-border"
+                  ? "border-[#3898EC] text-[#3898EC]"
+                  : "border-transparent text-gray-500 hover:text-[#333333] hover:border-[#e2e2e2]"
               }`}
             >
               <tab.icon className="w-4 h-4" />
@@ -60,12 +60,12 @@ export default function CustomerPortalPage() {
 
       {/* Content */}
       {activeTab === "subscriptions" && (
-        <div className="text-center py-16 rounded-xl border border-border bg-white">
-          <RefreshCw className="w-10 h-10 text-text-muted mx-auto mb-3" />
-          <p className="text-text-secondary font-medium">
+        <div className="text-center py-16 rounded-[3px] border border-[#e2e2e2] bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
+          <RefreshCw className="w-10 h-10 text-[#AAADB0] mx-auto mb-3" />
+          <p className="text-gray-500 font-medium">
             Customer Subscriptions
           </p>
-          <p className="text-sm text-text-muted mt-1 max-w-md mx-auto">
+          <p className="text-sm text-[#AAADB0] mt-1 max-w-md mx-auto">
             When customers log into the portal, they&apos;ll see their active
             subscriptions with options to view billing history, update payment
             methods, or cancel. This requires the customer portal app to be
@@ -75,12 +75,12 @@ export default function CustomerPortalPage() {
       )}
 
       {activeTab === "payment-methods" && (
-        <div className="text-center py-16 rounded-xl border border-border bg-white">
-          <CreditCard className="w-10 h-10 text-text-muted mx-auto mb-3" />
-          <p className="text-text-secondary font-medium">
+        <div className="text-center py-16 rounded-[3px] border border-[#e2e2e2] bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
+          <CreditCard className="w-10 h-10 text-[#AAADB0] mx-auto mb-3" />
+          <p className="text-gray-500 font-medium">
             Saved Payment Methods
           </p>
-          <p className="text-sm text-text-muted mt-1 max-w-md mx-auto">
+          <p className="text-sm text-[#AAADB0] mt-1 max-w-md mx-auto">
             Customers can view, add, or remove saved payment methods. Card
             details are tokenized by the payment processor and never stored
             in OpenPay.
@@ -89,12 +89,12 @@ export default function CustomerPortalPage() {
       )}
 
       {activeTab === "invoices" && (
-        <div className="text-center py-16 rounded-xl border border-border bg-white">
-          <FileText className="w-10 h-10 text-text-muted mx-auto mb-3" />
-          <p className="text-text-secondary font-medium">
+        <div className="text-center py-16 rounded-[3px] border border-[#e2e2e2] bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
+          <FileText className="w-10 h-10 text-[#AAADB0] mx-auto mb-3" />
+          <p className="text-gray-500 font-medium">
             Invoice History
           </p>
-          <p className="text-sm text-text-muted mt-1 max-w-md mx-auto">
+          <p className="text-sm text-[#AAADB0] mt-1 max-w-md mx-auto">
             Customers can view and download all past invoices. Invoices are
             generated automatically from subscriptions and available as PDFs.
           </p>
@@ -102,14 +102,14 @@ export default function CustomerPortalPage() {
       )}
 
       {/* Integration Info */}
-      <div className="mt-8 p-5 rounded-xl border border-border bg-bg-alt">
-        <h3 className="font-semibold text-text-primary mb-2 text-sm">
+      <div className="mt-8 p-5 rounded-[3px] border border-[#e2e2e2] bg-[#fafafa]">
+        <h3 className="font-semibold text-gray-900 mb-2 text-sm">
           Integration
         </h3>
-        <p className="text-sm text-text-secondary mb-3">
+        <p className="text-sm text-gray-500 mb-3">
           Embed the customer portal in your app using an iframe:
         </p>
-        <div className="rounded-lg bg-[#0d1117] p-4 font-mono text-sm text-white/80 overflow-x-auto">
+        <div className="rounded-[3px] bg-[#1e1e2e] p-4 font-mono text-sm text-white/80 overflow-x-auto">
           <pre>{`<iframe
   src="https://your-domain.com/portal?customer_id=cus_xxx"
   width="100%"

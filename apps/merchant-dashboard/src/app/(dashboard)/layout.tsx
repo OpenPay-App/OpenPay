@@ -1,11 +1,9 @@
 import { redirect } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Sidebar } from "@/components/sidebar";
-import { Topbar } from "@/components/topbar";
 import { SandboxModeProvider } from "@/lib/sandbox-mode";
 import { BusinessProfileProvider } from "@/lib/business-profile-context";
 import { ProfileErrorBanner } from "@/components/profile-error-banner";
-import { ModeConfigBanner } from "@/components/mode-config-banner";
 
 export default async function DashboardLayout({
   children,
@@ -27,12 +25,10 @@ export default async function DashboardLayout({
   return (
     <SandboxModeProvider>
       <BusinessProfileProvider>
-        <div className="min-h-screen bg-surface">
+        <div className="min-h-screen bg-white flex">
           <Sidebar />
-          <div className="ml-64">
-            <Topbar />
+          <div className="flex-1 min-w-0">
             <ProfileErrorBanner />
-            <ModeConfigBanner />
             <main className="p-8">{children}</main>
           </div>
         </div>

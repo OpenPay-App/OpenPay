@@ -14,7 +14,7 @@ import {
 import { Payment } from "@/lib/types";
 import { formatCurrency, formatDate, statusColor } from "@/lib/format";
 import { useSandboxMode } from "@/lib/sandbox-mode";
-import { ModeBadge } from "@/components/mode-badge";
+
 
 function TimelineEvent({
   label,
@@ -205,7 +205,7 @@ export default function PaymentDetailPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <ModeBadge />
+
           <span
             className={`inline-flex px-3 py-1 rounded-full text-sm font-medium border ${statusColor(payment.status)}`}
           >

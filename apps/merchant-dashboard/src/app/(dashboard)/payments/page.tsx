@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { CreditCard, Search, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Payment, PaymentListResponse } from "@/lib/types";
 import { formatCurrency, formatDate, statusColor } from "@/lib/format";
-import { ModeBadge } from "@/components/mode-badge";
+
 
 export default function PaymentsPage() {
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -74,33 +74,33 @@ export default function PaymentsPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-semibold text-text-primary">Payments</h1>
-            <ModeBadge />
+            <h1 className="text-2xl font-semibold text-gray-900">Payments</h1>
+
           </div>
-          <p className="text-text-secondary mt-1">
+          <p className="text-gray-500 mt-1">
             All transactions across your account
           </p>
         </div>
       </div>
 
       {/* Filters bar */}
-      <div className="bg-[#0a0a0a] rounded-xl border border-border p-4 mb-6 flex flex-wrap items-center gap-4">
-        <div className="flex items-center gap-2 bg-black rounded-lg px-3 py-2 flex-1 min-w-[200px] max-w-sm border border-border">
-          <Search className="w-4 h-4 text-text-muted" />
+      <div className="bg-white rounded-[3px] border border-[#e2e2e2] p-4 mb-6 flex flex-wrap items-center gap-4 shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
+        <div className="flex items-center gap-2 bg-white rounded-[3px] px-3 py-2 flex-1 min-w-[200px] max-w-sm border border-[#e2e2e2]">
+          <Search className="w-4 h-4 text-[#AAADB0]" />
           <input
             type="text"
             placeholder="Search by ID or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="bg-transparent text-sm text-white placeholder:text-text-muted outline-none w-full"
+            className="bg-transparent text-sm text-[#333333] placeholder:text-[#AAADB0] outline-none w-full"
           />
         </div>
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-text-muted" />
+          <Filter className="w-4 h-4 text-[#AAADB0]" />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="text-sm text-text-secondary bg-transparent border border-border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-secondary/20"
+            className="text-sm text-gray-700 bg-transparent border border-[#e2e2e2] rounded-[3px] px-3 py-2 outline-none focus:ring-2 focus:ring-[#3898EC]/20"
           >
             <option value="all">All statuses</option>
             <option value="succeeded">Succeeded</option>
@@ -112,32 +112,32 @@ export default function PaymentsPage() {
           </select>
         </div>
         <div className="flex items-center gap-2">
-          <ArrowUpDown className="w-4 h-4 text-text-muted" />
-          <span className="text-sm text-text-muted">
+          <ArrowUpDown className="w-4 h-4 text-[#AAADB0]" />
+          <span className="text-sm text-[#AAADB0]">
             {filtered.length} payment{filtered.length !== 1 ? "s" : ""}
           </span>
         </div>
       </div>
 
       {/* Table */}
-      <div className="bg-[#0a0a0a] rounded-xl border border-border">
+      <div className="bg-white rounded-[3px] border border-[#e2e2e2] shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-border">
-                <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider">
+              <tr className="bg-[#fafafa] border-b border-[#e2e2e2]">
+                <th className="text-left px-6 py-3 text-xs font-semibold text-[#AAADB0] uppercase tracking-wider">
                   ID
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider">
+                <th className="text-left px-6 py-3 text-xs font-semibold text-[#AAADB0] uppercase tracking-wider">
                   Customer
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider">
+                <th className="text-left px-6 py-3 text-xs font-semibold text-[#AAADB0] uppercase tracking-wider">
                   Amount
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider">
+                <th className="text-left px-6 py-3 text-xs font-semibold text-[#AAADB0] uppercase tracking-wider">
                   Status
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider">
+                <th className="text-left px-6 py-3 text-xs font-semibold text-[#AAADB0] uppercase tracking-wider">
                   Date
                 </th>
               </tr>
@@ -146,16 +146,16 @@ export default function PaymentsPage() {
               {loading ? (
                 <tr>
                   <td colSpan={5} className="text-center py-16">
-                    <Loader2 className="w-8 h-8 mx-auto mb-3 text-secondary animate-spin" />
-                    <p className="text-text-muted">Loading payments...</p>
+                    <Loader2 className="w-8 h-8 mx-auto mb-3 text-[#3898EC] animate-spin" />
+                    <p className="text-[#AAADB0]">Loading payments...</p>
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="text-center py-16">
-                    <CreditCard className="w-12 h-12 mx-auto mb-3 text-text-muted opacity-50" />
-                    <p className="text-text-muted">No payments found</p>
-                    <p className="text-sm text-text-muted mt-1">
+                    <CreditCard className="w-12 h-12 mx-auto mb-3 text-[#AAADB0] opacity-50" />
+                    <p className="text-[#AAADB0]">No payments found</p>
+                    <p className="text-sm text-[#AAADB0] mt-1">
                       {search || statusFilter !== "all"
                         ? "Try adjusting your filters"
                         : "Transactions will appear here"}
@@ -166,20 +166,20 @@ export default function PaymentsPage() {
                 filtered.map((p) => (
                   <tr
                     key={p.payment_id}
-                    className="border-b border-border last:border-0 hover:bg-white/5 transition-colors"
+                    className="border-b border-[#e2e2e2] last:border-0 hover:bg-[#fafafa] transition-colors"
                   >
                     <td className="px-6 py-4">
                       <a
                         href={`/payments/${p.payment_id}`}
-                        className="text-sm font-mono text-secondary hover:underline"
+                        className="text-sm font-mono text-[#3898EC] hover:underline"
                       >
                         {p.payment_id.slice(0, 16)}…
                       </a>
                     </td>
-                    <td className="px-6 py-4 text-sm text-text-secondary">
+                    <td className="px-6 py-4 text-sm text-gray-500">
                       {p.customer_email || "—"}
                     </td>
-                    <td className="px-6 py-4 text-sm font-medium text-text-primary">
+                    <td className="px-6 py-4 text-sm font-medium text-gray-900">
                       {formatCurrency(p.amount, p.currency)}
                     </td>
                     <td className="px-6 py-4">
@@ -189,7 +189,7 @@ export default function PaymentsPage() {
                         {p.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-text-muted">
+                    <td className="px-6 py-4 text-sm text-[#AAADB0]">
                       {formatDate(p.created)}
                     </td>
                   </tr>
@@ -200,15 +200,15 @@ export default function PaymentsPage() {
         </div>
 
         {/* Pagination */}
-        <div className="px-6 py-4 border-t border-border flex items-center justify-between">
-          <span className="text-sm text-text-muted">
+        <div className="px-6 py-4 border-t border-[#e2e2e2] flex items-center justify-between">
+          <span className="text-sm text-[#AAADB0]">
             Page {page}
           </span>
           <div className="flex items-center gap-2">
             <button
               onClick={goPrev}
               disabled={page === 1}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-border text-sm text-text-secondary hover:bg-bg-alt disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-[3px] border border-[#e2e2e2] text-sm text-gray-700 hover:bg-[#fafafa] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
               Previous
@@ -216,7 +216,7 @@ export default function PaymentsPage() {
             <button
               onClick={goNext}
               disabled={!hasMore}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-border text-sm text-text-secondary hover:bg-bg-alt disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-[3px] border border-[#e2e2e2] text-sm text-gray-700 hover:bg-[#fafafa] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               Next
               <ChevronRight className="w-4 h-4" />

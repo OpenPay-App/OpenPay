@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 
 export default function ApiRefundsPage() {
   return (
@@ -24,9 +25,7 @@ export default function ApiRefundsPage() {
         <h2 className="text-2xl font-bold text-text-primary mb-4">
           Base URL
         </h2>
-        <div className="rounded-xl bg-[#0d1117] p-4 font-mono text-sm text-white/80">
-          <pre>http://localhost:8081</pre>
-        </div>
+        <CodeBlock title="Base URL">http://localhost:8081</CodeBlock>
       </section>
 
       {/* Create Refund */}
@@ -46,8 +45,7 @@ export default function ApiRefundsPage() {
         <h3 className="text-lg font-semibold text-text-primary mb-3">
           Request Body
         </h3>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto mb-6">
-          <pre>{`{
+        <CodeBlock title="Request Body">{`{
   "payment_id": "pay_xyz789",
   "amount": 50000,
   "currency": "NGN",
@@ -55,14 +53,12 @@ export default function ApiRefundsPage() {
   "metadata": {
     "reason_note": "Customer returned item"
   }
-}`}</pre>
-        </div>
+}`}</CodeBlock>
 
         <h3 className="text-lg font-semibold text-text-primary mb-3">
           Response
         </h3>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`{
+        <CodeBlock title="Response">{`{
   "refund_id": "ref_abc789",
   "payment_id": "pay_xyz789",
   "amount": 50000,
@@ -73,8 +69,7 @@ export default function ApiRefundsPage() {
   "metadata": {
     "reason_note": "Customer returned item"
   }
-}`}</pre>
-        </div>
+}`}</CodeBlock>
       </section>
 
       {/* Retrieve Refund */}
@@ -90,10 +85,8 @@ export default function ApiRefundsPage() {
             /refunds/{`{refund_id}`}
           </code>
         </div>
-        <div className="rounded-xl bg-[#0d1117] p-6 font-mono text-sm text-white/80 overflow-x-auto">
-          <pre>{`curl -X GET http://localhost:8081/refunds/ref_abc789 \\
-  -H "api-key: test_api_key_xxxx"`}</pre>
-        </div>
+        <CodeBlock title="curl">{`curl -X GET http://localhost:8081/refunds/ref_abc789 \\
+  -H "api-key: test_api_key_xxxx"`}</CodeBlock>
       </section>
 
       {/* List Refunds */}

@@ -7,23 +7,23 @@ export default function DocsIntroPage() {
       {/* About OpenPay */}
       <div className="mb-12">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary/20 to-accent/5 border border-secondary/20 flex items-center justify-center">
-            <Heart className="w-5 h-5 text-secondary" />
+          <div className="w-10 h-10 rounded-[3px] bg-[#e8f0fe] border border-[#3898EC]/20 flex items-center justify-center">
+            <Heart className="w-5 h-5 text-[#3898EC]" />
           </div>
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-4xl font-bold text-gray-900">
             About OpenPay
           </h1>
         </div>
 
-        <div className="space-y-4 text-text-secondary leading-relaxed">
+        <div className="space-y-4 text-gray-500 leading-relaxed">
           <p className="text-lg">
-            OpenPay is a <strong className="text-white">self-hosted, open-source payment infrastructure</strong> that
+            OpenPay is a <strong className="text-gray-900">self-hosted, open-source payment infrastructure</strong> that
             gives you full control over your payments stack — without vendor
             lock-in, hidden fees, or platform taxes.
           </p>
 
-          <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
-            <h3 className="font-semibold text-white mb-3">Our Mission</h3>
+          <div className="p-5 rounded-[3px] border border-[#e2e2e2] bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
+            <h3 className="font-semibold text-gray-900 mb-3">Our Mission</h3>
             <p className="text-sm leading-relaxed">
               We believe payment infrastructure should be transparent, affordable,
               and entirely under your control. OpenPay gives you the payments,
@@ -36,8 +36,8 @@ export default function DocsIntroPage() {
             </p>
           </div>
 
-          <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
-            <h3 className="font-semibold text-white mb-3">What We&apos;re Building</h3>
+          <div className="p-5 rounded-[3px] border border-[#e2e2e2] bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
+            <h3 className="font-semibold text-gray-900 mb-3">What We&apos;re Building</h3>
             <p className="text-sm leading-relaxed">
               A complete financial platform that includes payment processing
               (via Hyperswitch), subscription billing and invoicing (Kill Bill),
@@ -48,8 +48,8 @@ export default function DocsIntroPage() {
             </p>
           </div>
 
-          <div className="p-5 rounded-xl border border-border bg-[#0a0a0a]">
-            <h3 className="font-semibold text-white mb-3">Who It&apos;s For</h3>
+          <div className="p-5 rounded-[3px] border border-[#e2e2e2] bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
+            <h3 className="font-semibold text-gray-900 mb-3">Who It&apos;s For</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
               {[
                 "SaaS companies tired of platform fees eating margins",
@@ -60,7 +60,7 @@ export default function DocsIntroPage() {
                 "Startups scaling without vendor lock-in",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#3898EC] mt-1.5 shrink-0" />
                   <span>{item}</span>
                 </div>
               ))}
@@ -71,7 +71,7 @@ export default function DocsIntroPage() {
 
       {/* Why OpenPay */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-white mb-6">Why OpenPay?</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Why OpenPay?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             {
@@ -101,13 +101,13 @@ export default function DocsIntroPage() {
           ].map((feature) => (
             <div
               key={feature.title}
-              className="p-6 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/20 hover:shadow-lg transition-all group"
+              className="p-6 rounded-[3px] border border-[#e2e2e2] bg-white hover:border-[#3898EC]/20 hover:shadow-lg transition-all group shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]"
             >
-              <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <feature.icon className="w-5 h-5 text-secondary" />
+              <div className="w-10 h-10 rounded-[3px] bg-[#e8f0fe] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <feature.icon className="w-5 h-5 text-[#3898EC]" />
               </div>
-              <h3 className="font-semibold text-white mb-2">{feature.title}</h3>
-              <p className="text-sm text-text-secondary leading-relaxed">
+              <h3 className="font-semibold text-gray-900 mb-2">{feature.title}</h3>
+              <p className="text-sm text-gray-500 leading-relaxed">
                 {feature.description}
               </p>
             </div>
@@ -117,14 +117,14 @@ export default function DocsIntroPage() {
 
       {/* Tech Stack */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-white mb-6">Tech Stack</h2>
-        <div className="rounded-xl border border-border overflow-hidden">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Tech Stack</h2>
+        <div className="rounded-[3px] border border-[#e2e2e2] overflow-hidden shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-bg-alt border-b border-border">
-                <th className="text-left px-4 py-3 font-semibold text-white">Component</th>
-                <th className="text-left px-4 py-3 font-semibold text-white">Technology</th>
-                <th className="text-left px-4 py-3 font-semibold text-white">Purpose</th>
+              <tr className="bg-[#fafafa] border-b border-[#e2e2e2]">
+                <th className="text-left px-4 py-3 font-semibold text-gray-900">Component</th>
+                <th className="text-left px-4 py-3 font-semibold text-gray-900">Technology</th>
+                <th className="text-left px-4 py-3 font-semibold text-gray-900">Purpose</th>
               </tr>
             </thead>
             <tbody>
@@ -139,10 +139,10 @@ export default function DocsIntroPage() {
                 ["Dashboard", "Next.js 15 + TypeScript", "Merchant dashboard, landing page, docs"],
                 ["Authentication", "Kinde", "Login, register, RBAC, JWT sessions"],
               ].map(([component, tech, purpose]) => (
-                <tr key={component} className="border-b border-border last:border-0 hover:bg-white/[0.02] transition-colors">
-                  <td className="px-4 py-3 font-medium text-white">{component}</td>
-                  <td className="px-4 py-3 text-secondary font-mono text-xs">{tech}</td>
-                  <td className="px-4 py-3 text-text-secondary">{purpose}</td>
+                <tr key={component} className="border-b border-[#e2e2e2] last:border-0 hover:bg-[#fafafa] transition-colors">
+                  <td className="px-4 py-3 font-medium text-gray-900">{component}</td>
+                  <td className="px-4 py-3 text-[#3898EC] font-mono text-xs">{tech}</td>
+                  <td className="px-4 py-3 text-gray-500">{purpose}</td>
                 </tr>
               ))}
             </tbody>
@@ -152,7 +152,7 @@ export default function DocsIntroPage() {
 
       {/* What You Can Do */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-white mb-6">What You Can Build</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">What You Can Build</h2>
         <div className="space-y-4">
           {[
             {
@@ -182,14 +182,14 @@ export default function DocsIntroPage() {
           ].map((item) => (
             <div
               key={item.title}
-              className="flex gap-4 p-4 rounded-lg border border-border hover:border-white/10 transition-colors"
+              className="flex gap-4 p-4 rounded-[3px] border border-[#e2e2e2] hover:border-[#3898EC]/30 transition-colors bg-white"
             >
-              <div className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0">
-                <item.icon className="w-4 h-4 text-secondary" />
+              <div className="w-8 h-8 rounded-[3px] bg-[#e8f0fe] flex items-center justify-center shrink-0">
+                <item.icon className="w-4 h-4 text-[#3898EC]" />
               </div>
               <div>
-                <h3 className="font-semibold text-white mb-1">{item.title}</h3>
-                <p className="text-sm text-text-secondary">{item.description}</p>
+                <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
+                <p className="text-sm text-gray-500">{item.description}</p>
               </div>
             </div>
           ))}
@@ -198,7 +198,7 @@ export default function DocsIntroPage() {
 
       {/* External Resources */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-white mb-6">External Resources</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">External Resources</h2>
         <div className="space-y-3">
           {[
             {
@@ -244,20 +244,20 @@ export default function DocsIntroPage() {
               href={resource.url}
               target={resource.internal ? undefined : "_blank"}
               rel={resource.internal ? undefined : "noopener noreferrer"}
-              className="flex items-start justify-between p-4 rounded-lg border border-border hover:border-secondary/30 hover:bg-white/5 transition-all group"
+              className="flex items-start justify-between p-4 rounded-[3px] border border-[#e2e2e2] hover:border-[#3898EC]/30 hover:bg-[#fafafa] transition-all group bg-white"
             >
               <div>
-                <h3 className="font-medium text-white group-hover:text-secondary transition-colors text-sm flex items-center gap-2">
+                <h3 className="font-medium text-gray-900 group-hover:text-[#3898EC] transition-colors text-sm flex items-center gap-2">
                   {resource.title}
                   {!resource.internal && (
-                    <ExternalLink className="w-3.5 h-3.5 text-text-muted group-hover:text-secondary transition-colors" />
+                    <ExternalLink className="w-3.5 h-3.5 text-[#AAADB0] group-hover:text-[#3898EC] transition-colors" />
                   )}
                 </h3>
-                <p className="text-xs text-text-secondary mt-0.5">
+                <p className="text-xs text-gray-500 mt-0.5">
                   {resource.description}
                 </p>
               </div>
-              <ArrowRight className="w-4 h-4 text-text-muted group-hover:text-secondary transition-colors shrink-0" />
+              <ArrowRight className="w-4 h-4 text-[#AAADB0] group-hover:text-[#3898EC] transition-colors shrink-0" />
             </Link>
           ))}
         </div>
@@ -265,71 +265,71 @@ export default function DocsIntroPage() {
 
       {/* Next Steps */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-white mb-6">Next Steps</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Next Steps</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
             href="/docs/quickstart"
-            className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
+            className="flex items-center justify-between p-5 rounded-[3px] border border-[#e2e2e2] bg-white hover:border-[#3898EC]/30 hover:shadow-md transition-all group shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]"
           >
             <div>
-              <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
+              <h3 className="font-semibold text-gray-900 group-hover:text-[#3898EC] transition-colors">
                 Quickstart Guide
               </h3>
-              <p className="text-sm text-text-secondary mt-1">
+              <p className="text-sm text-gray-500 mt-1">
                 Get OpenPay running in under 10 minutes
               </p>
             </div>
-            <ArrowRight className="w-4 h-4 text-text-muted group-hover:text-secondary transition-colors" />
+            <ArrowRight className="w-4 h-4 text-[#AAADB0] group-hover:text-[#3898EC] transition-colors" />
           </Link>
           <Link
             href="/docs/architecture"
-            className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
+            className="flex items-center justify-between p-5 rounded-[3px] border border-[#e2e2e2] bg-white hover:border-[#3898EC]/30 hover:shadow-md transition-all group shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]"
           >
             <div>
-              <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
+              <h3 className="font-semibold text-gray-900 group-hover:text-[#3898EC] transition-colors">
                 Architecture Overview
               </h3>
-              <p className="text-sm text-text-secondary mt-1">
+              <p className="text-sm text-gray-500 mt-1">
                 How all the services fit together
               </p>
             </div>
-            <ArrowRight className="w-4 h-4 text-text-muted group-hover:text-secondary transition-colors" />
+            <ArrowRight className="w-4 h-4 text-[#AAADB0] group-hover:text-[#3898EC] transition-colors" />
           </Link>
           <Link
             href="/docs/guides/accepting-payments"
-            className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
+            className="flex items-center justify-between p-5 rounded-[3px] border border-[#e2e2e2] bg-white hover:border-[#3898EC]/30 hover:shadow-md transition-all group shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]"
           >
             <div>
-              <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
+              <h3 className="font-semibold text-gray-900 group-hover:text-[#3898EC] transition-colors">
                 Accept Your First Payment
               </h3>
-              <p className="text-sm text-text-secondary mt-1">
+              <p className="text-sm text-gray-500 mt-1">
                 Step-by-step guide to processing a payment
               </p>
             </div>
-            <ArrowRight className="w-4 h-4 text-text-muted group-hover:text-secondary transition-colors" />
+            <ArrowRight className="w-4 h-4 text-[#AAADB0] group-hover:text-[#3898EC] transition-colors" />
           </Link>
           <Link
             href="/docs/api"
-            className="flex items-center justify-between p-5 rounded-xl border border-border bg-[#0a0a0a] hover:border-secondary/30 hover:shadow-md transition-all group"
+            className="flex items-center justify-between p-5 rounded-[3px] border border-[#e2e2e2] bg-white hover:border-[#3898EC]/30 hover:shadow-md transition-all group shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]"
           >
             <div>
-              <h3 className="font-semibold text-text-primary group-hover:text-secondary transition-colors">
+              <h3 className="font-semibold text-gray-900 group-hover:text-[#3898EC] transition-colors">
                 API Reference
               </h3>
-              <p className="text-sm text-text-secondary mt-1">
+              <p className="text-sm text-gray-500 mt-1">
                 Complete REST API documentation
               </p>
             </div>
-            <ArrowRight className="w-4 h-4 text-text-muted group-hover:text-secondary transition-colors" />
+            <ArrowRight className="w-4 h-4 text-[#AAADB0] group-hover:text-[#3898EC] transition-colors" />
           </Link>
         </div>
       </section>
 
       {/* Community CTA */}
-      <section className="p-6 rounded-xl border border-border bg-gradient-to-br from-secondary/5 to-accent/5 text-center">
-        <h2 className="text-xl font-bold text-white mb-3">Built by the community, for the community</h2>
-        <p className="text-sm text-text-secondary max-w-lg mx-auto mb-6">
+      <section className="p-6 rounded-[3px] border border-[#e2e2e2] bg-[#fafafa] text-center">
+        <h2 className="text-xl font-bold text-gray-900 mb-3">Built by the community, for the community</h2>
+        <p className="text-sm text-gray-500 max-w-lg mx-auto mb-6">
           OpenPay is MIT licensed and open to everyone. Star us on GitHub, join
           the discussions, and help us build the future of open payment infrastructure.
         </p>
@@ -338,7 +338,7 @@ export default function DocsIntroPage() {
             href="https://github.com/OpenPay-App/openpay"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-gradient-to-r from-secondary to-accent text-white font-medium text-sm hover:shadow-lg hover:shadow-secondary/20 transition-all"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-none bg-[#3898EC] text-white font-medium text-sm hover:bg-[#2c7dd6] transition-all"
           >
             <Github className="w-4 h-4" />
             Star on GitHub
@@ -347,7 +347,7 @@ export default function DocsIntroPage() {
             href="https://github.com/OpenPay-App/openpay/discussions"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border border-white/10 text-text-secondary hover:text-white hover:bg-white/5 text-sm font-medium transition-all"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-none border border-[#e2e2e2] text-gray-700 hover:text-[#333333] hover:bg-white text-sm font-medium transition-all bg-white"
           >
             <Users className="w-4 h-4" />
             Join Discussions

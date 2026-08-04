@@ -98,7 +98,7 @@ export default function BusinessSettingsPage() {
       <div className="space-y-6">
         {/* Business Name */}
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1.5">
+          <label className="block text-sm font-medium text-gray-900 mb-1.5">
             Business Name
           </label>
           <input
@@ -106,13 +106,13 @@ export default function BusinessSettingsPage() {
             value={profile.business_name}
             onChange={(e) => update("business_name", e.target.value)}
             placeholder="Acme Corp"
-            className="w-full px-3 py-2 border border-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+            className="w-full px-3 py-2 border border-[#e2e2e2] rounded-[3px] text-sm text-[#333333] placeholder:text-[#AAADB0] focus:outline-none focus:ring-2 focus:ring-[#3898EC]/20 focus:border-[#3898EC]"
           />
         </div>
 
         {/* Support Email */}
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1.5">
+          <label className="block text-sm font-medium text-gray-900 mb-1.5">
             Support Email
           </label>
           <input
@@ -120,13 +120,13 @@ export default function BusinessSettingsPage() {
             value={profile.support_email}
             onChange={(e) => update("support_email", e.target.value)}
             placeholder="support@example.com"
-            className="w-full px-3 py-2 border border-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+            className="w-full px-3 py-2 border border-[#e2e2e2] rounded-[3px] text-sm text-[#333333] placeholder:text-[#AAADB0] focus:outline-none focus:ring-2 focus:ring-[#3898EC]/20 focus:border-[#3898EC]"
           />
         </div>
 
         {/* Website */}
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1.5">
+          <label className="block text-sm font-medium text-gray-900 mb-1.5">
             Website
           </label>
           <input
@@ -134,13 +134,13 @@ export default function BusinessSettingsPage() {
             value={profile.website}
             onChange={(e) => update("website", e.target.value)}
             placeholder="https://example.com"
-            className="w-full px-3 py-2 border border-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+            className="w-full px-3 py-2 border border-[#e2e2e2] rounded-[3px] text-sm text-[#333333] placeholder:text-[#AAADB0] focus:outline-none focus:ring-2 focus:ring-[#3898EC]/20 focus:border-[#3898EC]"
           />
         </div>
 
         {/* Currency */}
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1.5">
+          <label className="block text-sm font-medium text-gray-900 mb-1.5">
             Default Currency
           </label>
           <select
@@ -148,7 +148,7 @@ export default function BusinessSettingsPage() {
             onChange={(e) =>
               update("default_currency", e.target.value as Currency)
             }
-            className="w-full px-3 py-2 border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+            className="w-full px-3 py-2 border border-[#e2e2e2] rounded-[3px] text-sm text-[#333333] focus:outline-none focus:ring-2 focus:ring-[#3898EC]/20 focus:border-[#3898EC]"
           >
             {currencies.map((c) => (
               <option key={c} value={c}>
@@ -160,14 +160,14 @@ export default function BusinessSettingsPage() {
 
         {/* Timezone */}
         <div className="relative">
-          <label className="block text-sm font-medium text-text-primary mb-1.5">
+          <label className="block text-sm font-medium text-gray-900 mb-1.5">
             Timezone
           </label>
 
           {/* Currently selected timezone chip */}
           {profile.timezone && !tzSearch && (
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-light border border-secondary/20 text-xs font-medium text-secondary">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[3px] bg-[#e8f0fe] border border-[#3898EC]/20 text-xs font-medium text-[#3898EC]">
                 {profile.timezone}
                 <button
                   onClick={() => {
@@ -183,7 +183,7 @@ export default function BusinessSettingsPage() {
           )}
 
           <div className="relative">
-            <Search className="absolute left-3 top-2.5 w-4 h-4 text-text-muted" />
+            <Search className="absolute left-3 top-2.5 w-4 h-4 text-[#AAADB0]" />
             <input
               type="text"
               value={tzSearch}
@@ -202,11 +202,11 @@ export default function BusinessSettingsPage() {
                 }
               }}
               placeholder="Search or type a timezone (e.g. Europe/Paris)"
-              className="w-full pl-10 pr-3 py-2 border border-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+              className="w-full pl-10 pr-3 py-2 border border-[#e2e2e2] rounded-[3px] text-sm text-[#333333] placeholder:text-[#AAADB0] focus:outline-none focus:ring-2 focus:ring-[#3898EC]/20 focus:border-[#3898EC]"
             />
           </div>
           {showTzDropdown && tzSearch && filteredTimezones.length === 0 && (
-            <div className="absolute z-10 w-full mt-1 bg-[#0a0a0a] border border-border rounded-lg shadow-lg">
+            <div className="absolute z-10 w-full mt-1 bg-white border border-[#e2e2e2] rounded-[3px] shadow-lg">
               <button
                 onMouseDown={(e) => {
                   e.preventDefault();
@@ -214,14 +214,14 @@ export default function BusinessSettingsPage() {
                   setTzSearch("");
                   setShowTzDropdown(false);
                 }}
-                className="w-full px-3 py-2 text-left text-sm hover:bg-bg-alt transition-colors text-text-primary"
+                className="w-full px-3 py-2 text-left text-sm hover:bg-[#fafafa] transition-colors text-[#333333]"
               >
                 Use &quot;{tzSearch}&quot; as custom timezone
               </button>
             </div>
           )}
           {showTzDropdown && filteredTimezones.length > 0 && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-border rounded-lg shadow-lg max-h-48 overflow-y-auto">
+            <div className="absolute z-10 w-full mt-1 bg-white border border-[#e2e2e2] rounded-[3px] shadow-lg max-h-48 overflow-y-auto">
               {filteredTimezones.map((tz) => (
                 <button
                   key={tz}
@@ -231,8 +231,8 @@ export default function BusinessSettingsPage() {
                     setTzSearch("");
                     setShowTzDropdown(false);
                   }}
-                  className={`w-full px-3 py-2 text-left text-sm hover:bg-bg-alt transition-colors ${
-                    profile.timezone === tz ? "bg-secondary-light text-secondary font-medium" : "text-text-primary"
+                  className={`w-full px-3 py-2 text-left text-sm hover:bg-[#fafafa] transition-colors ${
+                    profile.timezone === tz ? "bg-[#e8f0fe] text-[#3898EC] font-medium" : "text-[#333333]"
                   }`}
                 >
                   {tz.replace("_", " ")}
@@ -244,12 +244,12 @@ export default function BusinessSettingsPage() {
 
         {/* Save Error */}
         {error && (
-          <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-red-950/50 border border-red-500/30">
-            <AlertTriangle className="w-5 h-5 text-red-600 shrink-0" />
-            <p className="flex-1 text-sm text-red-800">{error}</p>
+          <div className="flex items-center gap-3 px-4 py-3 rounded-[3px] bg-red-50 border border-[#ea384c]/30">
+            <AlertTriangle className="w-5 h-5 text-[#ea384c] shrink-0" />
+            <p className="flex-1 text-sm text-[#ea384c]">{error}</p>
             <button
               onClick={() => setError(null)}
-              className="text-red-400 hover:text-red-600 transition-colors"
+              className="text-[#ea384c] hover:text-red-700 transition-colors"
             >
               ×
             </button>
@@ -261,7 +261,7 @@ export default function BusinessSettingsPage() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 px-5 py-2.5 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-hover transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#3898EC] text-white rounded-[3px] text-sm font-medium hover:bg-[#2c7dd6] transition-colors disabled:opacity-50"
           >
             {saved ? (
               <>

@@ -86,13 +86,13 @@ export default function WebhooksPage() {
   const statusColor = (status?: string) => {
     switch (status) {
       case "active":
-        return "bg-emerald-950 text-emerald-400 border border-emerald-500/30";
+        return "bg-[#40d63b]/10 text-[#40d63b] border border-[#40d63b]/30";
       case "failing":
-        return "bg-red-950/50 text-red-700";
+        return "bg-red-50 text-red-600 border border-red-200";
       case "disabled":
-        return "bg-gray-900 text-gray-400 border border-gray-700";
+        return "bg-gray-100 text-gray-600 border border-gray-200";
       default:
-        return "bg-gray-900 text-gray-400 border border-gray-700";
+        return "bg-gray-100 text-gray-600 border border-gray-200";
     }
   };
 
@@ -100,7 +100,7 @@ export default function WebhooksPage() {
     <div>
       {/* Error Banner */}
       {error && (
-        <div className="mb-6 p-4 rounded-xl border border-red-200 bg-red-950/50 flex items-start gap-3">
+        <div className="mb-6 p-4 rounded-[8px] border border-red-200 bg-red-50 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 shrink-0" />
           <div className="flex-1">
             <p className="text-sm font-medium text-red-800">
@@ -122,13 +122,13 @@ export default function WebhooksPage() {
       )}
 
       <div className="flex items-center justify-between mb-6">
-        <p className="text-sm text-text-secondary">
+        <p className="text-sm text-gray-500">
           Webhooks send real-time event notifications to your server. Configure
           endpoints and choose which events to subscribe to.
         </p>
         <button
           onClick={() => setShowCreate(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-hover transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-[#3898EC] text-white rounded-[3px] text-sm font-medium hover:bg-[#2d7fd4] transition-colors"
         >
           <Plus className="w-4 h-4" />
           Add Endpoint
@@ -137,10 +137,10 @@ export default function WebhooksPage() {
 
       {/* Create Form */}
       {showCreate && (
-        <div className="mb-6 p-5 rounded-xl border border-secondary/30 bg-secondary/5">
+        <div className="mb-6 p-5 rounded-[8px] border border-[#3898EC]/30 bg-[#3898EC]/5">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-1.5">
+              <label className="block text-sm font-medium text-gray-900 mb-1.5">
                 Endpoint URL
               </label>
               <input
@@ -148,27 +148,27 @@ export default function WebhooksPage() {
                 value={newUrl}
                 onChange={(e) => setNewUrl(e.target.value)}
                 placeholder="https://your-server.com/webhooks/openpay"
-                className="w-full px-3 py-2 border border-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+                className="w-full px-3 py-2 border border-gray-200 rounded-[3px] text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3898EC]/20 focus:border-[#3898EC]"
                 autoFocus
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Events to send
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {availableEvents.map((event) => (
                   <label
                     key={event}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-[#0a0a0a] text-sm cursor-pointer hover:border-secondary/30 transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 rounded-[6px] border border-gray-200 bg-white text-sm cursor-pointer hover:border-[#3898EC]/30 transition-colors"
                   >
                     <input
                       type="checkbox"
                       checked={selectedEvents.includes(event)}
                       onChange={() => toggleEvent(event)}
-                      className="rounded border-border text-secondary focus:ring-secondary/20"
+                      className="rounded border-gray-300 text-[#3898EC] focus:ring-[#3898EC]/20"
                     />
-                    <code className="text-xs font-mono text-text-secondary">
+                    <code className="text-xs font-mono text-gray-600">
                       {event}
                     </code>
                   </label>
@@ -178,7 +178,7 @@ export default function WebhooksPage() {
             <div className="flex gap-3">
               <button
                 onClick={handleCreate}
-                className="px-4 py-2 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-hover transition-colors"
+                className="px-4 py-2 bg-[#3898EC] text-white rounded-[3px] text-sm font-medium hover:bg-[#2d7fd4] transition-colors"
               >
                 Create Endpoint
               </button>
@@ -187,7 +187,7 @@ export default function WebhooksPage() {
                   setShowCreate(false);
                   setNewUrl("");
                 }}
-                className="px-4 py-2 border border-border rounded-lg text-sm text-text-secondary hover:text-text-primary transition-colors"
+                className="px-4 py-2 border border-gray-200 rounded-[3px] text-sm text-gray-600 hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
@@ -200,14 +200,14 @@ export default function WebhooksPage() {
       {loading ? (
         <div className="space-y-3">
           {[1, 2].map((i) => (
-            <div key={i} className="h-20 rounded-xl bg-[#0a0a0a] border border-border animate-pulse" />
+            <div key={i} className="h-20 rounded-[8px] bg-gray-100 border border-gray-200 animate-pulse" />
           ))}
         </div>
       ) : webhooks.length === 0 ? (
-        <div className="text-center py-16 rounded-xl border border-border bg-[#0a0a0a]">
-          <Webhook className="w-10 h-10 text-text-muted mx-auto mb-3" />
-          <p className="text-text-secondary">No webhook endpoints configured</p>
-          <p className="text-sm text-text-muted mt-1">
+        <div className="text-center py-16 rounded-[8px] border border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <Webhook className="w-10 h-10 text-gray-300 mx-auto mb-3" />
+          <p className="text-gray-600">No webhook endpoints configured</p>
+          <p className="text-sm text-gray-500 mt-1">
             Add an endpoint to receive event notifications from OpenPay.
           </p>
         </div>
@@ -216,28 +216,28 @@ export default function WebhooksPage() {
           {webhooks.map((wh) => (
             <div
               key={wh.webhook_id}
-              className="p-4 rounded-xl border border-border bg-[#0a0a0a]"
+              className="p-4 rounded-[8px] border border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:border-gray-300 transition-colors"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <Webhook className="w-5 h-5 text-secondary" />
+                  <div className="w-10 h-10 rounded-[3px] bg-[#3898EC]/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <Webhook className="w-5 h-5 text-[#3898EC]" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <code className="text-sm font-mono text-text-primary break-all">
+                      <code className="text-sm font-mono text-gray-900 break-all">
                         {wh.url}
                       </code>
-                      <ExternalLink className="w-3.5 h-3.5 text-text-muted shrink-0" />
+                      <ExternalLink className="w-3.5 h-3.5 text-gray-400 shrink-0" />
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <span
-                        className={`px-2 py-0.5 rounded text-xs font-medium ${statusColor(wh.status)}`}
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColor(wh.status)}`}
                       >
                         {wh.status || "active"}
                       </span>
                       {wh.last_triggered && (
-                        <span className="text-xs text-text-muted">
+                        <span className="text-xs text-gray-500">
                           Last triggered{" "}
                           {new Date(wh.last_triggered).toLocaleDateString()}
                         </span>
@@ -247,7 +247,7 @@ export default function WebhooksPage() {
                       {wh.events.map((event) => (
                         <span
                           key={event}
-                          className="px-2 py-0.5 rounded bg-bg-alt text-text-secondary text-xs font-mono"
+                          className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-xs font-mono border border-gray-200"
                         >
                           {event}
                         </span>
@@ -256,12 +256,12 @@ export default function WebhooksPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
-                  <button className="p-1.5 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-alt transition-colors">
+                  <button className="p-1.5 rounded-[3px] text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
                     <RotateCw className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(wh.webhook_id)}
-                    className="p-1.5 rounded-lg text-text-muted hover:text-red-500 hover:bg-red-950/50 transition-colors"
+                    className="p-1.5 rounded-[3px] text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

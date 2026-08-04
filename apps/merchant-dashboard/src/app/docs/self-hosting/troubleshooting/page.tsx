@@ -280,7 +280,7 @@ export default function TroubleshootingPage() {
     <div>
       <Link
         href="/docs/self-hosting"
-        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Self-Hosting
@@ -289,12 +289,12 @@ export default function TroubleshootingPage() {
       {/* Hero */}
       <div className="mb-12">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-500/5 border border-amber-500/20 flex items-center justify-center">
-            <AlertTriangle className="w-5 h-5 text-amber-400" />
+          <div className="w-10 h-10 rounded-[3px] bg-amber-50 border border-amber-500/20 flex items-center justify-center">
+            <AlertTriangle className="w-5 h-5 text-amber-500" />
           </div>
-          <h1 className="text-4xl font-bold text-white">Troubleshooting Guide</h1>
+          <h1 className="text-4xl font-bold text-gray-900">Troubleshooting Guide</h1>
         </div>
-        <p className="text-lg text-text-secondary max-w-3xl leading-relaxed">
+        <p className="text-lg text-gray-500 max-w-3xl leading-relaxed">
           Common issues you might encounter when setting up or running OpenPay,
           with step-by-step solutions. If you don&apos;t find your issue here, check
           our{" "}
@@ -302,7 +302,7 @@ export default function TroubleshootingPage() {
             href="https://github.com/OpenPay-App/openpay/discussions"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-secondary hover:underline"
+            className="text-[#3898EC] hover:underline"
           >
             GitHub Discussions
           </a>{" "}
@@ -311,8 +311,8 @@ export default function TroubleshootingPage() {
       </div>
 
       {/* Category Navigation */}
-      <div className="mb-12 p-4 rounded-xl border border-border bg-[#0a0a0a]">
-        <div className="flex items-center gap-2 mb-3 text-sm text-text-secondary">
+      <div className="mb-12 p-4 rounded-[3px] border border-[#e2e2e2] bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]">
+        <div className="flex items-center gap-2 mb-3 text-sm text-gray-500">
           <Search className="w-4 h-4" />
           Jump to section:
         </div>
@@ -321,7 +321,7 @@ export default function TroubleshootingPage() {
             <a
               key={cat.id}
               href={`#${cat.id}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-secondary/10 hover:text-secondary text-sm text-text-secondary transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#fafafa] hover:bg-[#e8f0fe] hover:text-[#3898EC] text-sm text-gray-700 transition-colors border border-[#e2e2e2]"
             >
               <cat.icon className="w-3.5 h-3.5" />
               {cat.title}
@@ -335,24 +335,24 @@ export default function TroubleshootingPage() {
         {categories.map((category) => (
           <section key={category.id} id={category.id}>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center">
-                <category.icon className="w-4 h-4 text-secondary" />
+              <div className="w-8 h-8 rounded-[3px] bg-[#e8f0fe] flex items-center justify-center">
+                <category.icon className="w-4 h-4 text-[#3898EC]" />
               </div>
-              <h2 className="text-2xl font-bold text-white">{category.title}</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{category.title}</h2>
             </div>
 
             <div className="space-y-6">
               {category.problems.map((problem) => (
                 <div
                   key={problem.symptom}
-                  className="rounded-xl border border-border bg-[#0a0a0a] overflow-hidden"
+                  className="rounded-[3px] border border-[#e2e2e2] bg-white overflow-hidden shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.05)]"
                 >
                   {/* Symptom header */}
-                  <div className="px-5 py-4 bg-amber-950/20 border-b border-amber-500/10">
+                  <div className="px-5 py-4 bg-amber-50 border-b border-amber-200">
                     <div className="flex items-start gap-3">
-                      <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                      <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                       <div>
-                        <h3 className="font-semibold text-amber-300 text-sm">
+                        <h3 className="font-semibold text-amber-700 text-sm">
                           {problem.symptom}
                         </h3>
                       </div>
@@ -362,15 +362,15 @@ export default function TroubleshootingPage() {
                   <div className="p-5 space-y-4">
                     {/* Causes */}
                     <div>
-                      <h4 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                      <h4 className="text-xs font-semibold text-[#AAADB0] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#ea384c]" />
                         Possible Causes
                       </h4>
                       <ul className="space-y-1">
                         {problem.causes.map((cause, i) => (
                           <li
                             key={i}
-                            className="text-sm text-text-secondary pl-4 border-l-2 border-red-500/20"
+                            className="text-sm text-gray-500 pl-4 border-l-2 border-[#ea384c]/20"
                             dangerouslySetInnerHTML={{ __html: cause }}
                           />
                         ))}
@@ -379,15 +379,15 @@ export default function TroubleshootingPage() {
 
                     {/* Solutions */}
                     <div>
-                      <h4 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      <h4 className="text-xs font-semibold text-[#AAADB0] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#40d63b]" />
                         Solutions
                       </h4>
                       <ul className="space-y-1.5">
                         {problem.solutions.map((solution, i) => (
                           <li
                             key={i}
-                            className="text-sm text-text-secondary pl-4 border-l-2 border-emerald-500/20"
+                            className="text-sm text-gray-500 pl-4 border-l-2 border-[#40d63b]/20"
                             dangerouslySetInnerHTML={{ __html: solution }}
                           />
                         ))}
@@ -402,9 +402,9 @@ export default function TroubleshootingPage() {
       </div>
 
       {/* Getting Help */}
-      <section className="mt-16 p-6 rounded-xl border border-border bg-[#0a0a0a]">
-        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <Search className="w-5 h-5 text-secondary" />
+      <section className="mt-16 p-6 rounded-[3px] border border-[#e2e2e2] bg-[#fafafa]">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <Search className="w-5 h-5 text-[#3898EC]" />
           Still Having Issues?
         </h2>
         <div className="space-y-3">
@@ -430,14 +430,14 @@ export default function TroubleshootingPage() {
               href={resource.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-start justify-between p-4 rounded-lg border border-border hover:border-secondary/30 hover:bg-white/5 transition-all group"
+              className="flex items-start justify-between p-4 rounded-[3px] border border-[#e2e2e2] hover:border-[#3898EC]/30 hover:bg-white transition-all group bg-white"
             >
               <div>
-                <h3 className="font-medium text-white group-hover:text-secondary transition-colors text-sm flex items-center gap-2">
+                <h3 className="font-medium text-gray-900 group-hover:text-[#3898EC] transition-colors text-sm flex items-center gap-2">
                   {resource.title}
-                  <ExternalLink className="w-3.5 h-3.5 text-text-muted group-hover:text-secondary transition-colors" />
+                  <ExternalLink className="w-3.5 h-3.5 text-[#AAADB0] group-hover:text-[#3898EC] transition-colors" />
                 </h3>
-                <p className="text-xs text-text-secondary mt-0.5">
+                <p className="text-xs text-gray-500 mt-0.5">
                   {resource.description}
                 </p>
               </div>
