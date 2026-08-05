@@ -6,6 +6,7 @@ import { ChevronRight } from "lucide-react";
 import { DocsSidebar } from "@/components/docs-sidebar";
 import { CopyPageButton } from "@/components/copy-page-button";
 import { DocsTOC } from "@/components/docs-toc";
+import { DocsSearch } from "@/components/docs-search";
 
 export default function DocsLayout({
   children,
@@ -51,7 +52,8 @@ export default function DocsLayout({
               ))}
             </div>
 
-            <div className="shrink-0">
+            <div className="shrink-0 flex items-center gap-3">
+              <DocsSearch />
               <CopyPageButton />
             </div>
           </div>

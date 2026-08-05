@@ -7,46 +7,37 @@ import { CheckCircle, AlertTriangle, Loader2 } from "lucide-react";
 
 interface ServiceStatus {
   name: string;
-  url: string;
   status: "up" | "down" | "checking";
   latency?: number;
 }
 
-const services: Omit<ServiceStatus, "status" | "latency">[] = [
-  { name: "Hyperswitch (Payments API)", url: "http://localhost:8081/health" },
-  { name: "Kill Bill (Subscriptions)", url: "http://localhost:8082/1.0/healthcheck" },
-  { name: "NATS JetStream", url: "http://localhost:8222/healthz" },
-  { name: "Tazama (Fraud Detection)", url: "http://localhost:8084/health" },
-  { name: "Merchant Dashboard", url: "/" },
-];
-
 export default function StatusPage() {
-  const [statuses, setStatuses] = useState<ServiceStatus[]>(
-    services.map((s) => ({ ...s, status: "checking" }))
-  );
+  const [statuses, setStatuses] = useState<ServiceStatus[]>([
+    { name: "Hyperswitch (Payments API)", status: "checking" },
+    { name: "Kill Bill (Subscriptions)", status: "checking" },
+    { name: "NATS JetStream", status: "checking" },
+    { name: "Tazama (Fraud Detection)", status: "checking" },
+  ]);
+  const [lastChecked, setLastChecked] = useState<string>("");
 
   useEffect(() => {
     async function checkAll() {
-      const results = await Promise.all(
-        services.map(async (service) => {
-          try {
-            const start = Date.now();
-            const res = await fetch(service.url, {
-              method: "HEAD",
-              signal: AbortSignal.timeout(3000),
-            });
-            const latency = Date.now() - start;
-            return {
-              ...service,
-              status: res.ok ? ("up" as const) : ("down" as const),
-              latency,
-            };
-          } catch {
-            return { ...service, status: "down" as const };
-          }
-        })
-      );
-      setStatuses(results);
+      try {
+        const res = await fetch("/api/health", { signal: AbortSignal.timeout(10000) });
+        if (res.ok) {
+          const data = await res.json();
+          setStatuses(
+            data.services.map((s: { name: string; status: string; latency: number }) => ({
+              name: s.name,
+              status: s.status as "up" | "down",
+              latency: s.latency,
+            }))
+          );
+          setLastChecked(new Date().toLocaleTimeString());
+        }
+      } catch {
+        // Keep previous status on error
+      }
     }
 
     checkAll();
@@ -121,7 +112,7 @@ export default function StatusPage() {
         </div>
 
         <p className="text-xs text-[#AAADB0] mt-8">
-          Last checked: {new Date().toLocaleTimeString()}
+          Last checked: {lastChecked || "Loading..."}
         </p>
       </main>
 

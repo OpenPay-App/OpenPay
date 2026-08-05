@@ -21,6 +21,77 @@ export default function MonitoringPage() {
         the file formats involved, and how to create or import your own.
       </p>
 
+      {/* Status Page */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-text-primary mb-4">
+          Status Page
+        </h2>
+        <p className="text-text-secondary mb-4">
+          OpenPay includes a built-in status page at <code className="font-mono text-xs">/status</code> that provides real-time health monitoring of all core services. The page auto-refreshes every 30 seconds.
+        </p>
+
+        <h3 className="text-lg font-semibold text-text-primary mb-3">How It Works</h3>
+        <p className="text-text-secondary mb-4">
+          The status page uses a server-side API route (<code className="font-mono text-xs">/api/health</code>) to check each service. This avoids CORS issues that would occur with direct browser-to-service requests.
+        </p>
+        <CodeBlock title="Health check flow">{`Browser → /api/health → Server → Service endpoints
+                          ↓
+                   Returns JSON with status + latency
+                          ↓
+                   Browser displays Operational/Down`}</CodeBlock>
+
+        <h3 className="text-lg font-semibold text-text-primary mb-3">Monitored Services</h3>
+        <div className="rounded-xl border border-border overflow-x-auto mb-6">
+          <table className="w-full text-sm min-w-[560px]">
+            <thead>
+              <tr className="bg-bg-alt border-b border-border">
+                <th className="text-left px-4 py-3 font-semibold text-text-primary">Service</th>
+                <th className="text-left px-4 py-3 font-semibold text-text-primary">Health Endpoint</th>
+                <th className="text-left px-4 py-3 font-semibold text-text-primary">Default Port</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ["Hyperswitch (Payments API)", "/health", "8081"],
+                ["Kill Bill (Subscriptions)", "/1.0/healthcheck", "8082"],
+                ["NATS JetStream", "/healthz", "8222"],
+                ["Tazama (Fraud Detection)", "/health", "8084"],
+              ].map(([name, endpoint, port]) => (
+                <tr key={name} className="border-b border-border last:border-0">
+                  <td className="px-4 py-3 font-medium text-text-primary">{name}</td>
+                  <td className="px-4 py-3"><code className="font-mono text-xs text-secondary">{endpoint}</code></td>
+                  <td className="px-4 py-3"><code className="font-mono text-xs text-secondary">{port}</code></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <h3 className="text-lg font-semibold text-text-primary mb-3">Accessing the Status Page</h3>
+        <CodeBlock title="terminal">{`# Local development
+open http://localhost:3000/status
+
+# Production (via Docker)
+open http://your-domain.com/status`}</CodeBlock>
+
+        <h3 className="text-lg font-semibold text-text-primary mb-3">Customizing Health Check URLs</h3>
+        <p className="text-text-secondary mb-4">
+          Health check URLs are configurable via environment variables. Set these in your <code className="font-mono text-xs">.env</code> file to point to your actual service addresses:
+        </p>
+        <CodeBlock title=".env (health check configuration)">{`# Status Page Health Check URLs
+# Defaults work for local Docker development
+HEALTH_CHECK_HYPERSWITCH_URL=http://localhost:8081/health
+HEALTH_CHECK_KILLBILL_URL=http://localhost:8082/1.0/healthcheck
+HEALTH_CHECK_NATS_URL=http://localhost:8222/healthz
+HEALTH_CHECK_TAZAMA_URL=http://localhost:8084/health
+
+# Production example (Docker internal network):
+HEALTH_CHECK_HYPERSWITCH_URL=http://hyperswitch:8080/health
+HEALTH_CHECK_KILLBILL_URL=http://killbill:8080/1.0/healthcheck
+HEALTH_CHECK_NATS_URL=http://nats:8222/healthz
+HEALTH_CHECK_TAZAMA_URL=http://tazama-rule-exec:8080/health`}</CodeBlock>
+      </section>
+
       {/* Stack overview */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-text-primary mb-4">

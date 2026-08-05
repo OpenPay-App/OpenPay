@@ -41,6 +41,7 @@ export const navigation: NavItem[] = [
       { label: "Environment Variables", href: "/docs/self-hosting/env-vars" },
       { label: "Third-Party Tools", href: "/docs/self-hosting/tools" },
       { label: "Monitoring & Grafana", href: "/docs/self-hosting/monitoring" },
+      { label: "Status Page", href: "/docs/self-hosting/status-page" },
       { label: "Email Delivery & Team Invites", href: "/docs/self-hosting/email-delivery" },
       { label: "Production Deploy", href: "/docs/self-hosting/production" },
       { label: "Upgrades & Rollbacks", href: "/docs/self-hosting/upgrades" },

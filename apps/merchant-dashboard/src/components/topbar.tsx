@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { Bell, Search, AlertTriangle } from "lucide-react";
+import { Bell, Search, AlertTriangle, X } from "lucide-react";
 import Image from "next/image";
 import { useSandboxMode } from "@/lib/sandbox-mode";
 
@@ -11,6 +11,24 @@ export function Topbar() {
   const user = getUser();
   const { toggle, isSandbox } = useSandboxMode();
   const [showWarning, setShowWarning] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        setShowSearch(true);
+      }
+      if (e.key === "Escape") {
+        setShowWarning(false);
+        setShowSearch(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const handleToggle = () => {
     if (isSandbox) {
@@ -65,14 +83,69 @@ export function Topbar() {
       )}
 
       <header className="h-16 bg-black border-b border-border flex items-center justify-between px-8">
-        {/* Search */}          <div className="flex items-center gap-3 bg-[#0a0a0a] rounded-lg px-4 py-2 w-96 border border-border">
+        {/* Search */}          <div 
+          className="flex items-center gap-3 bg-[#0a0a0a] rounded-lg px-4 py-2 w-96 border border-border cursor-text"
+          onClick={() => setShowSearch(true)}
+        >
           <Search className="w-4 h-4 text-text-muted" />
           <input
             type="text"
             placeholder="Search payments, customers..."
-            className="bg-transparent text-sm text-white placeholder:text-text-muted outline-none w-full"
+            className="bg-transparent text-sm text-white placeholder:text-text-muted outline-none w-full cursor-text"
+            onFocus={() => setShowSearch(true)}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
+          {searchValue && (
+            <button onClick={(e) => { e.stopPropagation(); setSearchValue(""); }}>
+              <X className="w-4 h-4 text-text-muted" />
+            </button>
+          )}
         </div>
+
+        {/* Search Modal */}        {showSearch && (
+          <div 
+            className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center pt-16"
+            onClick={() => setShowSearch(false)}
+          >
+            <div 
+              className="bg-[#0a0a0a] rounded-lg w-full max-w-2xl mx-4 border border-border"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-3 p-4 border-b border-border">
+                <Search className="w-5 h-5 text-text-muted" />
+                <input
+                  type="text"
+                  placeholder="Search payments, customers..."
+                  className="bg-transparent text-lg text-white placeholder:text-text-muted outline-none flex-1"
+                  autoFocus
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      setShowSearch(false);
+                      setSearchValue("");
+                    }
+                  }}
+                />
+                <button 
+                  onClick={() => {
+                    setShowSearch(false);
+                    setSearchValue("");
+                  }}
+                  className="p-2 rounded-lg hover:bg-white/5 transition-colors"
+                >
+                  <X className="w-5 h-5 text-text-muted" />
+                </button>
+              </div>
+              <div className="p-4">
+                <p className="text-text-secondary text-sm">
+                  Search functionality to be implemented
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Right side */}
         <div className="flex items-center gap-4">

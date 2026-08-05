@@ -1,0 +1,38 @@
+# =============================================================================
+# Traefik Dashboard Router Configuration
+# =============================================================================
+# This file configures the Traefik dashboard with Basic Auth protection.
+# It's loaded by the file provider and watched for changes.
+#
+# SECURITY WARNING: Default credentials are admin/openpay
+# To change credentials in production:
+#   1. Run: ./scripts/generate-dashboard-auth.sh youruser yourpassword --update
+#   2. Restart Traefik to apply changes
+#
+# For production, consider:
+#   - Using a strong, unique password
+#   - Storing the hash in a gitignored file
+#   - Using environment variables for the password hash
+# =============================================================================
+
+http:
+  routers:
+    # Dashboard router with Basic Auth protection
+    dashboard:
+      rule: "Host(`traefik.localhost`) || (Host(`localhost`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`)))"
+      service: api@internal
+      entryPoints:
+        - websecure
+      middlewares:
+        - dashboard-auth
+        - secure-headers
+
+  middlewares:
+    # Basic Auth for Traefik Dashboard
+    # Default credentials: admin / openpay (CHANGE IN PRODUCTION!)
+    # Generate new hash: ./scripts/generate-dashboard-auth.sh
+    dashboard-auth:
+      basicAuth:
+        users:
+          # Default hash for admin/openpay - CHANGE THIS!
+          - "admin:$apr1$e2b68fe70141f00a$n/keoRe9X0pbCvTW"

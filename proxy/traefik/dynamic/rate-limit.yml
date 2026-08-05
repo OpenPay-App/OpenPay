@@ -1,0 +1,89 @@
+# =============================================================================
+# Traefik Rate Limiting Configuration
+# =============================================================================
+# This file configures rate limiting for different API endpoints.
+# Rate limits protect against abuse and brute-force attacks.
+# =============================================================================
+
+http:
+  middlewares:
+    # ─── Global Rate Limit ──────────────────────────────────────────────────
+    # Applied to all routes by default
+    global-rate-limit:
+      rateLimit:
+        average: 100      # 100 requests per second
+        burst: 200        # Allow bursts up to 200
+        period: 1s
+
+    # ─── API Rate Limit ─────────────────────────────────────────────────────
+    # Applied to /api/ routes
+    api-rate-limit:
+      rateLimit:
+        average: 50       # 50 requests per second
+        burst: 100        # Allow bursts up to 100
+        period: 1s
+
+    # ─── Checkout Rate Limit ────────────────────────────────────────────────
+    # Stricter limit for checkout/payment endpoints
+    checkout-rate-limit:
+      rateLimit:
+        average: 10       # 10 requests per second
+        burst: 20         # Allow bursts up to 20
+        period: 1s
+
+    # ─── Webhook Rate Limit ─────────────────────────────────────────────────
+    # Strict limit for webhook endpoints
+    webhook-rate-limit:
+      rateLimit:
+        average: 10       # 10 requests per second
+        burst: 20         # Allow bursts up to 20
+        period: 1s
+
+    # ─── Auth Rate Limit ────────────────────────────────────────────────────
+    # Very strict limit for authentication endpoints
+    auth-rate-limit:
+      rateLimit:
+        average: 5        # 5 requests per second
+        burst: 10         # Allow bursts up to 10
+        period: 1s
+
+  routers:
+    # ─── API Router ─────────────────────────────────────────────────────────
+    api-router:
+      rule: "PathPrefix(`/api/`)"
+      service: hyperswitch
+      entryPoints:
+        - websecure
+      middlewares:
+        - api-rate-limit
+        - secure-headers
+
+    # ─── Checkout Router ────────────────────────────────────────────────────
+    checkout-router:
+      rule: "PathPrefix(`/api/checkout/`)"
+      service: hyperswitch
+      entryPoints:
+        - websecure
+      middlewares:
+        - checkout-rate-limit
+        - secure-headers
+
+    # ─── Webhook Router ─────────────────────────────────────────────────────
+    webhook-router:
+      rule: "PathPrefix(`/webhooks/`)"
+      service: hyperswitch
+      entryPoints:
+        - websecure
+      middlewares:
+        - webhook-rate-limit
+        - secure-headers
+
+    # ─── Auth Router ────────────────────────────────────────────────────────
+    auth-router:
+      rule: "PathPrefix(`/api/auth/`)"
+      service: hyperswitch
+      entryPoints:
+        - websecure
+      middlewares:
+        - auth-rate-limit
+        - secure-headers
