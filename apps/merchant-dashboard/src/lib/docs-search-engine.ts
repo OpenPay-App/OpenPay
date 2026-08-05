@@ -1,7 +1,7 @@
 import MiniSearch from "minisearch";
 import { docsSearchData, SearchDocItem } from "./docs-search-index";
 
-export interface SearchResultItem extends SearchDocItem {}
+export type SearchResultItem = SearchDocItem;
 
 export interface SearchResultGroup {
   title: string;

@@ -30,7 +30,6 @@ export function CodeBlock({ children, language, title }: CodeBlockProps) {
     }
   }, [children]);
 
-  const label = title || language || "Code";
 
   return (
     <div className="group relative rounded-[8px] bg-white border border-[#e2e2e2] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
